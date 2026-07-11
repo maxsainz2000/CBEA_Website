@@ -72,8 +72,8 @@ Build the reusable UI components for both the public-facing portal and the admin
 - Render components in the browser, resizing from mobile viewport (375px) to desktop (1280px). Verify layout grids rearrange dynamically.
 
 ## Acceptance Criteria
-- [ ] UI elements show sharp 0px corners, flat backgrounds, and thin separator outlines.
-- [ ] Keyboard focus outlines show high-visibility border outlines.
-- [ ] Pivot switcher displays select input fallback when options count > 7.
-- [ ] Negative remaining balances display in red with correct sign formatting.
-- [ ] Numeric values utilize tabular layout alignment properties.
+- [x] UI elements show sharp 0px corners, flat backgrounds, and thin separator outlines.
+- [x] Keyboard focus outlines show high-visibility border outlines.
+- [x] Pivot switcher displays select input fallback when options count > 7.
+- [x] Negative remaining balances display in red with correct sign formatting.
+- [x] Numeric values utilize tabular layout alignment properties.
