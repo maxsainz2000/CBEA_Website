@@ -85,7 +85,7 @@ Configure the PostgreSQL database schema in Supabase by defining the migrations,
 - Confirm the table relationships, foreign key constraints, and indices on `date` and `category` are successfully created.
 
 ## Acceptance Criteria
-- [ ] Both tables (`profiles` and `budget_entries`) exist in the database with their respective trigger functions.
-- [ ] Check constraint `amount >= 0` is enforced to prevent negative numbers.
-- [ ] RLS policies prevent unauthenticated inserts, updates, and deletes on `budget_entries` and `profiles`.
-- [ ] Seed data script loads without foreign key constraint errors and creates initial mock records for testing.
+- [x] Both tables (`profiles` and `budget_entries`) exist in the database with their respective trigger functions.
+- [x] Check constraint `amount >= 0` is enforced to prevent negative numbers.
+- [x] RLS policies prevent unauthenticated inserts, updates, and deletes on `budget_entries` and `profiles`.
+- [x] Seed data script loads without foreign key constraint errors and creates initial mock records for testing.
