@@ -95,7 +95,7 @@ Implement client-side and server-side Supabase client initialization in Next.js 
 - Test unauthorized access: Visit `/admin` in private browsing without logging in. Verify you are redirected to `/login`.
 
 ## Acceptance Criteria
-- [ ] Browser and Server clients correctly leverage environment variables.
-- [ ] Next.js 15 `await cookies()` is correctly integrated without warnings/errors.
-- [ ] Middleware blocks unauthenticated navigation to `/admin` and subpaths, redirecting users to `/login`.
-- [ ] Authentic session credentials refresh dynamically on active navigation.
+- [x] Browser and Server clients correctly leverage environment variables.
+- [x] Next.js 15 `await cookies()` is correctly integrated without warnings/errors.
+- [x] Middleware blocks unauthenticated navigation to `/admin` and subpaths, redirecting users to `/login`.
+- [x] Authentic session credentials refresh dynamically on active navigation.
