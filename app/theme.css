@@ -1,0 +1,347 @@
+@theme {
+  --color-on-primary: #000000;
+  --color-background: #ffffff;
+  --color-on-background: #000000;
+  --color-secondary: #7a7a7a;
+  --color-tertiary: #4a4a4a;
+  --color-surface: #f4f4f4;
+  --color-outline: #e0e0e0;
+  --color-income: #2d7a2d;
+  --color-on-income: #ffffff;
+  --color-expense: #e51400;
+  --color-on-expense: #ffffff;
+  --color-error: #e51400;
+  --color-warning: #f09609;
+  --color-accent-blue: #1ba1e2;
+  --color-accent-brown: #a05000;
+  --color-accent-magenta: #ff0097;
+  --color-accent-purple: #a200ff;
+  --color-accent-teal: #00aba9;
+  --color-accent-green: #339933;
+  --color-accent-red: #e51400;
+  --color-accent-orange: #f09609;
+  --color-accent-pink: #e671b8;
+  --color-accent-lime: #8cbf26;
+  --color-primary: #8cbf26;
+  --font-caption: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-body-sm: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-body-sm-strong: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-body-md: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-headline-sm: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-headline-md: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-headline-lg: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-headline-display: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-display-xl: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-stat-value: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-label-caps: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --text-caption: 12px;
+  --text-body-sm: 14px;
+  --text-body-sm-strong: 14px;
+  --text-body-md: 16px;
+  --text-headline-sm: 20px;
+  --text-headline-md: 24px;
+  --text-headline-lg: 32px;
+  --text-headline-display: 40px;
+  --text-display-xl: 56px;
+  --text-stat-value: 36px;
+  --text-label-caps: 11px;
+  --leading-caption: 16px;
+  --leading-body-sm: 20px;
+  --leading-body-sm-strong: 20px;
+  --leading-body-md: 24px;
+  --leading-headline-sm: 28px;
+  --leading-headline-md: 32px;
+  --leading-headline-lg: 40px;
+  --leading-headline-display: 52px;
+  --leading-stat-value: 44px;
+  --leading-label-caps: 14px;
+  --tracking-headline-lg: -0.01em;
+  --tracking-headline-display: -0.02em;
+  --tracking-display-xl: -0.02em;
+  --tracking-stat-value: -0.01em;
+  --tracking-label-caps: 0.08em;
+  --font-weight-caption: 400;
+  --font-weight-body-sm: 400;
+  --font-weight-body-sm-strong: 600;
+  --font-weight-body-md: 400;
+  --font-weight-headline-sm: 600;
+  --font-weight-headline-md: 600;
+  --font-weight-headline-lg: 600;
+  --font-weight-headline-display: 300;
+  --font-weight-display-xl: 300;
+  --font-weight-stat-value: 600;
+  --font-weight-label-caps: 600;
+  --radius-none: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-full: 9999px;
+  --spacing-base: 8px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 48px;
+  --spacing-gutter: 16px;
+  --spacing-margin: 24px;
+  --spacing-margin-mobile: 16px;
+  --spacing-baseline: 24px;
+  --spacing-touch-target: 48px;
+  --spacing-stat-card-min: 240px;
+  --spacing-table-row-height: 56px;
+}
+
+
+/* ============================================================
+ * CBEA Budget Transparency Portal — Component Utilities
+ * Built on the Metro-derived DESIGN.md tokens above.
+ * Use these alongside Tailwind's utility classes.
+ * ============================================================ */
+
+/* Tabular numerals — required for all currency figures so columns align */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* ============================================================
+ * Summary stat card (homepage hero: Collected / Spent / Remaining)
+ * ============================================================ */
+.stat-card {
+  background-color: var(--color-surface);
+  padding: var(--spacing-lg);
+  border-left: 4px solid transparent; /* default; .stat-card-active sets the accent */
+  min-width: var(--spacing-stat-card-min);
+}
+.stat-card-active {
+  border-left-color: var(--color-primary);
+}
+.stat-label {
+  color: var(--color-secondary);
+  font-family: var(--font-label-caps);
+  font-size: var(--text-label-caps);
+  font-weight: var(--font-weight-label-caps);
+  line-height: var(--leading-label-caps);
+  letter-spacing: var(--tracking-label-caps);
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-sm);
+}
+.stat-value {
+  font-family: var(--font-stat-value);
+  font-size: var(--text-stat-value);
+  font-weight: var(--font-weight-stat-value);
+  line-height: var(--leading-stat-value);
+  letter-spacing: var(--tracking-stat-value);
+  font-variant-numeric: tabular-nums;
+}
+.stat-value-positive { color: var(--color-income); }
+.stat-value-negative { color: var(--color-expense); }
+.stat-value-neutral  { color: var(--color-on-background); }
+.stat-meta {
+  color: var(--color-secondary);
+  font-family: var(--font-caption);
+  font-size: var(--text-caption);
+  margin-top: var(--spacing-xs);
+}
+
+/* ============================================================
+ * Budget entry row (income/expense indicator strip + content)
+ * ============================================================ */
+.budget-entry {
+  background-color: var(--color-background);
+  color: var(--color-on-background);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-outline);
+  display: grid;
+  grid-template-columns: 4px 1fr auto auto;
+  align-items: center;
+  gap: var(--spacing-md);
+  min-height: var(--spacing-table-row-height);
+  transition: background-color 150ms ease-out;
+}
+.budget-entry:hover { background-color: var(--color-surface); }
+.budget-entry-indicator {
+  width: 4px;
+  height: 100%;
+  min-height: 32px;
+  align-self: stretch;
+}
+.budget-entry-indicator-income  { background-color: var(--color-income); }
+.budget-entry-indicator-expense { background-color: var(--color-expense); }
+.budget-entry-amount {
+  font-family: var(--font-body-sm-strong);
+  font-weight: var(--font-weight-body-sm-strong);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.budget-entry-amount-income  { color: var(--color-income); }
+.budget-entry-amount-expense { color: var(--color-expense); }
+
+/* ============================================================
+ * Pivot tabs (semester / category navigation)
+ * ============================================================ */
+.pivot-tab {
+  color: var(--color-on-background);
+  font-family: var(--font-headline-sm);
+  font-size: var(--text-headline-sm);
+  font-weight: var(--font-weight-headline-sm);
+  line-height: var(--leading-headline-sm);
+  padding: var(--spacing-sm) 0;
+  height: var(--spacing-touch-target);
+  display: inline-flex;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: color 150ms ease-out;
+}
+.pivot-tab:hover { color: var(--color-primary); }
+.pivot-tab-active { color: var(--color-primary); }
+.pivot-tab:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+ * Inputs — Metro style: borderless by default, underline on focus
+ * ============================================================ */
+.input-underline {
+  background: transparent;
+  color: var(--color-on-background);
+  font-family: var(--font-body-md);
+  font-size: var(--text-body-md);
+  border: 0;
+  border-bottom: 1px solid var(--color-outline);
+  padding: var(--spacing-sm) 0;
+  height: var(--spacing-touch-target);
+  width: 100%;
+  transition: border-color 150ms ease-out;
+}
+.input-underline:focus {
+  outline: none;
+  border-bottom: 2px solid var(--color-primary);
+}
+.input-underline-error {
+  border-bottom-color: var(--color-expense);
+}
+.input-underline-error:focus {
+  border-bottom-color: var(--color-expense);
+}
+
+/* ============================================================
+ * Buttons — three variants, all 48px touch target, all 0px radius
+ * ============================================================ */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-body-sm-strong);
+  font-weight: var(--font-weight-body-sm-strong);
+  border: 0;
+  border-radius: 0;
+  height: var(--spacing-touch-target);
+  padding: 0 var(--spacing-lg);
+  cursor: pointer;
+  transition: background-color 100ms ease-out, transform 100ms ease-out;
+}
+.btn-primary:hover { background-color: var(--color-primary); filter: brightness(0.95); }
+.btn-primary:active { background-color: var(--color-tertiary); color: var(--color-background); transform: scale(0.98); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-primary);
+  font-family: var(--font-body-sm-strong);
+  font-weight: var(--font-weight-body-sm-strong);
+  border: 0;
+  border-radius: 0;
+  height: var(--spacing-touch-target);
+  padding: 0 var(--spacing-md);
+  cursor: pointer;
+}
+.btn-ghost:hover { text-decoration: underline; }
+
+.btn-danger {
+  background-color: var(--color-expense);
+  color: var(--color-on-expense);
+  font-family: var(--font-body-sm-strong);
+  font-weight: var(--font-weight-body-sm-strong);
+  border: 0;
+  border-radius: 0;
+  height: var(--spacing-touch-target);
+  padding: 0 var(--spacing-lg);
+  cursor: pointer;
+}
+
+/* ============================================================
+ * Status badges — uppercase, 11px, no radius, semantic fills
+ * ============================================================ */
+.status-badge {
+  font-family: var(--font-label-caps);
+  font-size: var(--text-label-caps);
+  font-weight: var(--font-weight-label-caps);
+  line-height: var(--leading-label-caps);
+  letter-spacing: var(--tracking-label-caps);
+  text-transform: uppercase;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 0;
+  display: inline-block;
+}
+.status-badge-paid    { background: var(--color-income);  color: var(--color-on-income); }
+.status-badge-pending { background: var(--color-warning); color: var(--color-on-background); }
+.status-badge-flagged { background: var(--color-expense); color: var(--color-on-expense); }
+
+/* ============================================================
+ * Data table
+ * ============================================================ */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.data-table th {
+  color: var(--color-secondary);
+  font-family: var(--font-label-caps);
+  font-size: var(--text-label-caps);
+  font-weight: var(--font-weight-label-caps);
+  letter-spacing: var(--tracking-label-caps);
+  text-transform: uppercase;
+  text-align: left;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  height: var(--spacing-table-row-height);
+  border-bottom: 1px solid var(--color-outline);
+}
+.data-table td {
+  color: var(--color-on-background);
+  font-family: var(--font-body-sm);
+  font-size: var(--text-body-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  height: var(--spacing-table-row-height);
+  border-bottom: 1px solid var(--color-outline);
+}
+.data-table tbody tr:hover { background-color: var(--color-surface); }
+.data-table .amount-col {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* ============================================================
+ * Print styles — students may print the budget for reference
+ * Strips backgrounds and accent fills; preserves semantic colors
+ * ============================================================ */
+@media print {
+  .stat-card,
+  .data-table tbody tr:hover { background: transparent !important; }
+  .btn-primary, .btn-ghost, .btn-danger,
+  .pivot-tab, .status-badge { display: none !important; }
+  .budget-entry { page-break-inside: avoid; }
+  body { color: #000; background: #fff; }
+}
+
+/* ============================================================
+ * Reduced motion — respect user preference
+ * ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -71,7 +71,7 @@ Initialize the Next.js 15 App Router workspace, configure TypeScript, set up Tai
   - The default font resolves to `Segoe UI` or system-ui fallback.
 
 ## Acceptance Criteria
-- [ ] Next.js 15 runs locally on `http://localhost:3000` with no console errors.
-- [ ] Tailwind CSS v4 directives load successfully; theme configurations (`@theme`) match the design system tokens.
-- [ ] CSS resets and Metro system resets are correctly applied to the HTML body.
-- [ ] Running `npx vitest run` passes successfully with unit test execution.
+- [x] Next.js 15 runs locally on `http://localhost:3000` with no console errors.
+- [x] Tailwind CSS v4 directives load successfully; theme configurations (`@theme`) match the design system tokens.
+- [x] CSS resets and Metro system resets are correctly applied to the HTML body.
+- [x] Running `npx vitest run` passes successfully with unit test execution.
