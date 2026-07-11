@@ -51,8 +51,8 @@ Assemble the main public homepage (`app/page.tsx`), fetching the budget entries 
 - Confirm that the page loads correctly and is fully functional on mobile viewports. Check that touch targets are easily clickable (minimum 48px size).
 
 ## Acceptance Criteria
-- [ ] Homepage fetches records on the server and displays financial summaries dynamically.
-- [ ] Filter transitions are URL-based and allow bookmarking page states.
-- [ ] Print mode hides buttons and interactive chrome, and presents a clean white ledger table.
-- [ ] Loading indicators display progress loops during active queries.
-- [ ] E2E integration test asserts homepage filters function correctly.
+- [x] Homepage fetches records on the server and displays financial summaries dynamically.
+- [x] Filter transitions are URL-based and allow bookmarking page states.
+- [x] Print mode hides buttons and interactive chrome, and presents a clean white ledger table.
+- [x] Loading indicators display progress loops during active queries.
+- [x] E2E integration test asserts homepage filters function correctly.
