@@ -1,64 +1,111 @@
-import Image from "next/image";
+import { Suspense } from 'react';
+import Header from './components/Header';
+import SummaryStats from './components/SummaryStats';
+import ClientFilters from './components/ClientFilters';
+import BudgetEntryList from './components/BudgetEntryList';
+import { getEntries, getSummaryStats, getSemesters, getCategories } from '../lib/data/entries';
 
-export default function Home() {
+// Force dynamic rendering since we are reading searchParams
+export const dynamic = 'force-dynamic';
+
+interface SearchParams {
+  search?: string;
+  semester?: string;
+  category?: string;
+}
+
+interface PageProps {
+  searchParams: Promise<SearchParams>;
+}
+
+async function HomepageContent({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const search = params.search || '';
+  const semester = params.semester || '';
+  const category = params.category || '';
+
+  // Fetch semesters and categories list to populate the filters
+  const semestersList = await getSemesters();
+  
+  // Default to the first semester if none is specified in the URL
+  const activeSemester = semester || semestersList[0] || '1st Sem';
+
+  // Fetch entries and summary statistics based on active filters
+  const [entries, stats, categoriesList] = await Promise.all([
+    getEntries({
+      semester: activeSemester,
+      category: category && category !== 'All' ? category : undefined,
+      search: search || undefined,
+    }),
+    getSummaryStats(activeSemester),
+    getCategories(),
+  ]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="flex flex-col gap-lg">
+      {/* Summary Stats Cards */}
+      <section aria-label="Financial Summary Stats">
+        <SummaryStats
+          totalCollected={stats.totalCollected}
+          totalSpent={stats.totalSpent}
+          remainingBalance={stats.remainingBalance}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+      </section>
+
+      {/* Interactive Filters (Semesters & Categories & Search) */}
+      <section aria-label="Filters">
+        <ClientFilters
+          semesters={semestersList}
+          categories={categoriesList}
+          initialSemester={activeSemester}
+          initialCategory={category}
+          initialSearch={search}
+        />
+      </section>
+
+      {/* Budget Entries List with Slide-in Fade Animation */}
+      <section aria-label="Budget Entries" className="animate-slide-in-fade" key={`${activeSemester}-${category}-${search}`}>
+        <h2 className="font-label-caps text-label-caps text-secondary uppercase tracking-label-caps mb-sm select-none">
+          Budget Entries for {activeSemester}
+        </h2>
+        <BudgetEntryList
+          entries={entries}
+          emptyMessage={`No budget entries found for ${activeSemester}${category && category !== 'All' ? ` in category "${category}"` : ''}${search ? ` matching "${search}"` : ''}.`}
+        />
+      </section>
+    </div>
+  );
+}
+
+export default function Homepage({ searchParams }: PageProps) {
+  return (
+    <div className="min-h-screen bg-background flex flex-col">
+      {/* Shared Portal Header */}
+      <Header isLoggedIn={false} />
+
+      {/* Main Content Area */}
+      <main className="flex-1 w-full max-w-5xl mx-auto px-margin-mobile md:px-margin py-lg md:py-xl flex flex-col gap-lg">
+        {/* Page Title Header */}
+        <header className="flex flex-col gap-xs mb-sm">
+          <span className="font-label-caps text-label-caps text-primary uppercase tracking-label-caps select-none">
+            Public Transparency Portal
+          </span>
+          <h1 className="font-headline-display text-headline-display font-weight-headline-display text-on-background leading-headline-display tracking-tight">
+            CBEA Student Council Budget Transparency
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+        </header>
+
+        {/* Suspense Wrapper to handle loading states cleanly */}
+        <Suspense
+          fallback={
+            <div className="flex flex-col gap-lg w-full py-xl items-center justify-center text-secondary select-none" data-testid="fallback-loader">
+              <div className="w-8 h-8 border-4 border-outline border-t-primary rounded-full animate-spin mb-sm" />
+              <span className="font-caption text-caption">Loading database records...</span>
+            </div>
+          }
+        >
+          <HomepageContent searchParams={searchParams} />
+        </Suspense>
       </main>
     </div>
   );

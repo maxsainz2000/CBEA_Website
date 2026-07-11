@@ -1,2 +1,32 @@
 @import "tailwindcss";
 @import "./theme.css";
+
+@keyframes slideInFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in-fade {
+  animation: slideInFade 200ms cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+@media print {
+  header,
+  nav,
+  [data-testid="client-filters-container"],
+  [data-testid="search-filter-container"],
+  [data-testid="loading-indicator"] {
+    display: none !important;
+  }
+  
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}

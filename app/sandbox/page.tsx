@@ -6,6 +6,7 @@ import SummaryStats from '../components/SummaryStats';
 import PivotTabs from '../components/PivotTabs';
 import BudgetEntryList from '../components/BudgetEntryList';
 import SearchFilter from '../components/SearchFilter';
+import { BudgetEntry } from '../../lib/types';
 
 export default function SandboxPage() {
   const [activeTab, setActiveTab] = useState('1');
@@ -109,7 +110,7 @@ export default function SandboxPage() {
 
         <section>
           <h2 className="text-title-lg font-title-lg mb-2">BudgetEntryList</h2>
-          <BudgetEntryList entries={entries as any} onEntryClick={(entry) => alert(`Clicked ${entry.description}`)} />
+          <BudgetEntryList entries={entries as unknown as BudgetEntry[]} onEntryClick={(entry) => alert(`Clicked ${entry.description}`)} />
           
           <h3 className="text-title-md font-title-md mt-4 mb-2">Empty State</h3>
           <BudgetEntryList entries={[]} />
