@@ -35,9 +35,23 @@ export async function updateSession(request: NextRequest) {
   })
 
   // IMPORTANT: Use getUser() instead of getSession() to prevent cookie spoofing
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  let user = null;
+  const isE2e = process.env.NEXT_PUBLIC_IS_E2E === 'true';
+  const mockAuth = request.cookies.get('sb-mock-auth')?.value === 'true';
+
+  if (isE2e && mockAuth) {
+    user = {
+      id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
+      email: 'jane.doe@csu.edu.ph',
+    };
+  } else {
+    try {
+      const { data } = await supabase.auth.getUser();
+      user = data.user;
+    } catch {
+      user = null;
+    }
+  }
 
   // Guard routing logic
   const isLoginPage = request.nextUrl.pathname === '/login'
