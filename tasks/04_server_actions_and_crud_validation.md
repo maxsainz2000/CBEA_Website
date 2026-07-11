@@ -87,8 +87,8 @@ Add `"use server"` at the top of the file to handle mutations. Export:
 - Implement temporary mock tests in a sandbox script under `scratch/` directory to invoke the actions and console log results to verify success.
 
 ## Acceptance Criteria
-- [ ] Zod parsing rejects invalid inputs (negative values, empty strings) with descriptive error messages.
-- [ ] Server actions enforce authentic state validation via `supabase.auth.getUser()`.
-- [ ] Server actions convert decimal values to integer centavos for storage and query retrieval.
-- [ ] `revalidatePath` triggers refresh on the public page and admin dashboard after mutations.
-- [ ] Vitest unit tests cover happy paths, validation errors, and authentication failures for all server actions.
+- [x] Zod parsing rejects invalid inputs (negative values, empty strings) with descriptive error messages.
+- [x] Server actions enforce authentic state validation via `supabase.auth.getUser()`.
+- [x] Server actions convert decimal values to integer centavos for storage and query retrieval.
+- [x] `revalidatePath` triggers refresh on the public page and admin dashboard after mutations.
+- [x] Vitest unit tests cover happy paths, validation errors, and authentication failures for all server actions.
