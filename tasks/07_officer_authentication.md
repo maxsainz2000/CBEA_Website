@@ -51,8 +51,8 @@ Build the authenticated officer login interface (`app/login/page.tsx`) to allow 
 - Attempt to navigate to `/admin` and confirm redirection. Verify that typing credentials and pressing Enter successfully submits the form.
 
 ## Acceptance Criteria
-- [ ] Login screen contains email, password, and primary submit button with Metro style.
-- [ ] Errors display inline in semantic red text.
-- [ ] Successful credentials authenticate via Supabase Auth and trigger redirection to `/admin`.
-- [ ] Route guarding prevents authenticated users from re-accessing `/login`.
-- [ ] Playwright E2E tests pass for valid/invalid inputs and redirects.
+- [x] Login screen contains email, password, and primary submit button with Metro style.
+- [x] Errors display inline in semantic red text.
+- [x] Successful credentials authenticate via Supabase Auth and trigger redirection to `/admin`.
+- [x] Route guarding prevents authenticated users from re-accessing `/login`.
+- [x] Playwright E2E tests pass for valid/invalid inputs and redirects.
