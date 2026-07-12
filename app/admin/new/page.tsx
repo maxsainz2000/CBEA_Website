@@ -1,24 +1,14 @@
 import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
-import { createClient } from '@/lib/supabase/server';
+import { getOfficer } from '@/lib/auth/session';
 import AdminHeader from '../components/AdminHeader';
 import EntryForm from '../components/EntryForm';
 
 export const dynamic = 'force-dynamic';
 
 export default async function NewEntryPage() {
-  const supabase = await createClient();
-  const cookieStore = await cookies();
-  const isE2e = process.env.NEXT_PUBLIC_IS_E2E === 'true';
-  const mockAuth = cookieStore.get('sb-mock-auth')?.value === 'true';
-
-  if (isE2e && mockAuth) {
-    // E2E Mock Session
-  } else {
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
-    if (userError || !user) {
-      redirect('/login');
-    }
+  const officer = await getOfficer();
+  if (!officer) {
+    redirect('/login');
   }
 
   return (

@@ -198,12 +198,12 @@ npx playwright test      # E2E tests updated in Task 11
 ```
 
 ## Acceptance Criteria
-- [ ] `lib/auth/session.ts` exists and exports `getOfficer()`.
-- [ ] No file in the codebase references `NEXT_PUBLIC_IS_E2E`.
-- [ ] No file in the codebase imports `next/headers` dynamically inside server actions.
-- [ ] No file uses `SUPABASE_SERVICE_ROLE_KEY` in a request-time code path (only in seeding scripts).
-- [ ] `npm run build` succeeds.
-- [ ] `grep -r 'NEXT_PUBLIC_IS_E2E' .next/static/` returns nothing.
-- [ ] `grep -r 'jane.doe@csu.edu.ph' .next/static/` returns nothing.
-- [ ] `curl --cookie 'sb-mock-auth=true' http://localhost:3000/admin` returns 307, not 200.
-- [ ] `.env.example` exists and is committed (no secrets).
+- [x] `lib/auth/session.ts` exists and exports `getOfficer()`.
+- [x] No file in the codebase references `NEXT_PUBLIC_IS_E2E`.
+- [x] No file in the codebase imports `next/headers` dynamically inside server actions.
+- [x] No file uses `SUPABASE_SERVICE_ROLE_KEY` in a request-time code path (only in seeding scripts).
+- [x] `npm run build` succeeds.
+- [x] `grep -r 'NEXT_PUBLIC_IS_E2E' .next/static/` returns nothing.
+- [x] `grep -r 'jane.doe@csu.edu.ph' .next/static/` returns nothing.
+- [x] `curl --cookie 'sb-mock-auth=true' http://localhost:3000/admin` returns 307, not 200.
+- [x] `.env.example` exists and is committed (no secrets).

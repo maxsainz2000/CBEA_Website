@@ -26,17 +26,7 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const isE2e = process.env.NEXT_PUBLIC_IS_E2E === 'true';
       const cleanEmail = email.trim();
-
-      if (isE2e && cleanEmail === 'jane.doe@csu.edu.ph' && password === 'Password123!') {
-        document.cookie = 'sb-mock-auth=true; path=/';
-        startTransition(() => {
-          router.push('/admin');
-          router.refresh();
-        });
-        return;
-      }
 
       const supabase = createClient();
       const { error: signInError } = await supabase.auth.signInWithPassword({

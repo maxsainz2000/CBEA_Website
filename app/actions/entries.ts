@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '../../lib/supabase/server'
 import { BudgetEntrySchema, BudgetEntry } from '../../lib/types'
+import { getOfficer } from '../../lib/auth/session'
 
 export type ActionResponse<T = unknown> =
   | { success: true; data: T }
@@ -10,35 +11,14 @@ export type ActionResponse<T = unknown> =
 
 export async function createEntry(data: unknown): Promise<ActionResponse<BudgetEntry>> {
   try {
-    let supabase = await createClient()
+    const supabase = await createClient()
 
     // 1. Authenticate user
-    const { cookies } = await import('next/headers')
-    const cookieStore = await cookies()
-    const isE2e = process.env.NEXT_PUBLIC_IS_E2E === 'true'
-    const mockAuth = cookieStore.get('sb-mock-auth')?.value === 'true'
-
-    let userId = null
-
-    if (isE2e && mockAuth) {
-      userId = 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001'
-      const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-      if (serviceRoleKey) {
-        const { createServerClient } = await import('@supabase/ssr')
-        supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceRoleKey, {
-          cookies: {
-            getAll() { return cookieStore.getAll() },
-            setAll() { /* ignore */ }
-          }
-        })
-      }
-    } else {
-      const { data: { user }, error: authError } = await supabase.auth.getUser()
-      if (authError || !user) {
-        return { success: false, error: 'Unauthorized: You must be signed in to perform this action.' }
-      }
-      userId = user.id
+    const officer = await getOfficer()
+    if (!officer) {
+      return { success: false, error: 'Unauthorized: You must be signed in to perform this action.' }
     }
+    const userId = officer.id
 
     // 2. Validate input schema
     const validation = BudgetEntrySchema.safeParse(data)
@@ -92,30 +72,12 @@ export async function createEntry(data: unknown): Promise<ActionResponse<BudgetE
 
 export async function updateEntry(id: string, data: unknown): Promise<ActionResponse<BudgetEntry>> {
   try {
-    let supabase = await createClient()
+    const supabase = await createClient()
 
     // 1. Authenticate user
-    const { cookies } = await import('next/headers')
-    const cookieStore = await cookies()
-    const isE2e = process.env.NEXT_PUBLIC_IS_E2E === 'true'
-    const mockAuth = cookieStore.get('sb-mock-auth')?.value === 'true'
-
-    if (isE2e && mockAuth) {
-      const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-      if (serviceRoleKey) {
-        const { createServerClient } = await import('@supabase/ssr')
-        supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceRoleKey, {
-          cookies: {
-            getAll() { return cookieStore.getAll() },
-            setAll() { /* ignore */ }
-          }
-        })
-      }
-    } else {
-      const { data: { user }, error: authError } = await supabase.auth.getUser()
-      if (authError || !user) {
-        return { success: false, error: 'Unauthorized: You must be signed in to perform this action.' }
-      }
+    const officer = await getOfficer()
+    if (!officer) {
+      return { success: false, error: 'Unauthorized: You must be signed in to perform this action.' }
     }
 
     // 2. Validate input schema
@@ -170,30 +132,12 @@ export async function updateEntry(id: string, data: unknown): Promise<ActionResp
 
 export async function deleteEntry(id: string): Promise<ActionResponse<{ id: string }>> {
   try {
-    let supabase = await createClient()
+    const supabase = await createClient()
 
     // 1. Authenticate user
-    const { cookies } = await import('next/headers')
-    const cookieStore = await cookies()
-    const isE2e = process.env.NEXT_PUBLIC_IS_E2E === 'true'
-    const mockAuth = cookieStore.get('sb-mock-auth')?.value === 'true'
-
-    if (isE2e && mockAuth) {
-      const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-      if (serviceRoleKey) {
-        const { createServerClient } = await import('@supabase/ssr')
-        supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceRoleKey, {
-          cookies: {
-            getAll() { return cookieStore.getAll() },
-            setAll() { /* ignore */ }
-          }
-        })
-      }
-    } else {
-      const { data: { user }, error: authError } = await supabase.auth.getUser()
-      if (authError || !user) {
-        return { success: false, error: 'Unauthorized: You must be signed in to perform this action.' }
-      }
+    const officer = await getOfficer()
+    if (!officer) {
+      return { success: false, error: 'Unauthorized: You must be signed in to perform this action.' }
     }
 
     // 2. Delete database record

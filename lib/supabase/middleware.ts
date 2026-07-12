@@ -35,22 +35,18 @@ export async function updateSession(request: NextRequest) {
   })
 
   // IMPORTANT: Use getUser() instead of getSession() to prevent cookie spoofing
-  let user = null;
-  const isE2e = process.env.NEXT_PUBLIC_IS_E2E === 'true';
-  const mockAuth = request.cookies.get('sb-mock-auth')?.value === 'true';
+  let user: { id: string; email?: string } | null = null
+  try {
+    const { data } = await supabase.auth.getUser()
+    user = data.user
+  } catch {
+    user = null
+  }
 
-  if (isE2e && mockAuth) {
-    user = {
-      id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
-      email: 'jane.doe@csu.edu.ph',
-    };
-  } else {
-    try {
-      const { data } = await supabase.auth.getUser();
-      user = data.user;
-    } catch {
-      user = null;
-    }
+  // E2E mock — server-only, gated by IS_E2E (no NEXT_PUBLIC_ prefix)
+  if (!user && process.env.IS_E2E === 'true' &&
+      request.cookies.get('sb-mock-auth')?.value === 'true') {
+    user = { id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001', email: 'jane.doe@csu.edu.ph' }
   }
 
   // Guard routing logic

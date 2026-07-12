@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
+import { getOfficer } from '@/lib/auth/session';
 import { createClient } from '@/lib/supabase/server';
 import AdminHeader from './components/AdminHeader';
 import SummaryStats from '../components/SummaryStats';
@@ -10,37 +10,18 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 export default async function AdminPage() {
-  const supabase = await createClient();
-  const cookieStore = await cookies();
-  const isE2e = process.env.NEXT_PUBLIC_IS_E2E === 'true';
-  const mockAuth = cookieStore.get('sb-mock-auth')?.value === 'true';
-
-  let user = null;
-  let profile = null;
-
-  if (isE2e && mockAuth) {
-    user = {
-      id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
-      email: 'jane.doe@csu.edu.ph',
-    };
-    profile = {
-      full_name: 'Jane Doe',
-      role: 'Treasurer',
-    };
-  } else {
-    const { data: { user: authUser }, error: userError } = await supabase.auth.getUser();
-    if (userError || !authUser) {
-      redirect('/login');
-    }
-    user = authUser;
-
-    const { data: profileData } = await supabase
-      .from('profiles')
-      .select('full_name, role')
-      .eq('id', user.id)
-      .maybeSingle();
-    profile = profileData;
+  const officer = await getOfficer();
+  if (!officer) {
+    redirect('/login');
   }
+
+  const supabase = await createClient();
+  const { data: profileData } = await supabase
+    .from('profiles')
+    .select('full_name, role')
+    .eq('id', officer.id)
+    .maybeSingle();
+  const profile = profileData;
 
   // Fetch entries and statistics
   const [entries, stats] = await Promise.all([
@@ -65,7 +46,7 @@ export default async function AdminPage() {
             </h1>
             <div className="flex items-center gap-sm mt-xs">
               <span className="font-body-md text-on-background font-bold">
-                {profile?.full_name || user.email || 'Officer'}
+                {profile?.full_name || officer.email || 'Officer'}
               </span>
               {profile?.role && (
                 <span className="status-badge status-badge-paid">
