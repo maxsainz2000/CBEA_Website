@@ -287,6 +287,16 @@ export async function getSummaryStats(semester?: string) {
   }
 }
 
+/**
+ * Returns distinct semesters from budget_entries.
+ *
+ * NOTE: Currently fetches all rows and dedupes client-side. This is
+ * acceptable for <1k entries. For larger datasets, consider:
+ * - Creating a Postgres view: CREATE VIEW distinct_semesters AS
+ *   SELECT DISTINCT semester FROM budget_entries ORDER BY semester;
+ * - Or using an RPC: supabase.rpc('get_distinct_semesters')
+ * - The Supabase JS client does not support SELECT DISTINCT directly.
+ */
 export async function getSemesters(): Promise<string[]> {
   try {
     const supabase = await createClient()
@@ -305,6 +315,16 @@ export async function getSemesters(): Promise<string[]> {
   }
 }
 
+/**
+ * Returns distinct categories from budget_entries.
+ *
+ * NOTE: Currently fetches all rows and dedupes client-side. This is
+ * acceptable for <1k entries. For larger datasets, consider:
+ * - Creating a Postgres view: CREATE VIEW distinct_categories AS
+ *   SELECT DISTINCT category FROM budget_entries ORDER BY category;
+ * - Or using an RPC: supabase.rpc('get_distinct_categories')
+ * - The Supabase JS client does not support SELECT DISTINCT directly.
+ */
 export async function getCategories(): Promise<string[]> {
   try {
     const supabase = await createClient()

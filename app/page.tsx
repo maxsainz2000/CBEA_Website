@@ -5,8 +5,8 @@ import ClientFilters from './components/ClientFilters';
 import BudgetEntryList from './components/BudgetEntryList';
 import { getEntries, getSummaryStats, getSemesters, getCategories } from '../lib/data/entries';
 
-// Force dynamic rendering since we are reading searchParams
-export const dynamic = 'force-dynamic';
+// Fix — ISR with 60-second revalidation:
+export const revalidate = 60;
 
 interface SearchParams {
   search?: string;
