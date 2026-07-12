@@ -243,13 +243,13 @@ curl -sS --cookie 'sb-mock-auth=true' http://localhost:3000/admin -w '%{http_cod
 ```
 
 ## Acceptance Criteria
-- [ ] `tests/auth.setup.ts` exists and provisions the test user + saves `storageState`.
-- [ ] `playwright.config.ts` uses a `setup` project with `storageState` reuse.
-- [ ] No file in the codebase references `IS_E2E` (except documentation/tasks/plans).
-- [ ] No file in the codebase references `sb-mock-auth` (except documentation/tasks/plans).
-- [ ] `AdminHeader.tsx` does not contain `document.cookie`.
-- [ ] `grep -r 'sb-mock-auth' .next/static/` returns nothing.
-- [ ] `npx playwright test` passes (all tests via real Supabase Auth).
-- [ ] `npx vitest run` passes.
-- [ ] `npm run build` succeeds.
-- [ ] `playwright/.auth/` is in `.gitignore`.
+- [x] `tests/auth.setup.ts` exists and provisions the test user + saves `storageState`.
+- [x] `playwright.config.ts` uses a `setup` project with `storageState` reuse.
+- [x] No file in the codebase references `IS_E2E` (except documentation/tasks/plans).
+- [x] No file in the codebase references `sb-mock-auth` (except documentation/tasks/plans).
+- [x] `AdminHeader.tsx` does not contain `document.cookie`.
+- [x] `grep -r 'sb-mock-auth' .next/static/` returns nothing.
+- [x] `npx playwright test` passes (all tests via real Supabase Auth).
+- [x] `npx vitest run` passes.
+- [x] `npm run build` succeeds.
+- [x] `playwright/.auth/` is in `.gitignore`.
