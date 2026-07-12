@@ -88,7 +88,7 @@ describe('Supabase Client and Middleware Setup', () => {
       expect(allCookies).toEqual([{ name: 'sb-access-token', value: 'fake-token' }])
 
       // Test setAll
-      cookiesObj.setAll([{ name: 'sb-refresh-token', value: 'new-token', options: {} }])
+      cookiesObj.setAll!([{ name: 'sb-refresh-token', value: 'new-token', options: {} }], {})
       expect(mockCookieStore.set).toHaveBeenCalledWith('sb-refresh-token', 'new-token', {})
     })
 

@@ -119,11 +119,11 @@ After `npm run build`:
 - Check `package.json` to confirm the new version ranges.
 
 ## Acceptance Criteria
-- [ ] `package.json` has `@supabase/ssr` at `^0.12.0` or later.
-- [ ] `package.json` has `@supabase/supabase-js` at `^2.90.0` or later.
-- [ ] `npm run build` succeeds with **no** Edge Runtime `process.version` warning.
-- [ ] `npx tsc --noEmit` reports 0 errors.
-- [ ] `npx vitest run` passes.
-- [ ] `npx playwright test` passes.
-- [ ] Login flow works end-to-end.
-- [ ] Admin CRUD works end-to-end.
+- [x] `package.json` has `@supabase/ssr` at `^0.12.0` or later.
+- [x] `package.json` has `@supabase/supabase-js` at `^2.90.0` or later.
+- [x] `npm run build` succeeds with **no** Edge Runtime `process.version` warning.
+- [x] `npx tsc --noEmit` reports 0 errors.
+- [x] `npx vitest run` passes.
+- [x] `npx playwright test` passes.
+- [x] Login flow works end-to-end.
+- [x] Admin CRUD works end-to-end.
