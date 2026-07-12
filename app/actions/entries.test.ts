@@ -12,9 +12,14 @@ vi.mock('next/cache', () => ({
   revalidatePath: vi.fn(),
 }))
 
-// Mock Supabase helper
-const mockGetUser = vi.fn()
+// Mock lib/auth/session
+vi.mock('../../lib/auth/session', () => ({
+  getOfficer: vi.fn(),
+}))
 
+import { getOfficer } from '../../lib/auth/session'
+
+// Mock Supabase helper
 class MockQuery {
   private data: unknown
   private error: unknown
@@ -53,9 +58,6 @@ const mockFrom = vi.fn().mockImplementation(() => {
 })
 
 const mockSupabase = {
-  auth: {
-    getUser: mockGetUser,
-  },
   from: mockFrom,
 }
 
@@ -67,11 +69,12 @@ describe('Budget Entries API and Server Actions', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     currentMockQuery = new MockQuery([])
+    ;(getOfficer as ReturnType<typeof vi.fn>).mockResolvedValue(null) // default: unauth
   })
 
   describe('Authentication Guards', () => {
     it('should return unauthorized error on createEntry if user is unauthenticated', async () => {
-      mockGetUser.mockResolvedValueOnce({ data: { user: null }, error: null })
+      ;(getOfficer as ReturnType<typeof vi.fn>).mockResolvedValue(null)
 
       const result = await createEntry({
         type: 'income',
@@ -91,7 +94,7 @@ describe('Budget Entries API and Server Actions', () => {
     })
 
     it('should return unauthorized error on updateEntry if user is unauthenticated', async () => {
-      mockGetUser.mockResolvedValueOnce({ data: { user: null }, error: null })
+      ;(getOfficer as ReturnType<typeof vi.fn>).mockResolvedValue(null)
 
       const result = await updateEntry('entry-uuid', {
         type: 'expense',
@@ -110,7 +113,7 @@ describe('Budget Entries API and Server Actions', () => {
     })
 
     it('should return unauthorized error on deleteEntry if user is unauthenticated', async () => {
-      mockGetUser.mockResolvedValueOnce({ data: { user: null }, error: null })
+      ;(getOfficer as ReturnType<typeof vi.fn>).mockResolvedValue(null)
 
       const result = await deleteEntry('entry-uuid')
 
@@ -123,7 +126,10 @@ describe('Budget Entries API and Server Actions', () => {
 
   describe('Schema Validation', () => {
     beforeEach(() => {
-      mockGetUser.mockResolvedValue({ data: { user: { id: 'user-uuid' } }, error: null })
+      ;(getOfficer as ReturnType<typeof vi.fn>).mockResolvedValue({
+        id: 'user-uuid',
+        email: 'test@csu.edu.ph',
+      })
     })
 
     it('should reject empty description and return field validation error', async () => {
@@ -182,7 +188,10 @@ describe('Budget Entries API and Server Actions', () => {
 
   describe('Happy Path Actions', () => {
     beforeEach(() => {
-      mockGetUser.mockResolvedValue({ data: { user: { id: 'user-uuid' } }, error: null })
+      ;(getOfficer as ReturnType<typeof vi.fn>).mockResolvedValue({
+        id: 'user-uuid',
+        email: 'test@csu.edu.ph',
+      })
     })
 
     it('should create entry and convert decimal amount to integer cents', async () => {

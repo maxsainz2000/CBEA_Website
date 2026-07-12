@@ -120,7 +120,7 @@ npx vitest run
 - Confirm the test covers: unauthenticated rejection, validation rejection, successful create/update/delete.
 
 ## Acceptance Criteria
-- [ ] All 9 tests in `app/actions/entries.test.ts` pass.
-- [ ] `npx vitest run` reports 37/37 pass, 0 fail.
-- [ ] The test file mocks `lib/auth/session` (not `next/headers`).
-- [ ] No dynamic `import('next/headers')` remains in `app/actions/entries.ts`.
+- [x] All 9 tests in `app/actions/entries.test.ts` pass.
+- [x] `npx vitest run` reports 37/37 pass, 0 fail.
+- [x] The test file mocks `lib/auth/session` (not `next/headers`).
+- [x] No dynamic `import('next/headers')` remains in `app/actions/entries.ts`.
