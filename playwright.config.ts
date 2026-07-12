@@ -6,6 +6,8 @@ dotenv.config({ path: path.resolve(__dirname, '.env.local') });
 
 export default defineConfig({
   testDir: './tests',
+  globalSetup: require.resolve('./tests/global-setup.ts'),
+  globalTeardown: require.resolve('./tests/global-teardown.ts'),
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
