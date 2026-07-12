@@ -74,7 +74,9 @@ CREATE POLICY "Allow public read access on profiles" ON public.profiles
 
 DROP POLICY IF EXISTS "Allow authenticated users to update own profile" ON public.profiles;
 CREATE POLICY "Allow authenticated users to update own profile" ON public.profiles
-    FOR UPDATE USING (auth.uid() = id);
+    FOR UPDATE TO authenticated
+    USING (auth.uid() = id)
+    WITH CHECK (auth.uid() = id);
 
 DROP POLICY IF EXISTS "Allow authenticated users to insert own profile" ON public.profiles;
 CREATE POLICY "Allow authenticated users to insert own profile" ON public.profiles
