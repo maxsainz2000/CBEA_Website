@@ -69,7 +69,8 @@ npx vitest run
 - In the Supabase dashboard → Auth → Policies, verify the `profiles` UPDATE policy now shows both `USING` and `WITH CHECK` clauses.
 
 ## Acceptance Criteria
-- [ ] The `profiles` UPDATE policy in `migration.sql` has explicit `WITH CHECK (auth.uid() = id)`.
-- [ ] The `profiles` UPDATE policy has explicit `TO authenticated` role qualifier.
-- [ ] The existing PGlite test `should only allow authenticated users to update their own profile` still passes.
-- [ ] `npx vitest run` passes.
+- [x] The `profiles` UPDATE policy in `migration.sql` has explicit `WITH CHECK (auth.uid() = id)`.
+- [x] The `profiles` UPDATE policy has explicit `TO authenticated` role qualifier.
+- [x] The existing PGlite test `should only allow authenticated users to update their own profile` still passes.
+- [x] `npx vitest run` passes.
+
