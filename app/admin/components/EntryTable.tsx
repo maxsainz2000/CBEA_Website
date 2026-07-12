@@ -115,7 +115,7 @@ export default function EntryTable({ entries }: EntryTableProps) {
                           <button
                             onClick={() => handleDelete(entry.id)}
                             disabled={isPending}
-                            className="btn-danger flex items-center justify-center cursor-pointer select-none text-body-sm h-10 px-sm"
+                            className="btn-danger flex items-center justify-center cursor-pointer select-none text-body-sm h-12 px-sm"
                             type="button"
                             data-testid={`confirm-delete-${entry.id}`}
                           >
@@ -124,7 +124,7 @@ export default function EntryTable({ entries }: EntryTableProps) {
                           <button
                             onClick={() => setDeletingId(null)}
                             disabled={isPending}
-                            className="btn-ghost flex items-center justify-center cursor-pointer select-none text-body-sm h-10 px-sm"
+                            className="btn-ghost flex items-center justify-center cursor-pointer select-none text-body-sm h-12 px-sm"
                             type="button"
                             data-testid={`cancel-delete-${entry.id}`}
                           >
@@ -135,7 +135,7 @@ export default function EntryTable({ entries }: EntryTableProps) {
                         <div className="flex items-center justify-end gap-xs">
                           <Link
                             href={`/admin/edit/${entry.id}`}
-                            className="btn-ghost flex items-center justify-center text-body-sm h-10 px-sm select-none"
+                            className="btn-ghost flex items-center justify-center text-body-sm h-12 px-sm select-none"
                             data-testid={`edit-btn-${entry.id}`}
                           >
                             Edit
@@ -145,7 +145,7 @@ export default function EntryTable({ entries }: EntryTableProps) {
                               setError(null);
                               setDeletingId(entry.id);
                             }}
-                            className="btn-ghost flex items-center justify-center cursor-pointer text-body-sm h-10 px-sm select-none text-expense!"
+                            className="btn-ghost-danger flex items-center justify-center cursor-pointer text-body-sm h-12 px-sm select-none"
                             type="button"
                             data-testid={`delete-btn-${entry.id}`}
                           >

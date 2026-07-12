@@ -109,7 +109,7 @@ export default function PivotTabs({ tabs, activeTab, onTabChange }: PivotTabsPro
               tabRefs.current[index] = el;
             }}
             onClick={() => onTabChange(tab.id)}
-            className={`pivot-tab focus:outline-none ${isActive ? 'pivot-tab-active font-bold border-b-2 border-primary' : ''}`}
+            className={`pivot-tab focus:outline-none ${isActive ? 'pivot-tab-active' : ''}`}
             role="tab"
             aria-selected={isActive}
             tabIndex={isActive ? 0 : -1}

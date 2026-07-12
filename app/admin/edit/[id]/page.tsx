@@ -39,7 +39,7 @@ export default async function EditEntryPage({ params }: PageProps) {
           <span className="font-label-caps text-label-caps text-primary uppercase tracking-label-caps select-none">
             Administrative Access
           </span>
-          <h1 className="font-headline-display text-headline-display font-weight-headline-display text-on-background leading-headline-display tracking-tight">
+          <h1 className="font-headline-display text-headline-display font-light text-on-background leading-headline-display tracking-tight">
             Modify Entry
           </h1>
         </header>

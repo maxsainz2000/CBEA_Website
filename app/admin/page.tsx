@@ -41,7 +41,7 @@ export default async function AdminPage() {
             <span className="font-label-caps text-label-caps text-primary uppercase tracking-label-caps select-none">
               Administrative Access
             </span>
-            <h1 className="font-headline-display text-headline-display font-weight-headline-display text-on-background leading-headline-display tracking-tight">
+            <h1 className="font-headline-display text-headline-display font-light text-on-background leading-headline-display tracking-tight">
               Officer Dashboard
             </h1>
             <div className="flex items-center gap-sm mt-xs">

@@ -9,7 +9,7 @@ interface HeaderProps {
 
 export default function Header({ isLoggedIn = false, onLogout }: HeaderProps) {
   return (
-    <header className="w-full h-12 flex items-center justify-between border-b border-outline bg-background px-margin md:px-margin-mobile">
+    <header className="w-full h-12 flex items-center justify-between border-b border-outline bg-background px-margin-mobile md:px-margin">
       <span className="font-headline-sm text-headline-sm text-on-background select-none">
         CBEA Student Council
       </span>

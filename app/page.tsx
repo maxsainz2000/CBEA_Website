@@ -90,7 +90,7 @@ export default function Homepage({ searchParams }: PageProps) {
           <span className="font-label-caps text-label-caps text-primary uppercase tracking-label-caps select-none">
             Public Transparency Portal
           </span>
-          <h1 className="font-headline-display text-headline-display font-weight-headline-display text-on-background leading-headline-display tracking-tight">
+          <h1 className="font-headline-display text-headline-display font-light text-on-background leading-headline-display tracking-tight">
             CBEA Student Council Budget Transparency
           </h1>
         </header>

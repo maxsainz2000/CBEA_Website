@@ -112,7 +112,7 @@ export default function EntryForm({ initialData }: EntryFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-lg bg-surface p-lg border border-outline w-full min-w-[300px] max-w-xl mx-auto" data-testid="entry-form">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-lg bg-surface p-lg w-full min-w-[300px] max-w-xl mx-auto" data-testid="entry-form">
       <h2 className="font-headline-md text-headline-md text-on-background select-none">
         {initialData ? 'Edit Budget Record' : 'Add New Budget Record'}
       </h2>

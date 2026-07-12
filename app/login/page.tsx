@@ -63,7 +63,7 @@ export default function LoginPage() {
             <span className="font-label-caps text-label-caps text-primary uppercase tracking-label-caps select-none">
               Authorized Personnel Only
             </span>
-            <h1 className="font-headline-lg text-headline-lg font-weight-headline-lg text-on-background leading-headline-lg">
+            <h1 className="font-headline-lg text-headline-lg font-light text-on-background leading-headline-lg">
               Officer Sign In
             </h1>
           </header>
