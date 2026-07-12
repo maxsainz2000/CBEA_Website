@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CBEA Student Council Budget Transparency Portal
 
-## Getting Started
+Public-facing budget transparency website for the CBEA Student Council at Cagayan State University – Aparri. Built with Next.js 15, React 19, Tailwind CSS v4, and Supabase.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Public side (`/`)** — Browse income/expense entries, see Collected/Spent/Remaining totals, filter by semester and category, free-text search. Mobile-first, print-friendly.
+- **Admin side (`/admin`)** — Supabase-Auth-protected CRUD for council officers, with Metro-compliant inline delete confirmation.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. `npm install`
+2. Copy `.env.example` to `.env.local` and fill in your Supabase credentials.
+3. Run the SQL in `supabase/migration.sql` against your Supabase project.
+4. Optionally run `supabase/seed.sql` for sample data.
+5. `npm run dev`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment Variables
 
-## Learn More
+| Variable | Required | Description |
+|---|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Yes | Your Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Your Supabase anonymous (public) key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Local only | Service role key for DB seeding scripts. **Never deploy to production.** |
+| `IS_E2E` | Test only | Set to `true` to enable mock auth for Playwright tests. Server-side only. |
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Command | Description |
+|---|---|
+| `npm run dev` | Start development server |
+| `npm run build` | Production build |
+| `npm run lint` | ESLint |
+| `npx vitest run` | All unit tests |
+| `npx vitest run supabase/database.test.ts` | PGlite database tests |
+| `npx playwright test` | Playwright E2E tests |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Stack
 
-## Deploy on Vercel
+Next.js 15 (App Router) · React 19 · Tailwind CSS v4 · Supabase · Zod · Vitest · Playwright
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Design System
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The portal uses a strict Metro (Windows Phone 7) derivative design system. Key rules:
+- Pure white background, black text, single Lime accent (`#8CBF26`)
+- Zero shadows, zero gradients, zero corner radius
+- `Segoe UI` font stack with cross-platform fallbacks
+- Tabular numerals on all currency figures
+- Content before chrome — minimal decorative elements
+
+See `cbea-metro-design/` for the full design package and `app/theme.css` for the Tailwind v4 token definitions.
