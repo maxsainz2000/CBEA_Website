@@ -157,11 +157,11 @@ npx playwright test
   - Active pivot tab has no bottom border — only the background/text color change.
 
 ## Acceptance Criteria
-- [ ] Header padding: 16px on mobile, 24px on desktop (inspect with DevTools).
-- [ ] Active pivot tab has no `border-b-2` — only color change indicates active state.
-- [ ] All headlines at 32px+ render at `font-weight: 300` (Light).
-- [ ] EntryForm has no `border border-outline` class.
-- [ ] Delete button uses `.btn-ghost-danger` (not `.btn-ghost` + `text-expense!`).
-- [ ] All inline action buttons (Delete, Confirm, Cancel) have `h-12` (48px touch target).
-- [ ] `npx vitest run` passes (component tests unbroken).
-- [ ] `npx playwright test` passes.
+- [x] Header padding: 16px on mobile, 24px on desktop (inspect with DevTools).
+- [x] Active pivot tab has no `border-b-2` — only color change indicates active state.
+- [x] All headlines at 32px+ render at `font-weight: 300` (Light).
+- [x] EntryForm has no `border border-outline` class.
+- [x] Delete button uses `.btn-ghost-danger` (not `.btn-ghost` + `text-expense!`).
+- [x] All inline action buttons (Delete, Confirm, Cancel) have `h-12` (48px touch target).
+- [x] `npx vitest run` passes (component tests unbroken).
+- [x] `npx playwright test` passes.
