@@ -74,8 +74,8 @@ Create the admin dashboard and administrative views for adding, editing, and del
   ```
 
 ## Acceptance Criteria
-- [ ] Admin panel is fully protected by middleware authorization checks.
-- [ ] Add/Edit forms validate fields and convert decimal values to integer centavos correctly.
-- [ ] Table rows render status badges in matching semantic colors.
-- [ ] Delete operations trigger inline confirmation states without modal alerts.
-- [ ] E2E tests verify the full create-read-update-delete lifecycle.
+- [x] Admin panel is fully protected by middleware authorization checks.
+- [x] Add/Edit forms validate fields and convert decimal values to integer centavos correctly.
+- [x] Table rows render status badges in matching semantic colors.
+- [x] Delete operations trigger inline confirmation states without modal alerts.
+- [x] E2E tests verify the full create-read-update-delete lifecycle.
