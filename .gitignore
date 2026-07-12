@@ -42,7 +42,7 @@ yarn-error.log*
 next-env.d.ts
 
 # zip file
-cbea_website_sources.zip
+cbea_website_source_code.zip
 
 # test results and local IDE cache
 /test-results/
