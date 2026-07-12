@@ -5,8 +5,10 @@ import ClientFilters from './components/ClientFilters';
 import BudgetEntryList from './components/BudgetEntryList';
 import { getEntries, getSummaryStats, getSemesters, getCategories } from '../lib/data/entries';
 
-// Fix — ISR with 60-second revalidation:
-export const revalidate = 60;
+// This page reads searchParams (a Dynamic API in Next.js 15), which forces
+// dynamic rendering. No ISR/revalidate is possible without PPR + Suspense.
+// See AUDIT-v2 §7 N1 for details.
+
 
 interface SearchParams {
   search?: string;
