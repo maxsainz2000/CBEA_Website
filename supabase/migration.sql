@@ -1,17 +1,4 @@
--- 1. Create auth schema stub for local testing / independent runs
-CREATE SCHEMA IF NOT EXISTS auth;
-CREATE TABLE IF NOT EXISTS auth.users (
-    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    email text
-);
-
--- Define helper for auth.uid()
-CREATE OR REPLACE FUNCTION auth.uid()
-RETURNS uuid
-LANGUAGE sql STABLE
-AS $$
-  SELECT nullif(current_setting('request.jwt.claim.sub', true), '')::uuid;
-$$;
+-- Production Migration File
 
 -- 2. Create custom database types
 DO $$
@@ -29,6 +16,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
     id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
     full_name text NOT NULL,
     role text NOT NULL,
+    created_at timestamp with time zone DEFAULT timezone('utc'::text, now()),
     updated_at timestamp with time zone DEFAULT timezone('utc'::text, now())
 );
 
@@ -109,3 +97,10 @@ GRANT SELECT ON public.budget_entries TO anon, authenticated;
 
 GRANT INSERT, UPDATE, DELETE ON public.profiles TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.budget_entries TO authenticated;
+
+-- Index for the primary public query: WHERE semester = ? ORDER BY date DESC
+CREATE INDEX IF NOT EXISTS budget_entries_semester_idx
+  ON public.budget_entries (semester);
+
+CREATE INDEX IF NOT EXISTS budget_entries_semester_date_idx
+  ON public.budget_entries (semester, date DESC);

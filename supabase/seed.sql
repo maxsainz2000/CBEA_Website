@@ -1,18 +1,7 @@
--- Seed auth users (if needed/not exists)
--- For local development, we insert into auth.users.
--- We use standard UUIDs for consistent references.
-
-INSERT INTO auth.users (id, email)
-VALUES 
-  ('d0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001', 'jane.doe@csu.edu.ph'),
-  ('d0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d002', 'john.smith@csu.edu.ph')
-ON CONFLICT (id) DO NOTHING;
-
 -- Seed profiles
-INSERT INTO public.profiles (id, full_name, role)
-VALUES 
-  ('d0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001', 'Jane Doe', 'Treasurer'),
-  ('d0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d002', 'John Smith', 'President')
+INSERT INTO public.profiles (id, full_name, role, created_at) VALUES
+  ('d0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001', 'Jane Doe', 'Treasurer', '2026-01-01T00:00:00Z'),
+  ('d0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d002', 'John Smith', 'Auditor', '2026-01-01T00:00:00Z')
 ON CONFLICT (id) DO NOTHING;
 
 -- Seed budget entries

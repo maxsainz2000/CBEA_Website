@@ -8,6 +8,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const migrationSql = fs.readFileSync(path.join(__dirname, 'migration.sql'), 'utf8');
+const seedLocalSql = fs.readFileSync(path.join(__dirname, 'seed.local.sql'), 'utf8');
 const seedSql = fs.readFileSync(path.join(__dirname, 'seed.sql'), 'utf8');
 
 interface TestRow {
@@ -28,6 +29,9 @@ describe('Database Schema & Migration Setup', () => {
       CREATE ROLE anon;
       CREATE ROLE authenticated;
     `);
+
+    // Run local stubs
+    await db.exec(seedLocalSql);
 
     // Run migration
     await db.exec(migrationSql);
