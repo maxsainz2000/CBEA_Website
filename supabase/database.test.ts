@@ -163,6 +163,40 @@ describe('Database Schema & Migration Setup', () => {
       expect(deleteRes.rows.length).toBe(1);
     });
 
+    it('should block authenticated users from modifying other users\' entries', async () => {
+      // Set auth context to a DIFFERENT user
+      await db.exec(`
+        SET ROLE authenticated;
+        SET request.jwt.claim.sub = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa';
+      `);
+
+      // Try to update an entry owned by d0d0d0d0-...d001
+      const updateResult = await db.query(`
+        UPDATE public.budget_entries
+        SET description = 'Hacked'
+        WHERE entered_by = 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001'
+      `);
+
+      // The update should affect 0 rows (RLS blocks it)
+      expect(updateResult.affectedRows ?? 0).toBe(0);
+
+      // Try to delete an entry owned by d0d0d0d0-...d001
+      const deleteResult = await db.query(`
+        DELETE FROM public.budget_entries
+        WHERE entered_by = 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001'
+      `);
+
+      expect(deleteResult.affectedRows ?? 0).toBe(0);
+
+      // Try to insert with someone else's entered_by
+      await expect(
+        db.query(`
+          INSERT INTO public.budget_entries (type, description, category, amount, date, semester, academic_year, entered_by)
+          VALUES ('income', 'Hacked Entry', 'Fees', 10000, '2025-01-15', '1st Semester AY 2024-2025', '2024-2025', 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001')
+        `)
+      ).rejects.toThrow(/violates row-level security policy/i);
+    });
+
     it('should only allow authenticated users to update their own profile', async () => {
       const user1 = 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001';
       const user2 = 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d002';

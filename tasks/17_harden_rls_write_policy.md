@@ -149,11 +149,11 @@ npx playwright test
 - Verify that the admin CRUD flow still works end-to-end (create, edit, delete an entry via the UI).
 
 ## Acceptance Criteria
-- [ ] The permissive `FOR ALL TO authenticated USING (true) WITH CHECK (true)` policy is removed from `migration.sql`.
-- [ ] Three granular policies (INSERT/UPDATE/DELETE) with `entered_by = auth.uid()` predicates are added.
-- [ ] The PGlite test `should allow authenticated users to perform writes on budget_entries` still passes.
-- [ ] A new test verifies that authenticated users cannot modify other users' entries.
-- [ ] Supabase Security Advisor rule `0024` no longer fires for `budget_entries`.
-- [ ] `npx vitest run` passes.
-- [ ] `npx playwright test` passes.
-- [ ] Admin CRUD flow works end-to-end.
+- [x] The permissive `FOR ALL TO authenticated USING (true) WITH CHECK (true)` policy is removed from `migration.sql`.
+- [x] Three granular policies (INSERT/UPDATE/DELETE) with `entered_by = auth.uid()` predicates are added.
+- [x] The PGlite test `should allow authenticated users to perform writes on budget_entries` still passes.
+- [x] A new test verifies that authenticated users cannot modify other users' entries.
+- [x] Supabase Security Advisor rule `0024` no longer fires for `budget_entries`.
+- [x] `npx vitest run` passes.
+- [x] `npx playwright test` passes.
+- [x] Admin CRUD flow works end-to-end.

@@ -86,8 +86,18 @@ CREATE POLICY "Allow public read access on budget_entries" ON public.budget_entr
     FOR SELECT USING (true);
 
 DROP POLICY IF EXISTS "Allow authenticated write on budget_entries" ON public.budget_entries;
-CREATE POLICY "Allow authenticated write on budget_entries" ON public.budget_entries
-    FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow authenticated insert on budget_entries" ON public.budget_entries
+    FOR INSERT TO authenticated
+    WITH CHECK ((select auth.uid()) = entered_by);
+
+CREATE POLICY "Allow authenticated update on budget_entries" ON public.budget_entries
+    FOR UPDATE TO authenticated
+    USING ((select auth.uid()) = entered_by)
+    WITH CHECK ((select auth.uid()) = entered_by);
+
+CREATE POLICY "Allow authenticated delete on budget_entries" ON public.budget_entries
+    FOR DELETE TO authenticated
+    USING ((select auth.uid()) = entered_by);
 
 -- 8. Grant privileges to roles
 GRANT USAGE ON SCHEMA public TO anon, authenticated;
