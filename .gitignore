@@ -43,3 +43,8 @@ next-env.d.ts
 
 # zip file
 cbea_website_sources.zip
+
+# test results and local IDE cache
+/test-results/
+/.claude/
+
