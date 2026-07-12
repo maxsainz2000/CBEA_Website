@@ -4,6 +4,8 @@ import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { BudgetEntry } from '@/lib/types';
 import { deleteEntry } from '@/app/actions/entries';
+import { formatCentavos } from '@/lib/format/currency';
+import { formatISODate } from '@/lib/format/date';
 
 interface EntryTableProps {
   entries: BudgetEntry[];
@@ -13,29 +15,6 @@ export default function EntryTable({ entries }: EntryTableProps) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
-
-  const formatDate = (dateStr: string) => {
-    try {
-      const date = new Date(dateStr);
-      if (isNaN(date.getTime())) return dateStr;
-      return date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-        timeZone: 'UTC',
-      });
-    } catch {
-      return dateStr;
-    }
-  };
-
-  const formatAmount = (centavos: number) => {
-    const absValue = Math.abs(centavos) / 100;
-    return absValue.toLocaleString('en-PH', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-  };
 
   const handleDelete = (id: string) => {
     setError(null);
@@ -91,7 +70,7 @@ export default function EntryTable({ entries }: EntryTableProps) {
 
                 return (
                   <tr key={entry.id} data-testid={`entry-row-${entry.id}`}>
-                    <td className="whitespace-nowrap">{formatDate(entry.date)}</td>
+                    <td className="whitespace-nowrap">{formatISODate(entry.date)}</td>
                     <td className="whitespace-nowrap font-body-sm-strong select-none">
                       <span className={isIncome ? 'text-income' : 'text-expense'}>
                         {isIncome ? 'Income' : 'Expense'}
@@ -102,7 +81,7 @@ export default function EntryTable({ entries }: EntryTableProps) {
                     </td>
                     <td className="whitespace-nowrap">{entry.category}</td>
                     <td className={`amount-col tabular-nums whitespace-nowrap font-body-sm-strong ${isIncome ? 'text-income' : 'text-expense'}`}>
-                      {isIncome ? '+' : '-'}₱{formatAmount(entry.amount)}
+                      {formatCentavos(isIncome ? entry.amount : -entry.amount, { sign: true })}
                     </td>
                     <td className="whitespace-nowrap select-none">
                       <span className={`status-badge ${statusBadgeClass}`}>

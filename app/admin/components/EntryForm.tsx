@@ -55,7 +55,6 @@ export default function EntryForm({ initialData }: EntryFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('ONSUBMIT CALLED');
     setServerError(null);
     setValidationErrors({});
 
@@ -89,9 +88,7 @@ export default function EntryForm({ initialData }: EntryFormProps) {
         response = await createEntry(dataToValidate);
       }
 
-      console.log('RESPONSE:', response);
       if (response.success) {
-        console.log('CALLING ROUTER PUSH /admin');
         router.push('/admin');
         router.refresh();
       } else {

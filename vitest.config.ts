@@ -7,7 +7,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    exclude: ['node_modules', 'dist', '.next', 'tests'],
+    exclude: ['node_modules', 'dist', '.next', 'tests', 'scratch'],
   },
   resolve: {
     alias: {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { formatCentavos } from '@/lib/format/currency';
 
 interface SummaryStatsProps {
   totalCollected: number; // in centavos
@@ -33,16 +34,6 @@ export default function SummaryStats({
 
   const metaText = asOfDate || (currentDate ? `as of ${currentDate}` : 'loading...');
 
-  const formatValue = (centavos: number) => {
-    const isNegative = centavos < 0;
-    const absValue = Math.abs(centavos) / 100;
-    const formattedNum = absValue.toLocaleString('en-PH', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-    return `${isNegative ? '-' : ''}₱${formattedNum}`;
-  };
-
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLDivElement>,
     filter: 'collected' | 'spent' | 'remaining'
@@ -64,11 +55,11 @@ export default function SummaryStats({
         onKeyDown={(e) => handleKeyDown(e, 'collected')}
         role="button"
         tabIndex={0}
-        aria-label={`Total collected: ${formatValue(totalCollected)}`}
+        aria-label={`Total collected: ${formatCentavos(totalCollected)}`}
       >
         <div className="stat-label">TOTAL COLLECTED</div>
         <div className="stat-value stat-value-positive tabular-nums" data-testid="stat-collected-value">
-          {formatValue(totalCollected)}
+          {formatCentavos(totalCollected)}
         </div>
         <div className="stat-meta">{metaText}</div>
       </div>
@@ -82,11 +73,11 @@ export default function SummaryStats({
         onKeyDown={(e) => handleKeyDown(e, 'spent')}
         role="button"
         tabIndex={0}
-        aria-label={`Total spent: ${formatValue(totalSpent)}`}
+        aria-label={`Total spent: ${formatCentavos(totalSpent)}`}
       >
         <div className="stat-label">TOTAL SPENT</div>
         <div className="stat-value stat-value-negative tabular-nums" data-testid="stat-spent-value">
-          {formatValue(totalSpent)}
+          {formatCentavos(totalSpent)}
         </div>
         <div className="stat-meta">{metaText}</div>
       </div>
@@ -100,7 +91,7 @@ export default function SummaryStats({
         onKeyDown={(e) => handleKeyDown(e, 'remaining')}
         role="button"
         tabIndex={0}
-        aria-label={`Remaining balance: ${formatValue(remainingBalance)}`}
+        aria-label={`Remaining balance: ${formatCentavos(remainingBalance)}`}
       >
         <div className="stat-label">REMAINING BALANCE</div>
         <div
@@ -109,7 +100,7 @@ export default function SummaryStats({
           }`}
           data-testid="stat-remaining-value"
         >
-          {formatValue(remainingBalance)}
+          {formatCentavos(remainingBalance)}
         </div>
         <div className="stat-meta">{metaText}</div>
       </div>

@@ -1,6 +1,8 @@
 'use client';
 
 import { BudgetEntry } from '../../lib/types';
+import { formatCentavos } from '@/lib/format/currency';
+import { formatISODate } from '@/lib/format/date';
 
 interface BudgetEntryListProps {
   entries: BudgetEntry[];
@@ -13,28 +15,6 @@ export default function BudgetEntryList({
   emptyMessage = 'No budget entries found.',
   onEntryClick,
 }: BudgetEntryListProps) {
-  const formatDate = (dateStr: string) => {
-    try {
-      const date = new Date(dateStr);
-      if (isNaN(date.getTime())) return dateStr;
-      return date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-        timeZone: 'UTC',
-      });
-    } catch {
-      return dateStr;
-    }
-  };
-
-  const formatAmount = (centavos: number) => {
-    const absValue = Math.abs(centavos) / 100;
-    return absValue.toLocaleString('en-PH', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-  };
 
   if (entries.length === 0) {
     return (
@@ -90,13 +70,13 @@ export default function BudgetEntryList({
                 {entry.description}
               </span>
               <span className="font-caption text-caption text-secondary mt-xs select-none">
-                {entry.category} • {formatDate(entry.date)}
+                {entry.category} • {formatISODate(entry.date)}
               </span>
             </div>
 
             {/* Column 3: Amount column */}
             <div className={`budget-entry-amount ${amountClass} tabular-nums`}>
-              {isIncome ? '+' : '-'}₱{formatAmount(entry.amount)}
+              {formatCentavos(isIncome ? entry.amount : -entry.amount, { sign: true })}
             </div>
 
             {/* Column 4: Status badge */}

@@ -7,9 +7,9 @@ import Header from '@/app/components/Header';
 
 export default function AdminHeader() {
   const router = useRouter();
-  const supabase = createClient();
 
   const handleLogout = async () => {
+    const supabase = createClient();
     try {
       // Clear mock auth cookie
       document.cookie = 'sb-mock-auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
