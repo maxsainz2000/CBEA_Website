@@ -1,144 +1,108 @@
-'use client';
+import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server';
+import AdminHeader from './components/AdminHeader';
+import SummaryStats from '../components/SummaryStats';
+import EntryTable from './components/EntryTable';
+import { getEntries, getSummaryStats } from '@/lib/data/entries';
+import Link from 'next/link';
 
-import { useEffect, useState, startTransition } from 'react';
-import { useRouter } from 'next/navigation';
-import { createClient } from '@/lib/supabase/client';
-import Header from '../components/Header';
+export const dynamic = 'force-dynamic';
 
-interface Profile {
-  full_name: string;
-  role: string;
-}
+export default async function AdminPage() {
+  const supabase = await createClient();
+  const cookieStore = await cookies();
+  const isE2e = process.env.NEXT_PUBLIC_IS_E2E === 'true';
+  const mockAuth = cookieStore.get('sb-mock-auth')?.value === 'true';
 
-export default function AdminPage() {
-  const router = useRouter();
-  const [userEmail, setUserEmail] = useState<string | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  let user = null;
+  let profile = null;
 
-  const supabase = createClient();
-
-  useEffect(() => {
-    async function fetchUserData() {
-      try {
-        const isE2e = process.env.NEXT_PUBLIC_IS_E2E === 'true';
-        const hasMockAuth = document.cookie.split('; ').some(row => row.startsWith('sb-mock-auth=true'));
-
-        if (isE2e && hasMockAuth) {
-          setUserEmail('jane.doe@csu.edu.ph');
-          setProfile({
-            full_name: 'Jane Doe',
-            role: 'Treasurer',
-          });
-          setIsLoading(false);
-          return;
-        }
-
-        const { data: { user }, error: userError } = await supabase.auth.getUser();
-
-        if (userError || !user) {
-          // If no user, redirect to login (middleware should catch this, but safeguard here)
-          router.push('/login');
-          return;
-        }
-
-        setUserEmail(user.email || null);
-
-        // Fetch user profile from the public.profiles table
-        const { data: profileData, error: profileError } = await supabase
-          .from('profiles')
-          .select('full_name, role')
-          .eq('id', user.id)
-          .maybeSingle();
-
-        if (!profileError && profileData) {
-          setProfile(profileData as Profile);
-        }
-      } catch (err) {
-        console.error('Error fetching user data:', err);
-      } finally {
-        setIsLoading(false);
-      }
+  if (isE2e && mockAuth) {
+    user = {
+      id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
+      email: 'jane.doe@csu.edu.ph',
+    };
+    profile = {
+      full_name: 'Jane Doe',
+      role: 'Treasurer',
+    };
+  } else {
+    const { data: { user: authUser }, error: userError } = await supabase.auth.getUser();
+    if (userError || !authUser) {
+      redirect('/login');
     }
+    user = authUser;
 
-    fetchUserData();
-  }, [router, supabase]);
-
-  const handleLogout = async () => {
-    setIsLoading(true);
-    try {
-      // Clear mock auth cookie
-      document.cookie = 'sb-mock-auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
-      
-      await supabase.auth.signOut();
-      startTransition(() => {
-        router.push('/login');
-        router.refresh();
-      });
-    } catch (err) {
-      console.error('Error signing out:', err);
-      setIsLoading(false);
-    }
-  };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background flex flex-col">
-        <Header isLoggedIn={true} onLogout={handleLogout} />
-        <main className="flex-1 flex flex-col items-center justify-center text-secondary select-none">
-          <div className="w-8 h-8 border-4 border-outline border-t-primary rounded-full animate-spin mb-sm" />
-          <span className="font-caption text-caption">Loading session...</span>
-        </main>
-      </div>
-    );
+    const { data: profileData } = await supabase
+      .from('profiles')
+      .select('full_name, role')
+      .eq('id', user.id)
+      .maybeSingle();
+    profile = profileData;
   }
+
+  // Fetch entries and statistics
+  const [entries, stats] = await Promise.all([
+    getEntries(),
+    getSummaryStats(), // No semester passed => overall aggregates
+  ]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Header with active logged in state */}
-      <Header isLoggedIn={true} onLogout={handleLogout} />
+      {/* Header with active logged in state managed by client component wrapper */}
+      <AdminHeader />
 
       {/* Main Content Area */}
       <main className="flex-1 w-full max-w-5xl mx-auto px-margin-mobile md:px-margin py-lg md:py-xl flex flex-col gap-lg animate-slide-in-fade">
-        <header className="flex flex-col gap-xs mb-sm">
-          <span className="font-label-caps text-label-caps text-primary uppercase tracking-label-caps select-none">
-            Administrative Access
-          </span>
-          <h1 className="font-headline-display text-headline-display font-weight-headline-display text-on-background leading-headline-display tracking-tight">
-            Officer Dashboard
-          </h1>
+        <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-md mb-sm">
+          <div className="flex flex-col gap-xs">
+            <span className="font-label-caps text-label-caps text-primary uppercase tracking-label-caps select-none">
+              Administrative Access
+            </span>
+            <h1 className="font-headline-display text-headline-display font-weight-headline-display text-on-background leading-headline-display tracking-tight">
+              Officer Dashboard
+            </h1>
+            <div className="flex items-center gap-sm mt-xs">
+              <span className="font-body-md text-on-background font-bold">
+                {profile?.full_name || user.email || 'Officer'}
+              </span>
+              {profile?.role && (
+                <span className="status-badge status-badge-paid">
+                  {profile.role}
+                </span>
+              )}
+            </div>
+          </div>
+          <div>
+            <Link
+              href="/admin/new"
+              className="btn-primary flex items-center justify-center select-none"
+              data-testid="add-entry-cta"
+            >
+              Add New Entry
+            </Link>
+          </div>
         </header>
 
-        {/* Dashboard Placeholder Panel */}
-        <section className="bg-surface p-lg border-l-4 border-primary flex flex-col gap-md">
-          <div>
-            <h2 className="font-headline-sm text-headline-sm text-on-background mb-xs">
-              Welcome, {profile?.full_name || userEmail || 'Officer'}
-            </h2>
-            {profile?.role && (
-              <span className="status-badge status-badge-paid">
-                {profile.role}
-              </span>
-            )}
-          </div>
+        {/* Aggregate statistics */}
+        <section aria-label="Overall Financial Aggregate Stats">
+          <h2 className="font-label-caps text-label-caps text-secondary uppercase tracking-label-caps mb-sm select-none">
+            Overall Financial Aggregates
+          </h2>
+          <SummaryStats
+            totalCollected={stats.totalCollected}
+            totalSpent={stats.totalSpent}
+            remainingBalance={stats.remainingBalance}
+          />
+        </section>
 
-          <p className="font-body-md text-on-background max-w-2xl">
-            You are successfully authenticated. This is the protected administration dashboard where budget records can be managed.
-          </p>
-
-          <p className="font-body-sm text-secondary">
-            Note: The full budget CRUD interface (adding, editing, and deleting records) will be fully integrated and implemented in Task 8.
-          </p>
-
-          <div className="mt-sm">
-            <button
-              onClick={handleLogout}
-              className="btn-primary flex items-center justify-center cursor-pointer select-none"
-              type="button"
-            >
-              Logout Session
-            </button>
-          </div>
+        {/* Data Table */}
+        <section aria-label="Administrative Entry Management" className="flex flex-col gap-sm">
+          <h2 className="font-label-caps text-label-caps text-secondary uppercase tracking-label-caps select-none">
+            Manage Budget Records
+          </h2>
+          <EntryTable entries={entries} />
         </section>
       </main>
     </div>

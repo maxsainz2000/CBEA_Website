@@ -84,7 +84,9 @@ describe('Budget Entries API and Server Actions', () => {
       })
 
       expect(result.success).toBe(false)
-      expect(result.error).toContain('Unauthorized')
+      if (!result.success) {
+        expect(result.error).toContain('Unauthorized')
+      }
       expect(mockFrom).not.toHaveBeenCalled()
     })
 
@@ -102,7 +104,9 @@ describe('Budget Entries API and Server Actions', () => {
       })
 
       expect(result.success).toBe(false)
-      expect(result.error).toContain('Unauthorized')
+      if (!result.success) {
+        expect(result.error).toContain('Unauthorized')
+      }
     })
 
     it('should return unauthorized error on deleteEntry if user is unauthenticated', async () => {
@@ -111,7 +115,9 @@ describe('Budget Entries API and Server Actions', () => {
       const result = await deleteEntry('entry-uuid')
 
       expect(result.success).toBe(false)
-      expect(result.error).toContain('Unauthorized')
+      if (!result.success) {
+        expect(result.error).toContain('Unauthorized')
+      }
     })
   })
 
@@ -132,9 +138,11 @@ describe('Budget Entries API and Server Actions', () => {
       })
 
       expect(result.success).toBe(false)
-      expect(result.error).toBe('Validation failed')
-      expect(result.validationErrors).toBeDefined()
-      expect(result.validationErrors?.description).toContain('Description is required')
+      if (!result.success) {
+        expect(result.error).toBe('Validation failed')
+        expect(result.validationErrors).toBeDefined()
+        expect(result.validationErrors?.description).toContain('Description is required')
+      }
     })
 
     it('should reject negative amount values', async () => {
@@ -149,7 +157,9 @@ describe('Budget Entries API and Server Actions', () => {
       })
 
       expect(result.success).toBe(false)
-      expect(result.validationErrors?.amount).toContain('Amount must be a non-negative number')
+      if (!result.success) {
+        expect(result.validationErrors?.amount).toContain('Amount must be a non-negative number')
+      }
     })
 
     it('should reject invalid date formats', async () => {
@@ -164,7 +174,9 @@ describe('Budget Entries API and Server Actions', () => {
       })
 
       expect(result.success).toBe(false)
-      expect(result.validationErrors?.date).toContain('Invalid date format (YYYY-MM-DD)')
+      if (!result.success) {
+        expect(result.validationErrors?.date).toContain('Invalid date format (YYYY-MM-DD)')
+      }
     })
   })
 
@@ -200,7 +212,9 @@ describe('Budget Entries API and Server Actions', () => {
       })
 
       expect(result.success).toBe(true)
-      expect(result.data).toEqual(mockResult)
+      if (result.success) {
+        expect(result.data).toEqual(mockResult)
+      }
 
       expect(mockFrom).toHaveBeenCalledWith('budget_entries')
       expect(currentMockQuery.insert).toHaveBeenCalledWith(expect.objectContaining({
@@ -239,7 +253,9 @@ describe('Budget Entries API and Server Actions', () => {
       })
 
       expect(result.success).toBe(true)
-      expect(result.data).toEqual(mockResult)
+      if (result.success) {
+        expect(result.data).toEqual(mockResult)
+      }
       expect(currentMockQuery.update).toHaveBeenCalledWith(expect.objectContaining({
         amount: 9999,
         notes: 'Paper and pens',
@@ -254,7 +270,9 @@ describe('Budget Entries API and Server Actions', () => {
       const result = await deleteEntry('delete-uuid')
 
       expect(result.success).toBe(true)
-      expect(result.data).toEqual({ id: 'delete-uuid' })
+      if (result.success) {
+        expect(result.data).toEqual({ id: 'delete-uuid' })
+      }
       expect(currentMockQuery.delete).toHaveBeenCalled()
       expect(revalidatePath).toHaveBeenCalledWith('/')
       expect(revalidatePath).toHaveBeenCalledWith('/admin')
