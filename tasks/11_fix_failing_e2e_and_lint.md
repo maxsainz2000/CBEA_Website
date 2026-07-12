@@ -84,8 +84,8 @@ npx playwright test --reporter=list
 ```
 
 ## Acceptance Criteria
-- [ ] `npx playwright test` reports 9/9 pass, 0 fail.
-- [ ] `npx tsc --noEmit` reports 0 errors.
-- [ ] `npx eslint` reports 0 errors, 0 warnings.
-- [ ] No `console.log` debug statements remain in test files.
-- [ ] The `auth-flow.spec.ts > Valid Login` test correctly asserts on `<h1>` "Officer Dashboard" and `text=Jane Doe`.
+- [x] `npx playwright test` reports 9/9 pass, 0 fail.
+- [x] `npx tsc --noEmit` reports 0 errors.
+- [x] `npx eslint` reports 0 errors, 0 warnings.
+- [x] No `console.log` debug statements remain in test files.
+- [x] The `auth-flow.spec.ts > Valid Login` test correctly asserts on `<h1>` "Officer Dashboard" and `text=Jane Doe`.

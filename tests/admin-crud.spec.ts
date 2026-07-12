@@ -6,9 +6,7 @@ test.describe('Admin Dashboard CRUD and Inline Actions', () => {
     // 1. Login Bypass
     await page.goto('/login');
     
-    // Listen to all console and errors
-    page.on('console', msg => console.log('BROWSER LOG:', msg.text()));
-    page.on('pageerror', err => console.log('BROWSER ERROR:', err.message));
+
     
     await page.locator('[data-testid="email-input"]').fill('jane.doe@csu.edu.ph');
     await page.locator('[data-testid="password-input"]').fill('Password123!');
@@ -29,19 +27,9 @@ test.describe('Admin Dashboard CRUD and Inline Actions', () => {
 
     // Fill form fields
     const description = `E2E Sponsorship ${Date.now()}`;
-    const rect = await page.evaluate(() => {
-      const el = document.querySelector('[data-testid="description-input"]');
-      return el ? {
-        bounds: el.getBoundingClientRect(),
-        display: window.getComputedStyle(el).display,
-        visibility: window.getComputedStyle(el).visibility,
-        opacity: window.getComputedStyle(el).opacity,
-        parentDisplay: window.getComputedStyle(el.parentElement).display,
-      } : null;
-    });
-    console.log("INPUT DEBUG:", rect);
+
     
-    await page.locator('[data-testid="type-toggle-income"]').dispatchEvent('click'); // Toggle as Income
+    await page.locator('[data-testid="type-toggle-income"]').click(); // Toggle as Income
     await page.locator('[data-testid="description-input"]').fill(description);
     await page.locator('[data-testid="category-input"]').fill('Sports Fest');
     await page.locator('[data-testid="amount-input"]').fill('1500.50');
@@ -50,15 +38,11 @@ test.describe('Admin Dashboard CRUD and Inline Actions', () => {
     await page.locator('[data-testid="academic-year-input"]').fill('2025-2026');
     await page.locator('[data-testid="notes-input"]').fill('E2E testing sponsorship registration');
     await page.locator('[data-testid="status-input"]').selectOption('paid');
-    // Submit form
-    await page.locator('[data-testid="submit-form-button"]').dispatchEvent('click');
+    await page.locator('[data-testid="submit-form-button"]').click();
 
-    // Check for errors
-    const errorMsg = await page.locator('[data-testid="form-error-message"]').textContent({ timeout: 1000 }).catch(() => null);
-    console.log("SERVER ERROR MSG:", errorMsg);
 
-    // Check for validation errors
-    const valErrors = await page.locator('.text-expense.mt-xs').allTextContents();
+
+
     
     await expect(page).toHaveURL('http://localhost:3000/admin');
     

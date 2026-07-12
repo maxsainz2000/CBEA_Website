@@ -48,8 +48,8 @@ test.describe('Officer Authentication Flow', () => {
     await expect(page).toHaveURL(/\/admin/);
 
     // Verify dashboard welcome message is visible
-    const welcomeHeader = page.locator('h2');
-    await expect(welcomeHeader).toContainText(/Welcome/i);
-    await expect(welcomeHeader).toContainText(/Jane Doe/i);
+    const h1 = page.locator('h1');
+    await expect(h1).toContainText(/Officer Dashboard/i);
+    await expect(page.locator('text=Jane Doe')).toBeVisible();
   });
 });
