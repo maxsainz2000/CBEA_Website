@@ -47,4 +47,5 @@ cbea_website_source_code.zip
 # test results and local IDE cache
 /test-results/
 /.claude/
+playwright/.auth/
 

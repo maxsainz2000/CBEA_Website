@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Officer Authentication Flow', () => {
+  // Use a fresh context for auth flow tests (no saved session)
+  test.use({ storageState: { cookies: [], origins: [] } });
   
   test('Route Protection: Navigate directly to /admin while unauthenticated redirects to /login', async ({ page }) => {
     // Attempt to access the admin dashboard directly

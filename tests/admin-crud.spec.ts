@@ -3,14 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Admin Dashboard CRUD and Inline Actions', () => {
 
   test('Full CRUD Lifecycle of a Budget Entry', async ({ page }) => {
-    // 1. Login Bypass
-    await page.goto('/login');
-    
-
-    
-    await page.locator('[data-testid="email-input"]').fill('jane.doe@csu.edu.ph');
-    await page.locator('[data-testid="password-input"]').fill('Password123!');
-    await page.locator('[data-testid="login-submit-button"]').click();
+    await page.goto('/admin');
     await expect(page).toHaveURL('http://localhost:3000/admin');
 
     const welcomeHeader = page.locator('h1');

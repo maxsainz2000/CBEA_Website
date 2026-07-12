@@ -11,9 +11,6 @@ export default function AdminHeader() {
   const handleLogout = async () => {
     const supabase = createClient();
     try {
-      // Clear mock auth cookie
-      document.cookie = 'sb-mock-auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
-      
       await supabase.auth.signOut();
       startTransition(() => {
         router.push('/login');

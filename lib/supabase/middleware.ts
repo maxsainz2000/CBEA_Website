@@ -43,12 +43,6 @@ export async function updateSession(request: NextRequest) {
     user = null
   }
 
-  // E2E mock — server-only, gated by IS_E2E (no NEXT_PUBLIC_ prefix)
-  if (!user && process.env.IS_E2E === 'true' &&
-      request.cookies.get('sb-mock-auth')?.value === 'true') {
-    user = { id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001', email: 'jane.doe@csu.edu.ph' }
-  }
-
   // Guard routing logic
   const isLoginPage = request.nextUrl.pathname === '/login'
   const isAdminPage = request.nextUrl.pathname.startsWith('/admin')
