@@ -4,12 +4,21 @@ import { createClient } from '@/lib/supabase/server';
 import AdminHeader from './components/AdminHeader';
 import SummaryStats from '../components/SummaryStats';
 import EntryTable from './components/EntryTable';
-import { getEntries, getSummaryStats } from '@/lib/data/entries';
+import AdminSemesterSelector from './components/AdminSemesterSelector';
+import { getEntries, getSummaryStats, getSemesters } from '@/lib/data/entries';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
-export default async function AdminPage() {
+interface SearchParams {
+  semester?: string;
+}
+
+interface PageProps {
+  searchParams: Promise<SearchParams>;
+}
+
+export default async function AdminPage({ searchParams }: PageProps) {
   const officer = await getOfficer();
   if (!officer) {
     redirect('/login');
@@ -23,11 +32,22 @@ export default async function AdminPage() {
     .maybeSingle();
   const profile = profileData;
 
-  // Fetch entries and statistics
+  const params = await searchParams;
+  const semestersList = await getSemesters();
+  const activeSemester = params.semester || semestersList[0] || '1st Sem';
+
+  // Fetch entries and statistics filtered by semester
   const [entries, stats] = await Promise.all([
-    getEntries(),
-    getSummaryStats(), // No semester passed => overall aggregates
+    getEntries({ semester: activeSemester }),
+    getSummaryStats(activeSemester),
   ]);
+
+  const asOfDate = new Date().toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'Asia/Manila',
+  });
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -66,15 +86,24 @@ export default async function AdminPage() {
           </div>
         </header>
 
+        {/* Semester Selection Tab/Dropdown Filter */}
+        <section aria-label="Semester Filter">
+          <AdminSemesterSelector
+            semesters={semestersList}
+            activeSemester={activeSemester}
+          />
+        </section>
+
         {/* Aggregate statistics */}
-        <section aria-label="Overall Financial Aggregate Stats">
+        <section aria-label="Semester Financial Aggregate Stats">
           <h2 className="font-label-caps text-label-caps text-secondary uppercase tracking-label-caps mb-sm select-none">
-            Overall Financial Aggregates
+            Financial Aggregates for {activeSemester}
           </h2>
           <SummaryStats
             totalCollected={stats.totalCollected}
             totalSpent={stats.totalSpent}
             remainingBalance={stats.remainingBalance}
+            asOfDate={`as of ${asOfDate}`}
           />
         </section>
 

@@ -43,6 +43,13 @@ async function HomepageContent({ searchParams }: PageProps) {
     getCategories(),
   ]);
 
+  const asOfDate = new Date().toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'Asia/Manila',
+  });
+
   return (
     <div className="flex flex-col gap-lg">
       {/* Summary Stats Cards */}
@@ -51,6 +58,7 @@ async function HomepageContent({ searchParams }: PageProps) {
           totalCollected={stats.totalCollected}
           totalSpent={stats.totalSpent}
           remainingBalance={stats.remainingBalance}
+          asOfDate={`as of ${asOfDate}`}
         />
       </section>
 

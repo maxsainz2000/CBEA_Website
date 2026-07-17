@@ -10,7 +10,6 @@ import { BudgetEntry } from '../../lib/types';
 
 export default function SandboxPage() {
   const [activeTab, setActiveTab] = useState('1');
-  const [activeFilter, setActiveFilter] = useState<'collected' | 'spent' | 'remaining' | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
@@ -67,8 +66,6 @@ export default function SandboxPage() {
             totalCollected={15000}
             totalSpent={5000}
             remainingBalance={10000}
-            activeFilter={activeFilter}
-            onFilterChange={(filter) => setActiveFilter(filter)}
             asOfDate="Jul 11, 2026"
           />
           
