@@ -31,7 +31,7 @@ export default function EntryTable({ entries }: EntryTableProps) {
   return (
     <div className="w-full flex flex-col gap-sm">
       {error && (
-        <div className="p-sm bg-accent-red/10 border-l-4 border-accent-red text-accent-red font-body-sm text-body-sm select-none" data-testid="table-error-message">
+        <div className="p-sm bg-error/10 border-l-4 border-error text-error font-body-sm text-body-sm select-none" data-testid="table-error-message">
           {error}
         </div>
       )}

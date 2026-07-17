@@ -15,9 +15,11 @@ vi.mock('next/cache', () => ({
 // Mock lib/auth/session
 vi.mock('../../lib/auth/session', () => ({
   getOfficer: vi.fn(),
+  getOfficerAndClient: vi.fn(),
 }))
 
-import { getOfficer } from '../../lib/auth/session'
+import { getOfficer, getOfficerAndClient } from '../../lib/auth/session'
+import { SupabaseClient } from '@supabase/supabase-js'
 
 // Mock Supabase helper
 class MockQuery {
@@ -70,6 +72,10 @@ describe('Budget Entries API and Server Actions', () => {
     vi.clearAllMocks()
     currentMockQuery = new MockQuery([])
     ;(getOfficer as ReturnType<typeof vi.fn>).mockResolvedValue(null) // default: unauth
+    ;(getOfficerAndClient as ReturnType<typeof vi.fn>).mockImplementation(async () => {
+      const officer = await getOfficer()
+      return { officer, supabase: mockSupabase as unknown as SupabaseClient }
+    })
   })
 
   describe('Authentication Guards', () => {

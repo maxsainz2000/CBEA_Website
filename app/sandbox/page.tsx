@@ -31,7 +31,7 @@ export default function SandboxPage() {
     { id: '8', label: 'Extra' },
   ];
 
-  const entries = [
+  const entries: Partial<BudgetEntry>[] = [
     {
       id: '1',
       description: 'Membership Fee Collection',
@@ -44,7 +44,7 @@ export default function SandboxPage() {
     {
       id: '2',
       description: 'Office Supplies',
-      amount: -5000,
+      amount: 5000,
       date: '2026-07-11T00:00:00Z',
       type: 'expense',
       category: 'Supplies',
@@ -58,11 +58,11 @@ export default function SandboxPage() {
     <div className="min-h-screen bg-background">
       <Header isLoggedIn={true} onLogout={() => alert('Logout clicked')} />
       
-      <main className="p-margin md:p-margin-mobile flex flex-col gap-lg mt-8 max-w-4xl mx-auto">
+      <main className="p-margin-mobile md:p-margin flex flex-col gap-lg mt-8 max-w-4xl mx-auto">
         <h1 className="text-headline-md font-headline-md mb-4">Component Sandbox</h1>
 
         <section>
-          <h2 className="text-title-lg font-title-lg mb-2">SummaryStats</h2>
+          <h2 className="text-headline-md font-headline-md mb-2">SummaryStats</h2>
           <SummaryStats
             totalCollected={15000}
             totalSpent={5000}
@@ -72,7 +72,7 @@ export default function SandboxPage() {
             asOfDate="Jul 11, 2026"
           />
           
-          <h3 className="text-title-md font-title-md mt-4 mb-2">Negative Balance Example</h3>
+          <h3 className="text-headline-sm font-headline-sm mt-4 mb-2">Negative Balance Example</h3>
           <SummaryStats
             totalCollected={5000}
             totalSpent={15000}
@@ -82,14 +82,14 @@ export default function SandboxPage() {
         </section>
 
         <section>
-          <h2 className="text-title-lg font-title-lg mb-2">PivotTabs (≤ 7 items)</h2>
+          <h2 className="text-headline-md font-headline-md mb-2">PivotTabs (≤ 7 items)</h2>
           <PivotTabs
             tabs={tabs}
             activeTab={activeTab}
             onTabChange={setActiveTab}
           />
           
-          <h2 className="text-title-lg font-title-lg mt-4 mb-2">PivotTabs (&gt; 7 items - Select Box)</h2>
+          <h2 className="text-headline-md font-headline-md mt-4 mb-2">PivotTabs (&gt; 7 items - Select Box)</h2>
           <PivotTabs
             tabs={manyTabs}
             activeTab={activeTab}
@@ -98,7 +98,7 @@ export default function SandboxPage() {
         </section>
 
         <section>
-          <h2 className="text-title-lg font-title-lg mb-2">SearchFilter</h2>
+          <h2 className="text-headline-md font-headline-md mb-2">SearchFilter</h2>
           <SearchFilter
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
@@ -109,10 +109,10 @@ export default function SandboxPage() {
         </section>
 
         <section>
-          <h2 className="text-title-lg font-title-lg mb-2">BudgetEntryList</h2>
-          <BudgetEntryList entries={entries as unknown as BudgetEntry[]} onEntryClick={(entry) => alert(`Clicked ${entry.description}`)} />
+          <h2 className="text-headline-md font-headline-md mb-2">BudgetEntryList</h2>
+          <BudgetEntryList entries={entries as BudgetEntry[]} onEntryClick={(entry) => alert(`Clicked ${entry.description}`)} />
           
-          <h3 className="text-title-md font-title-md mt-4 mb-2">Empty State</h3>
+          <h3 className="text-headline-sm font-headline-sm mt-4 mb-2">Empty State</h3>
           <BudgetEntryList entries={[]} />
         </section>
       </main>

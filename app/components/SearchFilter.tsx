@@ -56,7 +56,6 @@ export default function SearchFilter({
                       ? 'bg-primary text-on-primary font-bold'
                       : 'bg-surface text-secondary hover:bg-outline hover:text-on-background'
                   }`}
-                  style={{ borderRadius: '0px' }}
                   aria-pressed={isSelected}
                   data-testid={`category-chip-${category}`}
                 >

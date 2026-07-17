@@ -207,15 +207,15 @@ grep -r 'sb-mock-auth' .next/static/    # should return nothing (if Task 20 also
 - Verify CRUD still works end-to-end (the `getOfficerAndClient()` refactor must not break anything).
 
 ## Acceptance Criteria
-- [ ] `EntryForm.tsx` and `EntryTable.tsx` use `error` instead of `accent-red` for error styling.
-- [ ] `SearchFilter.tsx` does not have `style={{ borderRadius: '0px' }}`.
-- [ ] `AdminHeader.tsx:15` `document.cookie` line is removed or gated behind `NODE_ENV`.
-- [ ] `sandbox/page.tsx` uses existing CSS classes (`text-headline-md` etc.) instead of non-existent ones.
-- [ ] `sandbox/page.tsx` padding is `p-margin-mobile md:p-margin` (not reversed).
-- [ ] `sandbox/page.tsx` mock data does not have negative amounts.
-- [ ] `sandbox/page.tsx` does not use `as unknown as BudgetEntry[]`.
-- [ ] `lib/auth/session.ts` exports `getOfficerAndClient()`.
-- [ ] Server actions use `getOfficerAndClient()` — only one `createClient()` call per action.
-- [ ] `npx tsc --noEmit` reports 0 errors.
-- [ ] `npx vitest run` passes.
-- [ ] `npm run build` succeeds.
+- [x] `EntryForm.tsx` and `EntryTable.tsx` use `error` instead of `accent-red` for error styling.
+- [x] `SearchFilter.tsx` does not have `style={{ borderRadius: '0px' }}`.
+- [x] `AdminHeader.tsx:15` `document.cookie` line is removed or gated behind `NODE_ENV`.
+- [x] `sandbox/page.tsx` uses existing CSS classes (`text-headline-md` etc.) instead of non-existent ones.
+- [x] `sandbox/page.tsx` padding is `p-margin-mobile md:p-margin` (not reversed).
+- [x] `sandbox/page.tsx` mock data does not have negative amounts.
+- [x] `sandbox/page.tsx` does not use `as unknown as BudgetEntry[]`.
+- [x] `lib/auth/session.ts` exports `getOfficerAndClient()`.
+- [x] Server actions use `getOfficerAndClient()` — only one `createClient()` call per action.
+- [x] `npx tsc --noEmit` reports 0 errors.
+- [x] `npx vitest run` passes.
+- [x] `npm run build` succeeds.

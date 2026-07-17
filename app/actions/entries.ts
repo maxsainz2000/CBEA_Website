@@ -1,9 +1,8 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { createClient } from '../../lib/supabase/server'
 import { BudgetEntrySchema, BudgetEntry } from '../../lib/types'
-import { getOfficer } from '../../lib/auth/session'
+import { getOfficerAndClient } from '../../lib/auth/session'
 
 export type ActionResponse<T = unknown> =
   | { success: true; data: T }
@@ -11,10 +10,8 @@ export type ActionResponse<T = unknown> =
 
 export async function createEntry(data: unknown): Promise<ActionResponse<BudgetEntry>> {
   try {
-    const supabase = await createClient()
-
-    // 1. Authenticate user
-    const officer = await getOfficer()
+    // 1. Authenticate user and get client
+    const { officer, supabase } = await getOfficerAndClient()
     if (!officer) {
       return { success: false, error: 'Unauthorized: You must be signed in to perform this action.' }
     }
@@ -72,10 +69,8 @@ export async function createEntry(data: unknown): Promise<ActionResponse<BudgetE
 
 export async function updateEntry(id: string, data: unknown): Promise<ActionResponse<BudgetEntry>> {
   try {
-    const supabase = await createClient()
-
-    // 1. Authenticate user
-    const officer = await getOfficer()
+    // 1. Authenticate user and get client
+    const { officer, supabase } = await getOfficerAndClient()
     if (!officer) {
       return { success: false, error: 'Unauthorized: You must be signed in to perform this action.' }
     }
@@ -132,10 +127,8 @@ export async function updateEntry(id: string, data: unknown): Promise<ActionResp
 
 export async function deleteEntry(id: string): Promise<ActionResponse<{ id: string }>> {
   try {
-    const supabase = await createClient()
-
-    // 1. Authenticate user
-    const officer = await getOfficer()
+    // 1. Authenticate user and get client
+    const { officer, supabase } = await getOfficerAndClient()
     if (!officer) {
       return { success: false, error: 'Unauthorized: You must be signed in to perform this action.' }
     }
