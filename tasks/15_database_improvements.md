@@ -155,9 +155,9 @@ npx vitest run
 - Run `\d+ profiles` to confirm the `created_at` column exists.
 
 ## Acceptance Criteria
-- [ ] `supabase/seed.local.sql` exists and contains the `auth` schema stubs.
-- [ ] `supabase/migration.sql` does NOT contain `CREATE SCHEMA auth` or `auth.users` stubs.
-- [ ] `migration.sql` includes `CREATE INDEX ... budget_entries_semester_idx` and `budget_entries_semester_date_idx`.
-- [ ] `profiles` table has a `created_at` column with a UTC default.
-- [ ] `npx vitest run supabase/database.test.ts` passes (8/8).
-- [ ] `migration.sql` can be run in the Supabase SQL editor without errors (assuming `auth.users` already exists).
+- [x] `supabase/seed.local.sql` exists and contains the `auth` schema stubs.
+- [x] `supabase/migration.sql` does NOT contain `CREATE SCHEMA auth` or `auth.users` stubs.
+- [x] `migration.sql` includes `CREATE INDEX ... budget_entries_semester_idx` and `budget_entries_semester_date_idx`.
+- [x] `profiles` table has a `created_at` column with a UTC default.
+- [x] `npx vitest run supabase/database.test.ts` passes (8/8).
+- [x] `migration.sql` can be run in the Supabase SQL editor without errors (assuming `auth.users` already exists).

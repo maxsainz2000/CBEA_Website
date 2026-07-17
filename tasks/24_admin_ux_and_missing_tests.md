@@ -248,12 +248,12 @@ npm run build
   - The stat cards render without hydration flash (if `SummaryStats` is now a server component).
 
 ## Acceptance Criteria
-- [ ] The admin page defaults to the most recent semester (not all entries).
-- [ ] (Optional) `PivotTabs` is added to the admin page for semester switching.
-- [ ] `SummaryStats` is a server component (no `'use client'` directive).
-- [ ] `app/page.tsx` passes `asOfDate` as a prop to `SummaryStats`.
-- [ ] At least 3 new component test files are created (BudgetEntryList, EntryForm, EntryTable).
-- [ ] `npx tsc --noEmit` reports 0 errors.
-- [ ] `npx vitest run` passes (including new tests).
-- [ ] `npx playwright test` passes.
-- [ ] `npm run build` succeeds.
+- [x] The admin page defaults to the most recent semester (not all entries).
+- [x] (Optional) `PivotTabs` is added to the admin page for semester switching.
+- [x] `SummaryStats` is a server component (no `'use client'` directive).
+- [x] `app/page.tsx` passes `asOfDate` as a prop to `SummaryStats`.
+- [x] At least 3 new component test files are created (BudgetEntryList, EntryForm, EntryTable).
+- [x] `npx tsc --noEmit` reports 0 errors.
+- [x] `npx vitest run` passes (including new tests).
+- [x] `npx playwright test` passes.
+- [x] `npm run build` succeeds.

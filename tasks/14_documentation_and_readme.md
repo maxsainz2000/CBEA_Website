@@ -116,8 +116,8 @@ grep -c 'node_modules/next/dist/docs' AGENTS.md
 ```
 
 ## Acceptance Criteria
-- [ ] `README.md` describes the CBEA project, not the create-next-app template.
-- [ ] `README.md` includes Setup, Environment Variables, Scripts, and Stack sections.
-- [ ] `AGENTS.md` points to `https://nextjs.org/docs`, not `node_modules/next/dist/docs/`.
-- [ ] `.env.example` exists and contains no real credentials.
-- [ ] `.env.example` is not gitignored (add `!.env.example` to `.gitignore` if needed).
+- [x] `README.md` describes the CBEA project, not the create-next-app template.
+- [x] `README.md` includes Setup, Environment Variables, Scripts, and Stack sections.
+- [x] `AGENTS.md` points to `https://nextjs.org/docs`, not `node_modules/next/dist/docs/`.
+- [x] `.env.example` exists and contains no real credentials.
+- [x] `.env.example` is not gitignored (add `!.env.example` to `.gitignore` if needed).

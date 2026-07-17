@@ -101,8 +101,8 @@ npm run build
 
 ## Acceptance Criteria
 - [ ] `app/page.tsx` uses `export const revalidate = 60` instead of `export const dynamic = 'force-dynamic'`.
-- [ ] `lib/data/entries.ts` has documentation comments on `getSemesters()` and `getCategories()` explaining the optimization path.
-- [ ] `npm run build` succeeds.
-- [ ] `npx vitest run` passes.
-- [ ] `npx playwright test` passes.
+- [x] `lib/data/entries.ts` has documentation comments on `getSemesters()` and `getCategories()` explaining the optimization path.
+- [x] `npm run build` succeeds.
+- [x] `npx vitest run` passes.
+- [x] `npx playwright test` passes.
 - [ ] The homepage loads from CDN cache on repeat visits (verify via response headers or build output).

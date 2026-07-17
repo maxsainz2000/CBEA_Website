@@ -187,10 +187,10 @@ SELECT COUNT(*) FROM public.budget_entries WHERE description LIKE 'E2E Sponsorsh
 ```
 
 ## Acceptance Criteria
-- [ ] `tests/global-setup.ts` exists and provisions the test user with UUID `d0d0d0d0-...d001`.
-- [ ] `tests/global-teardown.ts` exists and cleans up `E2E Sponsorship %` entries.
-- [ ] `playwright.config.ts` references both `globalSetup` and `globalTeardown`.
-- [ ] `supabase/seed.sql` uses `ON CONFLICT` for idempotency.
-- [ ] A fresh database + `npx playwright test` passes all tests.
-- [ ] No leftover test entries remain after the suite completes.
-- [ ] `npx vitest run` passes.
+- [x] `tests/global-setup.ts` exists and provisions the test user with UUID `d0d0d0d0-...d001`.
+- [x] `tests/global-teardown.ts` exists and cleans up `E2E Sponsorship %` entries.
+- [x] `playwright.config.ts` references both `globalSetup` and `globalTeardown`.
+- [x] `supabase/seed.sql` uses `ON CONFLICT` for idempotency.
+- [x] A fresh database + `npx playwright test` passes all tests.
+- [x] No leftover test entries remain after the suite completes.
+- [x] `npx vitest run` passes.

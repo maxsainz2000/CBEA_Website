@@ -202,11 +202,11 @@ npx vitest run --reporter=verbose 2>&1 | grep -i scratch
 - Verify currency formatting is unchanged on both public and admin pages.
 
 ## Acceptance Criteria
-- [ ] No `console.log` debug statements in `EntryForm.tsx`.
-- [ ] `lib/format/currency.ts` exists; `formatCentavos()` is the single source of truth for currency formatting.
-- [ ] `lib/format/date.ts` exists; `formatISODate()` is the single source of truth for date formatting.
-- [ ] No local `formatAmount` or `formatDate` functions remain in components.
-- [ ] `AdminHeader.tsx` creates the Supabase client inside `handleLogout`, not in the component body.
-- [ ] `vitest.config.ts` excludes `'scratch'`.
-- [ ] `npx vitest run` passes (all tests green, no scratch test output).
-- [ ] No empty `if` blocks remain in admin pages.
+- [x] No `console.log` debug statements in `EntryForm.tsx`.
+- [x] `lib/format/currency.ts` exists; `formatCentavos()` is the single source of truth for currency formatting.
+- [x] `lib/format/date.ts` exists; `formatISODate()` is the single source of truth for date formatting.
+- [x] No local `formatAmount` or `formatDate` functions remain in components.
+- [x] `AdminHeader.tsx` creates the Supabase client inside `handleLogout`, not in the component body.
+- [x] `vitest.config.ts` excludes `'scratch'`.
+- [x] `npx vitest run` passes (all tests green, no scratch test output).
+- [x] No empty `if` blocks remain in admin pages.

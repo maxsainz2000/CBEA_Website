@@ -88,10 +88,10 @@ After `npm run build`, check the route table:
 - The response should NOT have an `x-nextjs-cache: HIT` header (dynamic, not cached).
 
 ## Acceptance Criteria
-- [ ] `app/page.tsx` does NOT have `export const revalidate = 60`.
-- [ ] `app/page.tsx` either has no route-segment config export or has `export const dynamic = 'force-dynamic'`.
-- [ ] A code comment explains the decision (referencing AUDIT-v2 N1).
-- [ ] `npm run build` succeeds.
-- [ ] Build output marks `/` as `ƒ (Dynamic)`.
-- [ ] `npx vitest run` passes.
-- [ ] `npx playwright test` passes.
+- [x] `app/page.tsx` does NOT have `export const revalidate = 60`.
+- [x] `app/page.tsx` either has no route-segment config export or has `export const dynamic = 'force-dynamic'`.
+- [x] A code comment explains the decision (referencing AUDIT-v2 N1).
+- [x] `npm run build` succeeds.
+- [x] Build output marks `/` as `ƒ (Dynamic)`.
+- [x] `npx vitest run` passes.
+- [x] `npx playwright test` passes.
