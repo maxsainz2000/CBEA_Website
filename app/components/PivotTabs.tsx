@@ -64,10 +64,10 @@ export default function PivotTabs({ tabs, activeTab, onTabChange }: PivotTabsPro
       const nextTab = normalizedTabs[nextIndex];
       onTabChange(nextTab.id);
       
-      // Focus the newly active tab after standard event loop turn
+      // Focus the newly active tab before the next paint
       const elementToFocus = tabRefs.current[nextIndex];
       if (elementToFocus) {
-        setTimeout(() => elementToFocus.focus(), 0);
+        requestAnimationFrame(() => elementToFocus.focus());
       }
     }
   };

@@ -81,8 +81,8 @@ npx tsc --noEmit
   - Same keyboard interactions should work correctly.
 
 ## Acceptance Criteria
-- [ ] `PivotTabs.tsx` uses `requestAnimationFrame(() => elementToFocus.focus())` instead of `setTimeout(() => elementToFocus.focus(), 0)`.
-- [ ] `npx vitest run app/components/PivotTabs.test.tsx` passes (3/3 tests).
-- [ ] `npx vitest run` passes.
-- [ ] `npx tsc --noEmit` reports 0 errors.
-- [ ] Keyboard navigation works correctly on both the public homepage and admin semester selector (manual verification).
+- [x] `PivotTabs.tsx` uses `requestAnimationFrame(() => elementToFocus.focus())` instead of `setTimeout(() => elementToFocus.focus(), 0)`.
+- [x] `npx vitest run app/components/PivotTabs.test.tsx` passes (3/3 tests).
+- [x] `npx vitest run` passes.
+- [x] `npx tsc --noEmit` reports 0 errors.
+- [x] Keyboard navigation works correctly on both the public homepage and admin semester selector (manual verification).
