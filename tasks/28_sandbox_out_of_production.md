@@ -137,9 +137,9 @@ Route (app)                                 Size  First Load JS
 - (Option B) Navigate to `/sandbox` in dev mode — should render. In production build — should return 404.
 
 ## Acceptance Criteria
-- [ ] Sandbox page is either deleted from `app/sandbox/` or moved to `app/(dev)/sandbox/` (excluded from production).
-- [ ] `npm run build` succeeds.
-- [ ] Production build output does NOT include the `/sandbox` route.
+- [x] Sandbox page is either deleted from `app/sandbox/` or moved to `app/(dev)/sandbox/` (excluded from production).
+- [x] `npm run build` succeeds.
+- [x] Production build output does NOT include the `/sandbox` route.
 - [ ] (Option B only) Dev server (`npm run dev`) still serves `/sandbox`.
-- [ ] `npx tsc --noEmit` reports 0 errors.
-- [ ] `npx vitest run` passes.
+- [x] `npx tsc --noEmit` reports 0 errors.
+- [x] `npx vitest run` passes.
