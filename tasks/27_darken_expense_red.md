@@ -96,8 +96,8 @@ npx tsc --noEmit
 - Verify the red still reads as "Metro red" — not too dark, not too muted.
 
 ## Acceptance Criteria
-- [ ] `app/theme.css` has `--color-expense`, `--color-error`, and `--color-accent-red` set to `#c81000`.
-- [ ] WebAIM contrast checker confirms the new ratio is ≥ 5.5:1 for `#C81000` on `#FFFFFF`.
-- [ ] Visual review: the expense red still reads as "Metro red" — clearly identifiable as red.
-- [ ] `npm run build` succeeds.
-- [ ] `npx vitest run` passes.
+- [x] `app/theme.css` has `--color-expense`, `--color-error`, and `--color-accent-red` set to `#c81000`.
+- [x] WebAIM contrast checker confirms the new ratio is ≥ 5.5:1 for `#C81000` on `#FFFFFF`.
+- [x] Visual review: the expense red still reads as "Metro red" — clearly identifiable as red.
+- [x] `npm run build` succeeds.
+- [x] `npx vitest run` passes.

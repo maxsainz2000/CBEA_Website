@@ -106,11 +106,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.898,
-          0.078,
+          0.784,
+          0.063,
           0
         ],
-        "hex": "#e51400"
+        "hex": "#c81000"
       }
     },
     "on-expense": {
@@ -128,11 +128,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.898,
-          0.078,
+          0.784,
+          0.063,
           0
         ],
-        "hex": "#e51400"
+        "hex": "#c81000"
       }
     },
     "warning": {
@@ -216,11 +216,11 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.898,
-          0.078,
+          0.784,
+          0.063,
           0
         ],
-        "hex": "#e51400"
+        "hex": "#c81000"
       }
     },
     "accent-orange": {

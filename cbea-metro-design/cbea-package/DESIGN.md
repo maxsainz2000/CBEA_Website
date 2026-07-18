@@ -13,9 +13,9 @@ colors:
   outline: "#E0E0E0"
   income: "#2D7A2D"
   on-income: "#FFFFFF"
-  expense: "#E51400"
+  expense: "#C81000"
   on-expense: "#FFFFFF"
-  error: "#E51400"
+  error: "#C81000"
   warning: "#F09609"
   accent-blue: "#1BA1E2"
   accent-brown: "#A05000"
@@ -23,7 +23,7 @@ colors:
   accent-purple: "#A200FF"
   accent-teal: "#00ABA9"
   accent-green: "#339933"
-  accent-red: "#E51400"
+  accent-red: "#C81000"
   accent-orange: "#F09609"
   accent-pink: "#E671B8"
   accent-lime: "#8CBF26"
@@ -266,7 +266,7 @@ The color logic is severe by design, in service of trust. The background is pure
 | Role | Token | Hex | Usage | Contrast (white on fill / fill on white) |
 |:-----|:------|:----|:------|:-----------------------------------------|
 | Income (positive flow) | `colors.income` | #2D7A2D | Income entry indicators, positive totals, "paid" badges | 5.35:1 / 5.35:1 (AA pass both ways) |
-| Expense (negative flow) | `colors.expense` | #E51400 | Expense entry indicators, negative totals, "flagged" badges, delete buttons | 5.25:1 / 5.25:1 (AA pass both ways) |
+| Expense (negative flow) | `colors.expense` | #C81000 | Expense entry indicators, negative totals, "flagged" badges, delete buttons | 5.83:1 / 5.83:1 (AA pass both ways) |
 
 The income green is darkened from the canonical WP7 #339933 to #2D7A2D so it passes WCAG AA both as fill behind white text AND as text on white background. The authentic WP7 value is preserved as `accent-green` for theme-alternate purposes. The "remaining balance" stat does not need its own color: if positive it uses `on-background` (black), if negative it uses `expense` (red) — two semantic colors are sufficient.
 
