@@ -140,6 +140,7 @@ This will cause a hydration error.
 ```
 
 ## Acceptance Criteria
-- [ ] `app/layout.test.tsx` no longer produces the "In HTML, `<html>` cannot be a child of `<div>`" hydration warning.
-- [ ] `npx vitest run` passes with no warnings from `layout.test.tsx`.
-- [ ] `npx tsc --noEmit` reports 0 errors.
+- [x] `app/layout.test.tsx` no longer produces the "In HTML, `<html>` cannot be a child of `<div>`" hydration warning.
+- [x] `npx vitest run` passes with no warnings from `layout.test.tsx`.
+- [x] `npx tsc --noEmit` reports 0 errors.
+
