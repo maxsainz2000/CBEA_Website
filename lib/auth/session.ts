@@ -11,9 +11,9 @@ export async function getOfficer(): Promise<Officer | null> {
   // Real auth path
   const supabase = await createClient()
   try {
-    const { data, error } = await supabase.auth.getUser()
-    if (error || !data.user) return null
-    return { id: data.user.id, email: data.user.email ?? '' }
+    const { data, error } = await supabase.auth.getClaims()
+    if (error || !data || !data.claims.sub) return null
+    return { id: data.claims.sub, email: data.claims.email ?? '' }
   } catch {
     return null
   }
@@ -25,10 +25,10 @@ export async function getOfficerAndClient(): Promise<{
 }> {
   const supabase = await createClient()
   try {
-    const { data, error } = await supabase.auth.getUser()
-    if (error || !data.user) return { officer: null, supabase }
+    const { data, error } = await supabase.auth.getClaims()
+    if (error || !data || !data.claims.sub) return { officer: null, supabase }
     return {
-      officer: { id: data.user.id, email: data.user.email ?? '' },
+      officer: { id: data.claims.sub, email: data.claims.email ?? '' },
       supabase,
     }
   } catch {

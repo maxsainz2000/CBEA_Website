@@ -11,9 +11,9 @@ import { cookies } from 'next/headers'
 import { NextRequest } from 'next/server'
 
 // Mock @supabase/ssr
-const mockGetUser = vi.fn()
+const mockGetClaims = vi.fn()
 const mockAuth = {
-  getUser: mockGetUser,
+  getClaims: mockGetClaims,
 }
 const mockSupabaseClient = {
   auth: mockAuth,
@@ -100,19 +100,19 @@ describe('Supabase Client and Middleware Setup', () => {
 
   describe('Middleware Session and Auth Guard', () => {
     it('should allow public page requests and pass through', async () => {
-      mockGetUser.mockResolvedValue({ data: { user: null } })
+      mockGetClaims.mockResolvedValue({ data: null, error: null })
       
       const request = new NextRequest('http://localhost/')
       const response = await updateSession(request)
       
       expect(response).toBeDefined()
       expect(response.status).toBe(200) // OK passthrough
-      // Verify getUser was called to refresh session
-      expect(mockGetUser).toHaveBeenCalled()
+      // Verify getClaims was called to refresh session
+      expect(mockGetClaims).toHaveBeenCalled()
     })
 
     it('should redirect unauthenticated users from /admin to /login', async () => {
-      mockGetUser.mockResolvedValue({ data: { user: null } })
+      mockGetClaims.mockResolvedValue({ data: null, error: null })
       
       const request = new NextRequest('http://localhost/admin')
       const response = await updateSession(request)
@@ -123,7 +123,12 @@ describe('Supabase Client and Middleware Setup', () => {
     })
 
     it('should allow authenticated users on /admin and pass through', async () => {
-      mockGetUser.mockResolvedValue({ data: { user: { id: 'user-123' } } })
+      mockGetClaims.mockResolvedValue({
+        data: {
+          claims: { sub: 'user-123', email: 'u@e.ph' }
+        },
+        error: null
+      })
       
       const request = new NextRequest('http://localhost/admin')
       const response = await updateSession(request)
@@ -133,7 +138,12 @@ describe('Supabase Client and Middleware Setup', () => {
     })
 
     it('should redirect authenticated users from /login to /admin', async () => {
-      mockGetUser.mockResolvedValue({ data: { user: { id: 'user-123' } } })
+      mockGetClaims.mockResolvedValue({
+        data: {
+          claims: { sub: 'user-123', email: 'u@e.ph' }
+        },
+        error: null
+      })
       
       const request = new NextRequest('http://localhost/login')
       const response = await updateSession(request)
@@ -144,7 +154,7 @@ describe('Supabase Client and Middleware Setup', () => {
     })
 
     it('should allow unauthenticated users on /login and pass through', async () => {
-      mockGetUser.mockResolvedValue({ data: { user: null } })
+      mockGetClaims.mockResolvedValue({ data: null, error: null })
       
       const request = new NextRequest('http://localhost/login')
       const response = await updateSession(request)

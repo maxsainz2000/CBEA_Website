@@ -34,11 +34,15 @@ export async function updateSession(request: NextRequest) {
     },
   })
 
-  // IMPORTANT: Use getUser() instead of getSession() to prevent cookie spoofing
+  // IMPORTANT: Use getClaims() to validate JWT signature locally and protect routes
   let user: { id: string; email?: string } | null = null
   try {
-    const { data } = await supabase.auth.getUser()
-    user = data.user
+    const { data, error } = await supabase.auth.getClaims()
+    if (error || !data) {
+      user = null
+    } else {
+      user = { id: data.claims.sub ?? '', email: data.claims.email }
+    }
   } catch {
     user = null
   }
