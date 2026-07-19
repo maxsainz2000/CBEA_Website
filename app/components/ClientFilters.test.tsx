@@ -96,7 +96,9 @@ describe('ClientFilters Component', () => {
     fireEvent.click(allChip);
 
     expect(mockPush).toHaveBeenCalledTimes(1);
-    expect(mockPush).not.toContain('category=');
+    expect(mockPush).not.toHaveBeenCalledWith(
+      expect.stringContaining('category=')
+    );
   });
 
   it('debounces search input updates and pushes to router', () => {

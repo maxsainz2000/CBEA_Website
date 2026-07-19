@@ -68,6 +68,6 @@ npx vitest run
 - Verify the fixed test actually catches a regression (see Step 3 above).
 
 ## Acceptance Criteria
-- [ ] `app/components/ClientFilters.test.tsx` line 99 uses `expect(mockPush).not.toHaveBeenCalledWith(...)` (not `.not.toContain(...)`).
-- [ ] `npx vitest run app/components/ClientFilters.test.tsx` passes (5/5 tests).
-- [ ] `npx vitest run` passes.
+- [x] `app/components/ClientFilters.test.tsx` line 99 uses `expect(mockPush).not.toHaveBeenCalledWith(...)` (not `.not.toContain(...)`).
+- [x] `npx vitest run app/components/ClientFilters.test.tsx` passes (5/5 tests).
+- [x] `npx vitest run` passes.
