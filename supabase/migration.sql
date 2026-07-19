@@ -116,3 +116,9 @@ CREATE INDEX IF NOT EXISTS budget_entries_semester_idx
 
 CREATE INDEX IF NOT EXISTS budget_entries_semester_date_idx
   ON public.budget_entries (semester, date DESC);
+
+-- Index for RLS ownership lookups: WHERE entered_by = auth.uid()
+-- Also supports ON DELETE SET NULL cascade from profiles
+CREATE INDEX IF NOT EXISTS budget_entries_entered_by_idx
+  ON public.budget_entries (entered_by);
+

@@ -105,6 +105,14 @@ describe('Database Schema & Migration Setup', () => {
     expect(newUpdatedAt).toBeGreaterThan(originalUpdatedAt);
   });
 
+  it('should have an index on entered_by for RLS lookups', async () => {
+    const result = await db.query(`
+      SELECT indexname FROM pg_indexes
+      WHERE tablename = 'budget_entries' AND indexname = 'budget_entries_entered_by_idx'
+    `);
+    expect(result.rows.length).toBe(1);
+  });
+
   describe('Row Level Security (RLS) Policies', () => {
     it('should allow public (anonymous) read access on budget_entries and profiles', async () => {
       await db.exec('SET ROLE anon;');

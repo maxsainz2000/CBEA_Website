@@ -65,6 +65,6 @@ npx vitest run
 - Should return 1 row.
 
 ## Acceptance Criteria
-- [ ] `supabase/migration.sql` contains `CREATE INDEX IF NOT EXISTS budget_entries_entered_by_idx ON public.budget_entries (entered_by);`.
-- [ ] `npx vitest run supabase/database.test.ts` passes (9 existing + 1 new test).
-- [ ] `npx vitest run` passes.
+- [x] `supabase/migration.sql` contains `CREATE INDEX IF NOT EXISTS budget_entries_entered_by_idx ON public.budget_entries (entered_by);`.
+- [x] `npx vitest run supabase/database.test.ts` passes (9 existing + 1 new test).
+- [x] `npx vitest run` passes.
