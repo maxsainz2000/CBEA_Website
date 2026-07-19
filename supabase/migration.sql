@@ -110,12 +110,21 @@ GRANT SELECT ON public.budget_entries TO anon, authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.profiles TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.budget_entries TO authenticated;
 
--- Index for the primary public query: WHERE semester = ? ORDER BY date DESC
-CREATE INDEX IF NOT EXISTS budget_entries_semester_idx
-  ON public.budget_entries (semester);
+-- Drop redundant single-col index (covered by composite below)
+DROP INDEX IF EXISTS public.budget_entries_semester_idx;
 
-CREATE INDEX IF NOT EXISTS budget_entries_semester_date_idx
-  ON public.budget_entries (semester, date DESC);
+-- Composite index for getEntries: WHERE semester=? AND category=? ORDER BY date DESC
+CREATE INDEX IF NOT EXISTS budget_entries_semester_category_date_idx
+  ON public.budget_entries (semester, category, date DESC);
+
+-- Covering index for getSummaryStats: SELECT type, amount WHERE semester=?
+CREATE INDEX IF NOT EXISTS budget_entries_semester_covering_idx
+  ON public.budget_entries (semester) INCLUDE (type, amount);
+
+-- Extended composite for getEntries multi-key ORDER BY
+DROP INDEX IF EXISTS public.budget_entries_semester_date_idx;
+CREATE INDEX IF NOT EXISTS budget_entries_semester_date_created_idx
+  ON public.budget_entries (semester, date DESC, created_at DESC);
 
 -- Index for RLS ownership lookups: WHERE entered_by = auth.uid()
 -- Also supports ON DELETE SET NULL cascade from profiles

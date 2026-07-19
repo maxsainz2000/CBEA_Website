@@ -100,9 +100,9 @@ npx vitest run
 - After applying to production, run `EXPLAIN ANALYZE` on the `getEntries` and `getSummaryStats` query patterns to verify index usage.
 
 ## Acceptance Criteria
-- [ ] `budget_entries_semester_idx` is dropped (redundant).
-- [ ] `budget_entries_semester_category_date_idx` exists on `(semester, category, date DESC)`.
-- [ ] `budget_entries_semester_covering_idx` exists on `(semester) INCLUDE (type, amount)`.
-- [ ] `budget_entries_semester_date_created_idx` exists on `(semester, date DESC, created_at DESC)`.
-- [ ] `npx vitest run supabase/database.test.ts` passes (all existing + new index tests).
-- [ ] `npx vitest run` passes.
+- [x] `budget_entries_semester_idx` is dropped (redundant).
+- [x] `budget_entries_semester_category_date_idx` exists on `(semester, category, date DESC)`.
+- [x] `budget_entries_semester_covering_idx` exists on `(semester) INCLUDE (type, amount)`.
+- [x] `budget_entries_semester_date_created_idx` exists on `(semester, date DESC, created_at DESC)`.
+- [x] `npx vitest run supabase/database.test.ts` passes (all existing + new index tests).
+- [x] `npx vitest run` passes.

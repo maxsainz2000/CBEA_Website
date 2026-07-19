@@ -113,6 +113,38 @@ describe('Database Schema & Migration Setup', () => {
     expect(result.rows.length).toBe(1);
   });
 
+  it('should have composite index for getEntries query pattern', async () => {
+    const result = await db.query(`
+      SELECT indexname FROM pg_indexes
+      WHERE tablename = 'budget_entries' AND indexname = 'budget_entries_semester_category_date_idx'
+    `);
+    expect(result.rows.length).toBe(1);
+  });
+
+  it('should have covering index for getSummaryStats query pattern', async () => {
+    const result = await db.query(`
+      SELECT indexname FROM pg_indexes
+      WHERE tablename = 'budget_entries' AND indexname = 'budget_entries_semester_covering_idx'
+    `);
+    expect(result.rows.length).toBe(1);
+  });
+
+  it('should have extended composite for multi-key ORDER BY', async () => {
+    const result = await db.query(`
+      SELECT indexname FROM pg_indexes
+      WHERE tablename = 'budget_entries' AND indexname = 'budget_entries_semester_date_created_idx'
+    `);
+    expect(result.rows.length).toBe(1);
+  });
+
+  it('should NOT have the redundant budget_entries_semester_idx', async () => {
+    const result = await db.query(`
+      SELECT indexname FROM pg_indexes
+      WHERE tablename = 'budget_entries' AND indexname = 'budget_entries_semester_idx'
+    `);
+    expect(result.rows.length).toBe(0);
+  });
+
   describe('Row Level Security (RLS) Policies', () => {
     it('should allow public (anonymous) read access on budget_entries and profiles', async () => {
       await db.exec('SET ROLE anon;');
