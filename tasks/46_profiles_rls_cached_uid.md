@@ -74,7 +74,7 @@ npx vitest run
 - After applying to production, verify profile update/insert still works correctly.
 
 ## Acceptance Criteria
-- [ ] All `profiles` RLS policies use `(select auth.uid())` instead of `auth.uid()`.
-- [ ] All RLS policies in `supabase/migration.sql` consistently use the `(select auth.uid())` form.
-- [ ] `npx vitest run supabase/database.test.ts` passes.
-- [ ] `npx vitest run` passes.
+- [x] All `profiles` RLS policies use `(select auth.uid())` instead of `auth.uid()`.
+- [x] All RLS policies in `supabase/migration.sql` consistently use the `(select auth.uid())` form.
+- [x] `npx vitest run supabase/database.test.ts` passes.
+- [x] `npx vitest run` passes.

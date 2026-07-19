@@ -81,12 +81,12 @@ CREATE POLICY "Allow public read access on profiles" ON public.profiles
 DROP POLICY IF EXISTS "Allow authenticated users to update own profile" ON public.profiles;
 CREATE POLICY "Allow authenticated users to update own profile" ON public.profiles
     FOR UPDATE TO authenticated
-    USING (auth.uid() = id)
-    WITH CHECK (auth.uid() = id);
+    USING ((select auth.uid()) = id)
+    WITH CHECK ((select auth.uid()) = id);
 
 DROP POLICY IF EXISTS "Allow authenticated users to insert own profile" ON public.profiles;
 CREATE POLICY "Allow authenticated users to insert own profile" ON public.profiles
-    FOR INSERT WITH CHECK (auth.uid() = id);
+    FOR INSERT WITH CHECK ((select auth.uid()) = id);
 
 -- RLS policies for budget_entries
 DROP POLICY IF EXISTS "Allow public read access on budget_entries" ON public.budget_entries;
