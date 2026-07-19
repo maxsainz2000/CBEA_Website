@@ -26,3 +26,5 @@ The following agent skills have been installed locally in this workspace under t
    - **Description**: Use when doing ANY task involving Supabase. Covers Database, Auth, Edge Functions, Realtime, Storage, Vectors, Cron, Queues, client libraries, SSR integrations, schema changes, migrations, and extensions.
 2. **[supabase-postgres-best-practices](file:///c:/Users/Admin/Documents/CBEA_Website/.agents/skills/supabase-postgres-best-practices)**
    - **Description**: Postgres performance optimization and best practices from Supabase. Use this skill when writing, reviewing, or optimizing Postgres queries, schema designs, or database configurations.
+3. **vercel-plugin**
+   - **Description**: Build and deploy web apps. Integrated via `npx plugins add vercel/vercel-plugin`. Provides 30 skills, 5 cmds, hooks, and MCP integration.
