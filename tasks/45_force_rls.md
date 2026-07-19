@@ -56,7 +56,7 @@ npx vitest run
 - After applying to production, run a query as the `postgres` role and verify RLS policies are enforced.
 
 ## Acceptance Criteria
-- [ ] `supabase/migration.sql` has `ALTER TABLE public.profiles FORCE ROW LEVEL SECURITY;`.
-- [ ] `supabase/migration.sql` has `ALTER TABLE public.budget_entries FORCE ROW LEVEL SECURITY;`.
-- [ ] `npx vitest run supabase/database.test.ts` passes.
-- [ ] `npx vitest run` passes.
+- [x] `supabase/migration.sql` has `ALTER TABLE public.profiles FORCE ROW LEVEL SECURITY;`.
+- [x] `supabase/migration.sql` has `ALTER TABLE public.budget_entries FORCE ROW LEVEL SECURITY;`.
+- [x] `npx vitest run supabase/database.test.ts` passes.
+- [x] `npx vitest run` passes.

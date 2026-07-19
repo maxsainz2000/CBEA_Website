@@ -68,7 +68,10 @@ CREATE TRIGGER update_budget_entries_updated_at
 
 -- 7. Row Level Security (RLS) Configuration
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.profiles FORCE ROW LEVEL SECURITY;
+
 ALTER TABLE public.budget_entries ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.budget_entries FORCE ROW LEVEL SECURITY;
 
 -- RLS policies for profiles
 DROP POLICY IF EXISTS "Allow public read access on profiles" ON public.profiles;
