@@ -65,7 +65,7 @@ npm run build
 - Verify that Delete buttons are NOT visible in the print preview.
 
 ## Acceptance Criteria
-- [ ] `app/theme.css` `@media print` block includes `.btn-ghost-danger` in the `display: none` list.
-- [ ] `cbea-metro-design/cbea-package/app/theme.css` has the same change.
-- [ ] `npm run build` succeeds (no CSS syntax errors).
-- [ ] Delete buttons are hidden in print preview.
+- [x] `app/theme.css` `@media print` block includes `.btn-ghost-danger` in the `display: none` list.
+- [x] `cbea-metro-design/cbea-package/app/theme.css` has the same change.
+- [x] `npm run build` succeeds (no CSS syntax errors).
+- [x] Delete buttons are hidden in print preview.

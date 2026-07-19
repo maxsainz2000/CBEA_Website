@@ -259,6 +259,19 @@
 }
 .btn-ghost:hover { text-decoration: underline; }
 
+.btn-ghost-danger {
+  background: transparent;
+  color: var(--color-expense);
+  font-family: var(--font-body-sm-strong);
+  font-weight: var(--font-weight-body-sm-strong);
+  border: 0;
+  border-radius: 0;
+  height: var(--spacing-touch-target);
+  padding: 0 var(--spacing-md);
+  cursor: pointer;
+}
+.btn-ghost-danger:hover { text-decoration: underline; }
+
 .btn-danger {
   background-color: var(--color-expense);
   color: var(--color-on-expense);
@@ -329,7 +342,7 @@
 @media print {
   .stat-card,
   .data-table tbody tr:hover { background: transparent !important; }
-  .btn-primary, .btn-ghost, .btn-danger,
+  .btn-primary, .btn-ghost, .btn-ghost-danger, .btn-danger,
   .pivot-tab, .status-badge { display: none !important; }
   .budget-entry { page-break-inside: avoid; }
   body { color: #000; background: #fff; }

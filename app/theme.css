@@ -342,7 +342,7 @@
 @media print {
   .stat-card,
   .data-table tbody tr:hover { background: transparent !important; }
-  .btn-primary, .btn-ghost, .btn-danger,
+  .btn-primary, .btn-ghost, .btn-ghost-danger, .btn-danger,
   .pivot-tab, .status-badge { display: none !important; }
   .budget-entry { page-break-inside: avoid; }
   body { color: #000; background: #fff; }
