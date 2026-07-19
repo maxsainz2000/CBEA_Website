@@ -74,6 +74,7 @@ export async function updateEntry(id: string, data: unknown): Promise<ActionResp
     if (!officer) {
       return { success: false, error: 'Unauthorized: You must be signed in to perform this action.' }
     }
+    const userId = officer.id
 
     // 2. Validate input schema
     const validation = BudgetEntrySchema.safeParse(data)
@@ -105,12 +106,16 @@ export async function updateEntry(id: string, data: unknown): Promise<ActionResp
         status: validData.status,
       })
       .eq('id', id)
+      .eq('entered_by', userId)
       .select()
       .single()
 
     if (dbError) {
+      if (dbError.code === 'PGRST116') {
+        return { success: false, error: 'Entry not found or you do not have permission to modify it.' }
+      }
       console.error('Database update error:', dbError)
-      return { success: false, error: dbError.message }
+      return { success: false, error: 'Failed to update entry. Please try again.' }
     }
 
     // 5. Bust caches
@@ -132,16 +137,22 @@ export async function deleteEntry(id: string): Promise<ActionResponse<{ id: stri
     if (!officer) {
       return { success: false, error: 'Unauthorized: You must be signed in to perform this action.' }
     }
+    const userId = officer.id
 
     // 2. Delete database record
-    const { error: dbError } = await supabase
+    const { error: dbError, count } = await supabase
       .from('budget_entries')
-      .delete()
+      .delete({ count: 'exact' })
       .eq('id', id)
+      .eq('entered_by', userId)
 
     if (dbError) {
       console.error('Database delete error:', dbError)
-      return { success: false, error: dbError.message }
+      return { success: false, error: 'Failed to delete entry. Please try again.' }
+    }
+
+    if (count === 0) {
+      return { success: false, error: 'Entry not found or you do not have permission to delete it.' }
     }
 
     // 3. Bust caches

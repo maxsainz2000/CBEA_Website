@@ -116,10 +116,10 @@ npx tsc --noEmit
 - Should see "Entry not found or you do not have permission" error (NOT a raw Postgres error).
 
 ## Acceptance Criteria
-- [ ] `updateEntry` includes `.eq('entered_by', userId)` in the update query.
-- [ ] `deleteEntry` includes `.eq('entered_by', userId)` in the delete query.
-- [ ] `updateEntry` returns "Entry not found or you do not have permission to modify it." on PGRST116 error.
-- [ ] `deleteEntry` returns "Entry not found or you do not have permission to delete it." when `count === 0`.
-- [ ] `npx vitest run app/actions/entries.test.ts` passes (all 12 existing + 2 new tests).
-- [ ] `npx vitest run` passes.
-- [ ] `npx tsc --noEmit` reports 0 errors.
+- [x] `updateEntry` includes `.eq('entered_by', userId)` in the update query.
+- [x] `deleteEntry` includes `.eq('entered_by', userId)` in the delete query.
+- [x] `updateEntry` returns "Entry not found or you do not have permission to modify it." on PGRST116 error.
+- [x] `deleteEntry` returns "Entry not found or you do not have permission to delete it." when `count === 0`.
+- [x] `npx vitest run app/actions/entries.test.ts` passes (all 12 existing + 2 new tests).
+- [x] `npx vitest run` passes.
+- [x] `npx tsc --noEmit` reports 0 errors.

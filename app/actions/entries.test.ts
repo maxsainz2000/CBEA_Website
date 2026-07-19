@@ -25,10 +25,12 @@ import { SupabaseClient } from '@supabase/supabase-js'
 class MockQuery {
   private data: unknown
   private error: unknown
+  private count: number | null
 
-  constructor(data: unknown, error: unknown = null) {
+  constructor(data: unknown, error: unknown = null, count: number | null = null) {
     this.data = data
     this.error = error
+    this.count = count
   }
 
   select = vi.fn().mockReturnValue(this)
@@ -39,17 +41,17 @@ class MockQuery {
   ilike = vi.fn().mockReturnValue(this)
   order = vi.fn().mockReturnValue(this)
   single = vi.fn().mockImplementation(async () => {
-    return { data: Array.isArray(this.data) ? this.data[0] : this.data, error: this.error }
+    return { data: Array.isArray(this.data) ? this.data[0] : this.data, error: this.error, count: this.count }
   })
   maybeSingle = vi.fn().mockImplementation(async () => {
-    return { data: Array.isArray(this.data) ? this.data[0] : this.data, error: this.error }
+    return { data: Array.isArray(this.data) ? this.data[0] : this.data, error: this.error, count: this.count }
   })
 
-  then<TResult1 = { data: unknown; error: unknown }, TResult2 = never>(
-    onfulfilled?: ((value: { data: unknown; error: unknown }) => TResult1 | PromiseLike<TResult1>) | null,
+  then<TResult1 = { data: unknown; error: unknown; count: number | null }, TResult2 = never>(
+    onfulfilled?: ((value: { data: unknown; error: unknown; count: number | null }) => TResult1 | PromiseLike<TResult1>) | null,
     onrejected?: ((reason: unknown) => TResult2 | PromiseLike<TResult2>) | null
   ): Promise<TResult1 | TResult2> {
-    return Promise.resolve({ data: this.data, error: this.error }).then(onfulfilled, onrejected)
+    return Promise.resolve({ data: this.data, error: this.error, count: this.count }).then(onfulfilled, onrejected)
   }
 }
 
@@ -280,7 +282,7 @@ describe('Budget Entries API and Server Actions', () => {
     })
 
     it('should delete entry by id', async () => {
-      currentMockQuery = new MockQuery({ id: 'delete-uuid' })
+      currentMockQuery = new MockQuery({ id: 'delete-uuid' }, null, 1)
 
       const result = await deleteEntry('delete-uuid')
 
@@ -291,6 +293,38 @@ describe('Budget Entries API and Server Actions', () => {
       expect(currentMockQuery.delete).toHaveBeenCalled()
       expect(revalidatePath).toHaveBeenCalledWith('/')
       expect(revalidatePath).toHaveBeenCalledWith('/admin')
+    })
+
+    it('returns friendly error when officer tries to update another user\'s entry', async () => {
+      currentMockQuery = new MockQuery(null, { code: 'PGRST116', message: 'JSON object requested, multiple (or no) rows returned' })
+
+      const result = await updateEntry('another-user-entry-uuid', {
+        type: 'expense',
+        description: 'Office supplies',
+        category: 'Supplies',
+        amount: 99.99,
+        date: '2026-07-12',
+        semester: '1st Sem',
+        academic_year: '2025-2026',
+        notes: 'Paper and pens',
+        status: 'paid',
+      })
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBe('Entry not found or you do not have permission to modify it.')
+      }
+    })
+
+    it('returns friendly error when officer tries to delete another user\'s entry', async () => {
+      currentMockQuery = new MockQuery(null, null, 0)
+
+      const result = await deleteEntry('another-user-entry-uuid')
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBe('Entry not found or you do not have permission to delete it.')
+      }
     })
   })
 
