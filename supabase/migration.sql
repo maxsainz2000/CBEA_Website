@@ -140,3 +140,17 @@ CREATE OR REPLACE VIEW public.distinct_categories WITH (security_invoker = on) A
 
 GRANT SELECT ON public.distinct_semesters TO anon, authenticated;
 GRANT SELECT ON public.distinct_categories TO anon, authenticated;
+
+-- Domain integrity constraints (mirror app-layer dropdown restrictions)
+ALTER TABLE public.budget_entries
+  ADD CONSTRAINT budget_entries_semester_check
+  CHECK (semester IN ('1st Sem', '2nd Sem', 'Summer'));
+
+ALTER TABLE public.budget_entries
+  ADD CONSTRAINT budget_entries_academic_year_check
+  CHECK (academic_year ~ '^\d{4}-\d{4}$');
+
+ALTER TABLE public.profiles
+  ADD CONSTRAINT profiles_role_check
+  CHECK (role IN ('Treasurer', 'Auditor', 'President', 'Vice President', 'Secretary'));
+

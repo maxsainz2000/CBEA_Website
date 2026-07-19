@@ -66,6 +66,76 @@ describe('Database Schema & Migration Setup', () => {
     ).rejects.toThrow(/violates check constraint/i);
   });
 
+  it('should enforce Check Constraint semester on budget_entries', async () => {
+    // Invalid semester '1st semm'
+    await expect(
+      db.query(`
+        INSERT INTO public.budget_entries (type, description, category, amount, date, semester, academic_year, entered_by)
+        VALUES ('income', 'Test Invalid Semester', 'Testing', 100, '2025-09-05', '1st semm', '2025-2026', 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001')
+      `)
+    ).rejects.toThrow(/violates check constraint/i);
+
+    // Valid semesters: '1st Sem', '2nd Sem', 'Summer' should all succeed
+    for (const sem of ['1st Sem', '2nd Sem', 'Summer']) {
+      await expect(
+        db.query(`
+          INSERT INTO public.budget_entries (type, description, category, amount, date, semester, academic_year, entered_by)
+          VALUES ('income', 'Test Sem ' || $1, 'Testing', 100, '2025-09-05', $1, '2025-2026', 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001')
+        `, [sem])
+      ).resolves.toBeDefined();
+    }
+  });
+
+  it('should enforce Check Constraint academic_year on budget_entries', async () => {
+    // Invalid format '2025'
+    await expect(
+      db.query(`
+        INSERT INTO public.budget_entries (type, description, category, amount, date, semester, academic_year, entered_by)
+        VALUES ('income', 'Test Invalid AY', 'Testing', 100, '2025-09-05', '1st Sem', '2025', 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001')
+      `)
+    ).rejects.toThrow(/violates check constraint/i);
+
+    // Invalid format '2025-202'
+    await expect(
+      db.query(`
+        INSERT INTO public.budget_entries (type, description, category, amount, date, semester, academic_year, entered_by)
+        VALUES ('income', 'Test Invalid AY', 'Testing', 100, '2025-09-05', '1st Sem', '2025-202', 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001')
+      `)
+    ).rejects.toThrow(/violates check constraint/i);
+
+    // Valid format '2025-2026' should succeed
+    await expect(
+      db.query(`
+        INSERT INTO public.budget_entries (type, description, category, amount, date, semester, academic_year, entered_by)
+        VALUES ('income', 'Test Valid AY', 'Testing', 100, '2025-09-05', '1st Sem', '2025-2026', 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001')
+      `)
+    ).resolves.toBeDefined();
+  });
+
+  it('should enforce Check Constraint role on profiles', async () => {
+    const profileId = 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001';
+
+    // Invalid role 'Hacker'
+    await expect(
+      db.query(`
+        UPDATE public.profiles
+        SET role = 'Hacker'
+        WHERE id = $1
+      `, [profileId])
+    ).rejects.toThrow(/violates check constraint/i);
+
+    // Valid roles: 'Treasurer', 'Auditor', 'President', 'Vice President', 'Secretary' should succeed
+    for (const role of ['Treasurer', 'Auditor', 'President', 'Vice President', 'Secretary']) {
+      await expect(
+        db.query(`
+          UPDATE public.profiles
+          SET role = $1
+          WHERE id = $2
+        `, [role, profileId])
+      ).resolves.toBeDefined();
+    }
+  });
+
   it('should auto-update updated_at column on budget_entries update via trigger', async () => {
     const entryId = 'b0000000-0000-0000-0000-000000000001';
     

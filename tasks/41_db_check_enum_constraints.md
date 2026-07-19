@@ -108,10 +108,10 @@ npm run build
 - In the admin panel, verify the entry form still works correctly with valid semester/academic year values.
 
 ## Acceptance Criteria
-- [ ] `supabase/migration.sql` has `budget_entries_semester_check` constraint.
-- [ ] `supabase/migration.sql` has `budget_entries_academic_year_check` constraint.
-- [ ] `supabase/migration.sql` has `profiles_role_check` constraint.
-- [ ] `lib/types.ts` uses `z.enum()` for `semester` and `z.string().regex()` for `academic_year`.
-- [ ] `npx vitest run supabase/database.test.ts` passes (all existing + new constraint tests).
-- [ ] `npx vitest run` passes.
-- [ ] `npx tsc --noEmit` reports 0 errors.
+- [x] `supabase/migration.sql` has `budget_entries_semester_check` constraint.
+- [x] `supabase/migration.sql` has `budget_entries_academic_year_check` constraint.
+- [x] `supabase/migration.sql` has `profiles_role_check` constraint.
+- [x] `lib/types.ts` uses `z.enum()` for `semester` and `z.string().regex()` for `academic_year`.
+- [x] `npx vitest run supabase/database.test.ts` passes (all existing + new constraint tests).
+- [x] `npx vitest run` passes.
+- [x] `npx tsc --noEmit` reports 0 errors.

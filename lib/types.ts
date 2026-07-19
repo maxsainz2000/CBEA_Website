@@ -29,8 +29,10 @@ export const BudgetEntrySchema = z.object({
       { message: "Amount must have at most 2 decimal places" }
     ),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format (YYYY-MM-DD)"),
-  semester: z.string().min(1, "Semester is required"),
-  academic_year: z.string().min(1, "Academic year is required"),
+  semester: z.enum(['1st Sem', '2nd Sem', 'Summer'], {
+    errorMap: () => ({ message: 'Semester must be 1st Sem, 2nd Sem, or Summer' }),
+  }),
+  academic_year: z.string().regex(/^\d{4}-\d{4}$/, 'Academic year must be YYYY-YYYY format'),
   notes: z.string().nullable().optional(),
   status: z.enum(['paid', 'pending', 'flagged']).default('paid'),
 })
