@@ -350,6 +350,8 @@ The shape language is **squared angles**. Corner radius is 0px by default for ev
 
 The `rounded` tokens encode this: `none`, `sm`, `md`, `lg` are all 0px; only `full` (9999px) is non-zero, reserved for circular elements (a council logo mark, a user avatar in the admin panel, the loading-progress dots).
 
+- **Exception:** circular spinners and loading indicators use `rounded-full` (defined as `--radius-full: 9999px` in `app/theme.css`) — this is the only allowed deviation from the zero-radius rule.
+
 Mixing rounded and sharp corners in the same view is forbidden. If a single circular element appears (the logo, an avatar), it must be the only circular element in its immediate visual context; everything around it stays squared.
 
 ## Components

@@ -49,5 +49,5 @@ No code changes — documentation only.
 - Open `DESIGN.md` and verify the same.
 
 ## Acceptance Criteria
-- [ ] `README.md` documents the `rounded-full` spinner exception.
-- [ ] `cbea-metro-design/cbea-package/DESIGN.md` documents the same exception.
+- [x] `README.md` documents the `rounded-full` spinner exception.
+- [x] `cbea-metro-design/cbea-package/DESIGN.md` documents the same exception.
