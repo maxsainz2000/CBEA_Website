@@ -21,8 +21,7 @@ Public-facing budget transparency website for the CBEA Student Council at Cagaya
 |---|---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | Yes | Your Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Your Supabase anonymous (public) key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Local only | Service role key for DB seeding scripts. **Never deploy to production.** |
-| `IS_E2E` | Test only | Set to `true` to enable mock auth for Playwright tests. Server-side only. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Test only | Service role key for Playwright `globalSetup` (provisions test user) and `globalTeardown` (cleans up test residue). **Never deploy to production.** |
 
 ## Scripts
 

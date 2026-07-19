@@ -64,7 +64,7 @@ grep 'IS_E2E' README.md
 - Verify the `SUPABASE_SERVICE_ROLE_KEY` description mentions Playwright `globalSetup`/`globalTeardown`.
 
 ## Acceptance Criteria
-- [ ] `README.md` does NOT contain `IS_E2E`.
-- [ ] `README.md` environment variables table has exactly 3 rows (not 4).
-- [ ] `SUPABASE_SERVICE_ROLE_KEY` description mentions Playwright `globalSetup` and `globalTeardown`.
-- [ ] `grep 'IS_E2E' README.md` returns no hits.
+- [x] `README.md` does NOT contain `IS_E2E`.
+- [x] `README.md` environment variables table has exactly 3 rows (not 4).
+- [x] `SUPABASE_SERVICE_ROLE_KEY` description mentions Playwright `globalSetup` and `globalTeardown`.
+- [x] `grep 'IS_E2E' README.md` returns no hits.
