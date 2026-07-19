@@ -123,10 +123,10 @@ npm run build
 - Verify category filter chips still populate correctly.
 
 ## Acceptance Criteria
-- [ ] `supabase/migration.sql` contains `CREATE OR REPLACE VIEW public.distinct_semesters` and `distinct_categories`.
-- [ ] `getSemesters` queries `distinct_semesters` view (not `budget_entries`).
-- [ ] `getCategories` queries `distinct_categories` view (not `budget_entries`).
-- [ ] No client-side `Set` / `Array.from(new Set(...))` deduplication in either function.
-- [ ] `npx vitest run supabase/database.test.ts` passes (all existing + new view tests).
-- [ ] `npx vitest run` passes.
-- [ ] `npx tsc --noEmit` reports 0 errors.
+- [x] `supabase/migration.sql` contains `CREATE OR REPLACE VIEW public.distinct_semesters` and `distinct_categories`.
+- [x] `getSemesters` queries `distinct_semesters` view (not `budget_entries`).
+- [x] `getCategories` queries `distinct_categories` view (not `budget_entries`).
+- [x] No client-side `Set` / `Array.from(new Set(...))` deduplication in either function.
+- [x] `npx vitest run supabase/database.test.ts` passes (all existing + new view tests).
+- [x] `npx vitest run` passes.
+- [x] `npx tsc --noEmit` reports 0 errors.

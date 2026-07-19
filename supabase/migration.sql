@@ -131,3 +131,12 @@ CREATE INDEX IF NOT EXISTS budget_entries_semester_date_created_idx
 CREATE INDEX IF NOT EXISTS budget_entries_entered_by_idx
   ON public.budget_entries (entered_by);
 
+-- Postgres views for distinct filter values (replaces client-side dedupe)
+CREATE OR REPLACE VIEW public.distinct_semesters WITH (security_invoker = on) AS
+  SELECT DISTINCT semester FROM public.budget_entries ORDER BY semester;
+
+CREATE OR REPLACE VIEW public.distinct_categories WITH (security_invoker = on) AS
+  SELECT DISTINCT category FROM public.budget_entries ORDER BY category;
+
+GRANT SELECT ON public.distinct_semesters TO anon, authenticated;
+GRANT SELECT ON public.distinct_categories TO anon, authenticated;

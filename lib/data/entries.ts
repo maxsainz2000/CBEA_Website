@@ -104,58 +104,36 @@ export async function getSummaryStats(semester?: string): Promise<DataResult<{
   }
 }
 
-/**
- * Returns distinct semesters from budget_entries.
- *
- * NOTE: Currently fetches all rows and dedupes client-side. This is
- * acceptable for <1k entries. For larger datasets, consider:
- * - Creating a Postgres view: CREATE VIEW distinct_semesters AS
- *   SELECT DISTINCT semester FROM budget_entries ORDER BY semester;
- * - Or using an RPC: supabase.rpc('get_distinct_semesters')
- * - The Supabase JS client does not support SELECT DISTINCT directly.
- */
 export async function getSemesters(): Promise<DataResult<string[]>> {
   try {
     const supabase = await createClient();
-    const { data, error } = await supabase.from('budget_entries').select('semester');
+    const { data, error } = await supabase.from('distinct_semesters').select('semester');
 
     if (error) {
       console.error('Database error fetching semesters:', error.message);
-      return { status: 'error', message: "We couldn't load semesters. Please try again later." };
+      return { status: 'error', message: "We couldn't load semester options. Please try again later." };
     }
 
-    const semesters = Array.from(new Set((data || []).map((entry) => entry.semester)));
-    return { status: 'ok', data: semesters.sort() };
+    return { status: 'ok', data: (data || []).map(row => row.semester) };
   } catch (err) {
     console.error('Unhandled exception fetching semesters:', err);
-    return { status: 'error', message: "We couldn't load semesters. Please try again later." };
+    return { status: 'error', message: "We couldn't load semester options. Please try again later." };
   }
 }
 
-/**
- * Returns distinct categories from budget_entries.
- *
- * NOTE: Currently fetches all rows and dedupes client-side. This is
- * acceptable for <1k entries. For larger datasets, consider:
- * - Creating a Postgres view: CREATE VIEW distinct_categories AS
- *   SELECT DISTINCT category FROM budget_entries ORDER BY category;
- * - Or using an RPC: supabase.rpc('get_distinct_categories')
- * - The Supabase JS client does not support SELECT DISTINCT directly.
- */
 export async function getCategories(): Promise<DataResult<string[]>> {
   try {
     const supabase = await createClient();
-    const { data, error } = await supabase.from('budget_entries').select('category');
+    const { data, error } = await supabase.from('distinct_categories').select('category');
 
     if (error) {
       console.error('Database error fetching categories:', error.message);
-      return { status: 'error', message: "We couldn't load categories. Please try again later." };
+      return { status: 'error', message: "We couldn't load category options. Please try again later." };
     }
 
-    const categories = Array.from(new Set((data || []).map((entry) => entry.category)));
-    return { status: 'ok', data: categories.sort() };
+    return { status: 'ok', data: (data || []).map(row => row.category) };
   } catch (err) {
     console.error('Unhandled exception fetching categories:', err);
-    return { status: 'error', message: "We couldn't load categories. Please try again later." };
+    return { status: 'error', message: "We couldn't load category options. Please try again later." };
   }
 }

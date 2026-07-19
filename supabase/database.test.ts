@@ -265,4 +265,22 @@ describe('Database Schema & Migration Setup', () => {
       expect((res2.rows[0] as TestRow).full_name).toBe('John Smith');
     });
   });
+
+  describe('Distinct Views', () => {
+    it('should have a distinct_semesters view that returns unique semesters', async () => {
+      const result = await db.query('SELECT * FROM public.distinct_semesters');
+      const semesters = (result.rows as { semester: string }[]).map((r) => r.semester);
+      expect(semesters.length).toBeGreaterThan(0);
+      // Verify uniqueness
+      expect(new Set(semesters).size).toBe(semesters.length);
+    });
+
+    it('should have a distinct_categories view that returns unique categories', async () => {
+      const result = await db.query('SELECT * FROM public.distinct_categories');
+      const categories = (result.rows as { category: string }[]).map((r) => r.category);
+      expect(categories.length).toBeGreaterThan(0);
+      expect(new Set(categories).size).toBe(categories.length);
+    });
+  });
 });
+
