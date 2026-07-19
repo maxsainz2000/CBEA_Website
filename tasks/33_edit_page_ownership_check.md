@@ -100,10 +100,10 @@ npm run build
 - Should see the edit form with the correct data (own entry).
 
 ## Acceptance Criteria
-- [ ] `app/admin/edit/[id]/page.tsx` queries with `.eq('entered_by', officer.id)`.
-- [ ] `app/admin/edit/[id]/page.tsx` does NOT import or use `getEntry` from `lib/data/entries`.
-- [ ] Navigating to `/admin/edit/<other-user-entry-id>` shows 404.
-- [ ] Navigating to `/admin/edit/<own-entry-id>` shows the edit form with correct data.
-- [ ] `npx vitest run` passes.
-- [ ] `npx tsc --noEmit` reports 0 errors.
-- [ ] `npm run build` succeeds.
+- [x] `app/admin/edit/[id]/page.tsx` queries with `.eq('entered_by', officer.id)`.
+- [x] `app/admin/edit/[id]/page.tsx` does NOT import or use `getEntry` from `lib/data/entries`.
+- [x] Navigating to `/admin/edit/<other-user-entry-id>` shows 404.
+- [x] Navigating to `/admin/edit/<own-entry-id>` shows the edit form with correct data.
+- [x] `npx vitest run` passes.
+- [x] `npx tsc --noEmit` reports 0 errors.
+- [x] `npm run build` succeeds.

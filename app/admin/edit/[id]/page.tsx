@@ -1,8 +1,9 @@
 import { redirect, notFound } from 'next/navigation';
 import { getOfficer } from '@/lib/auth/session';
+import { createClient } from '@/lib/supabase/server';
 import AdminHeader from '../../components/AdminHeader';
 import EntryForm from '../../components/EntryForm';
-import { getEntry } from '@/lib/data/entries';
+import { BudgetEntry } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,18 +19,23 @@ export default async function EditEntryPage({ params }: PageProps) {
     redirect('/login');
   }
 
-  // Fetch target budget entry
-  const entryResult = await getEntry(id);
-  if (entryResult.status === 'error' || !entryResult.data) {
-    notFound();
-  }
+  // Fetch target budget entry — filter by entered_by for ownership
+  const supabase = await createClient();
+  const { data: entry, error } = await supabase
+    .from('budget_entries')
+    .select('*')
+    .eq('id', id)
+    .eq('entered_by', officer.id)   // ← ownership filter: only show entries you own
+    .maybeSingle();
 
-  const entry = entryResult.data;
+  if (error || !entry) {
+    notFound();   // 404 — don't reveal whether the entry exists
+  }
 
   // Rehydrate initialData: Convert amount from centavos (integer) back to decimal (pesos)
   const initialData = {
-    ...entry,
-    amount: entry.amount / 100,
+    ...(entry as BudgetEntry),
+    amount: (entry as BudgetEntry).amount / 100,
   };
 
   return (
