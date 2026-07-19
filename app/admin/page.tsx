@@ -5,6 +5,7 @@ import AdminHeader from './components/AdminHeader';
 import SummaryStats from '../components/SummaryStats';
 import EntryTable from './components/EntryTable';
 import AdminSemesterSelector from './components/AdminSemesterSelector';
+import ErrorBanner from '../components/ErrorBanner';
 import { getEntries, getSummaryStats, getSemesters } from '@/lib/data/entries';
 import Link from 'next/link';
 
@@ -33,14 +34,39 @@ export default async function AdminPage({ searchParams }: PageProps) {
   const profile = profileData;
 
   const params = await searchParams;
-  const semestersList = await getSemesters();
+  const semestersResult = await getSemesters();
+  if (semestersResult.status === 'error') {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <AdminHeader />
+        <main className="flex-1 w-full max-w-5xl mx-auto px-margin-mobile md:px-margin py-lg md:py-xl flex flex-col gap-lg animate-slide-in-fade">
+          <ErrorBanner message={semestersResult.message} />
+        </main>
+      </div>
+    );
+  }
+  const semestersList = semestersResult.data;
   const activeSemester = params.semester || semestersList[0] || '1st Sem';
 
   // Fetch entries and statistics filtered by semester
-  const [entries, stats] = await Promise.all([
+  const [entriesResult, statsResult] = await Promise.all([
     getEntries({ semester: activeSemester }),
     getSummaryStats(activeSemester),
   ]);
+
+  if (entriesResult.status === 'error' || statsResult.status === 'error') {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <AdminHeader />
+        <main className="flex-1 w-full max-w-5xl mx-auto px-margin-mobile md:px-margin py-lg md:py-xl flex flex-col gap-lg animate-slide-in-fade">
+          <ErrorBanner message="We couldn't load budget data. Please try again later." />
+        </main>
+      </div>
+    );
+  }
+
+  const entries = entriesResult.data;
+  const stats = statsResult.data;
 
   const asOfDate = new Date().toLocaleDateString('en-US', {
     month: 'short',

@@ -233,14 +233,14 @@ npm run build
 - Restore the correct `NEXT_PUBLIC_SUPABASE_URL` and verify the app works normally.
 
 ## Acceptance Criteria
-- [ ] `MOCK_ENTRIES`, `getMockEntries`, and `getMockSummaryStats` are deleted from `lib/data/entries.ts`.
-- [ ] All 5 data functions (`getEntries`, `getEntry`, `getSummaryStats`, `getSemesters`, `getCategories`) return `DataResult<T>`.
-- [ ] `app/components/ErrorBanner.tsx` exists and renders a visible error message with `role="alert"`.
-- [ ] `app/page.tsx` renders `ErrorBanner` (not mock data) when any data function returns an error.
-- [ ] `app/admin/page.tsx` renders `ErrorBanner` when data functions return errors.
-- [ ] `app/admin/edit/[id]/page.tsx` calls `notFound()` when `getEntry` returns an error.
-- [ ] `npx vitest run lib/data/entries.test.ts` passes — verifies error state, never returns mock data.
-- [ ] `npx vitest run` passes (all existing + new tests).
-- [ ] `npx tsc --noEmit` reports 0 errors.
-- [ ] `npm run build` succeeds.
-- [ ] `grep -c 'MOCK_ENTRIES' lib/data/entries.ts` returns 0.
+- [x] `MOCK_ENTRIES`, `getMockEntries`, and `getMockSummaryStats` are deleted from `lib/data/entries.ts`.
+- [x] All 5 data functions (`getEntries`, `getEntry`, `getSummaryStats`, `getSemesters`, `getCategories`) return `DataResult<T>`.
+- [x] `app/components/ErrorBanner.tsx` exists and renders a visible error message with `role="alert"`.
+- [x] `app/page.tsx` renders `ErrorBanner` (not mock data) when any data function returns an error.
+- [x] `app/admin/page.tsx` renders `ErrorBanner` when data functions return errors.
+- [x] `app/admin/edit/[id]/page.tsx` calls `notFound()` when `getEntry` returns an error.
+- [x] `npx vitest run lib/data/entries.test.ts` passes — verifies error state, never returns mock data.
+- [x] `npx vitest run` passes (all existing + new tests).
+- [x] `npx tsc --noEmit` reports 0 errors.
+- [x] `npm run build` succeeds.
+- [x] `grep -c 'MOCK_ENTRIES' lib/data/entries.ts` returns 0.

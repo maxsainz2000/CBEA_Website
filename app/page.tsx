@@ -3,6 +3,7 @@ import Header from './components/Header';
 import SummaryStats from './components/SummaryStats';
 import ClientFilters from './components/ClientFilters';
 import BudgetEntryList from './components/BudgetEntryList';
+import ErrorBanner from './components/ErrorBanner';
 import { getEntries, getSummaryStats, getSemesters, getCategories } from '../lib/data/entries';
 
 // This page reads searchParams (a Dynamic API in Next.js 15), which forces
@@ -27,13 +28,17 @@ async function HomepageContent({ searchParams }: PageProps) {
   const category = params.category || '';
 
   // Fetch semesters and categories list to populate the filters
-  const semestersList = await getSemesters();
+  const semestersResult = await getSemesters();
+  if (semestersResult.status === 'error') {
+    return <ErrorBanner message={semestersResult.message} />;
+  }
+  const semestersList = semestersResult.data;
   
   // Default to the first semester if none is specified in the URL
   const activeSemester = semester || semestersList[0] || '1st Sem';
 
   // Fetch entries and summary statistics based on active filters
-  const [entries, stats, categoriesList] = await Promise.all([
+  const [entriesResult, statsResult, categoriesResult] = await Promise.all([
     getEntries({
       semester: activeSemester,
       category: category && category !== 'All' ? category : undefined,
@@ -42,6 +47,14 @@ async function HomepageContent({ searchParams }: PageProps) {
     getSummaryStats(activeSemester),
     getCategories(),
   ]);
+
+  if (entriesResult.status === 'error' || statsResult.status === 'error' || categoriesResult.status === 'error') {
+    return <ErrorBanner message="We couldn't load budget data. Please try again later." />;
+  }
+
+  const entries = entriesResult.data;
+  const stats = statsResult.data;
+  const categoriesList = categoriesResult.data;
 
   const asOfDate = new Date().toLocaleDateString('en-US', {
     month: 'short',

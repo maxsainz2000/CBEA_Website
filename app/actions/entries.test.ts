@@ -307,7 +307,7 @@ describe('Budget Entries API and Server Actions', () => {
         search: 'test',
       })
 
-      expect(result).toEqual(mockEntries)
+      expect(result).toEqual({ status: 'ok', data: mockEntries })
       expect(currentMockQuery.eq).toHaveBeenCalledWith('semester', '1st Sem')
       expect(currentMockQuery.eq).toHaveBeenCalledWith('category', 'A')
       expect(currentMockQuery.ilike).toHaveBeenCalledWith('description', '%test%')
@@ -321,7 +321,7 @@ describe('Budget Entries API and Server Actions', () => {
 
       const result = await getEntry('single-id')
 
-      expect(result).toEqual(mockEntry)
+      expect(result).toEqual({ status: 'ok', data: mockEntry })
       expect(currentMockQuery.eq).toHaveBeenCalledWith('id', 'single-id')
     })
 
@@ -337,9 +337,14 @@ describe('Budget Entries API and Server Actions', () => {
 
       const stats = await getSummaryStats('1st Sem')
 
-      expect(stats.totalCollected).toBe(15000)
-      expect(stats.totalSpent).toBe(16500)
-      expect(stats.remainingBalance).toBe(-1500)
+      expect(stats).toEqual({
+        status: 'ok',
+        data: {
+          totalCollected: 15000,
+          totalSpent: 16500,
+          remainingBalance: -1500,
+        }
+      })
       expect(currentMockQuery.eq).toHaveBeenCalledWith('semester', '1st Sem')
     })
   })

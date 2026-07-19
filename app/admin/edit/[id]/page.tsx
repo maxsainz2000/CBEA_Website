@@ -19,10 +19,12 @@ export default async function EditEntryPage({ params }: PageProps) {
   }
 
   // Fetch target budget entry
-  const entry = await getEntry(id);
-  if (!entry) {
+  const entryResult = await getEntry(id);
+  if (entryResult.status === 'error' || !entryResult.data) {
     notFound();
   }
+
+  const entry = entryResult.data;
 
   // Rehydrate initialData: Convert amount from centavos (integer) back to decimal (pesos)
   const initialData = {
