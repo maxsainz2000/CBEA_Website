@@ -51,6 +51,6 @@ grep 'ikoogqwigvfylwjatids' GEMINI.md
 - Open `GEMINI.md` and verify the project_ref shows `<YOUR_PROJECT_REF>` instead of the real value.
 
 ## Acceptance Criteria
-- [ ] `GEMINI.md` does NOT contain `ikoogqwigvfylwjatids`.
-- [ ] `GEMINI.md` shows `<YOUR_PROJECT_REF>` as a placeholder in the MCP server URL.
-- [ ] `grep 'ikoogqwigvfylwjatids' GEMINI.md` returns no hits.
+- [x] `GEMINI.md` does NOT contain `ikoogqwigvfylwjatids`.
+- [x] `GEMINI.md` shows `<YOUR_PROJECT_REF>` as a placeholder in the MCP server URL.
+- [x] `grep 'ikoogqwigvfylwjatids' GEMINI.md` returns no hits.

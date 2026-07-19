@@ -11,7 +11,7 @@ The Supabase MCP server has been configured globally in the user configuration p
 {
   "mcpServers": {
     "supabase": {
-      "serverUrl": "https://mcp.supabase.com/mcp?project_ref=ikoogqwigvfylwjatids&features=docs%2Caccount%2Cdatabase%2Cdebugging%2Cdevelopment%2Cfunctions%2Cbranching%2Cstorage"
+      "serverUrl": "https://mcp.supabase.com/mcp?project_ref=<YOUR_PROJECT_REF>&features=docs%2Caccount%2Cdatabase%2Cdebugging%2Cdevelopment%2Cfunctions%2Cbranching%2Cstorage"
     }
   }
 }
