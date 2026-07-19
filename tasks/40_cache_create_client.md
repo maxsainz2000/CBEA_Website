@@ -94,8 +94,8 @@ npm run build
 - The page should load correctly — all data functions should work identically (they receive the same client instance via `cache()`).
 
 ## Acceptance Criteria
-- [ ] `lib/supabase/server.ts` wraps `createClient` in `cache()` from `react`.
-- [ ] `import { cache } from 'react'` is present at the top of the file.
-- [ ] `npx vitest run` passes (all tests).
-- [ ] `npx tsc --noEmit` reports 0 errors.
-- [ ] `npm run build` succeeds.
+- [x] `lib/supabase/server.ts` wraps `createClient` in `cache()` from `react`.
+- [x] `import { cache } from 'react'` is present at the top of the file.
+- [x] `npx vitest run` passes (all tests).
+- [x] `npx tsc --noEmit` reports 0 errors.
+- [x] `npm run build` succeeds.
