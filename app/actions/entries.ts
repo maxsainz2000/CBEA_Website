@@ -29,8 +29,9 @@ export async function createEntry(data: unknown): Promise<ActionResponse<BudgetE
 
     const validData = validation.data
 
-    // 3. Convert amount from decimal to centavos (Math.round to prevent float inaccuracy)
-    const amountInCentavos = Math.round(validData.amount * 100)
+    // 3. Convert amount from decimal to centavos using toFixed(2) to avoid IEEE-754 error.
+    // Examples: 1.005 → "1.01" → 101, 19.99 → "19.99" → 1999, 1500.5 → "1500.50" → 150050
+    const amountInCentavos = Math.round(Number(validData.amount.toFixed(2)) * 100)
 
     // 4. Insert database record
     const { data: insertedData, error: dbError } = await supabase
@@ -88,8 +89,9 @@ export async function updateEntry(id: string, data: unknown): Promise<ActionResp
 
     const validData = validation.data
 
-    // 3. Convert amount from decimal to centavos
-    const amountInCentavos = Math.round(validData.amount * 100)
+    // 3. Convert amount from decimal to centavos using toFixed(2) to avoid IEEE-754 error.
+    // Examples: 1.005 → "1.01" → 101, 19.99 → "19.99" → 1999, 1500.5 → "1500.50" → 150050
+    const amountInCentavos = Math.round(Number(validData.amount.toFixed(2)) * 100)
 
     // 4. Update database record
     const { data: updatedData, error: dbError } = await supabase

@@ -117,9 +117,9 @@ npm run build
 - Try creating an entry with amount `₱1.005` — should see a validation error "Amount must have at most 2 decimal places".
 
 ## Acceptance Criteria
-- [ ] `app/actions/entries.ts` uses `Math.round(Number(validData.amount.toFixed(2)) * 100)` in both `createEntry` and `updateEntry`.
-- [ ] `lib/types.ts` has a Zod `.refine()` that rejects amounts with more than 2 decimal places.
-- [ ] `Math.round(Number((1.005).toFixed(2)) * 100)` returns 101 (not 100).
-- [ ] `npx vitest run app/actions/entries.test.ts` passes (all existing + new precision tests).
-- [ ] `npx vitest run` passes.
-- [ ] `npx tsc --noEmit` reports 0 errors.
+- [x] `app/actions/entries.ts` uses `Math.round(Number(validData.amount.toFixed(2)) * 100)` in both `createEntry` and `updateEntry`.
+- [x] `lib/types.ts` has a Zod `.refine()` that rejects amounts with more than 2 decimal places.
+- [x] `Math.round(Number((1.005).toFixed(2)) * 100)` returns 101 (not 100).
+- [x] `npx vitest run app/actions/entries.test.ts` passes (all existing + new precision tests).
+- [x] `npx vitest run` passes.
+- [x] `npx tsc --noEmit` reports 0 errors.

@@ -22,7 +22,12 @@ export const BudgetEntrySchema = z.object({
   }),
   description: z.string().min(1, "Description is required").max(255, "Description must be 255 characters or less"),
   category: z.string().min(1, "Category is required").max(100, "Category must be 100 characters or less"),
-  amount: z.number({ required_error: "Amount is required" }).min(0, "Amount must be a non-negative number"),
+  amount: z.number({ required_error: "Amount is required" })
+    .min(0, "Amount must be a non-negative number")
+    .refine(
+      (n) => Number.isFinite(n) && Math.abs(n * 100 - Math.round(n * 100)) < 0.001,
+      { message: "Amount must have at most 2 decimal places" }
+    ),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format (YYYY-MM-DD)"),
   semester: z.string().min(1, "Semester is required"),
   academic_year: z.string().min(1, "Academic year is required"),

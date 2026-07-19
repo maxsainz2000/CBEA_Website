@@ -382,4 +382,117 @@ describe('Budget Entries API and Server Actions', () => {
       expect(currentMockQuery.eq).toHaveBeenCalledWith('semester', '1st Sem')
     })
   })
+
+  describe('Precision and Validation Edge Cases', () => {
+    beforeEach(() => {
+      ;(getOfficer as ReturnType<typeof vi.fn>).mockResolvedValue({
+        id: 'user-uuid',
+        email: 'test@csu.edu.ph',
+      })
+    })
+
+    it('correctly converts 1.005 to 101 centavos (not 100)', async () => {
+      // The Zod refine should reject this at validation (amount has 3 decimal places)
+      const result = await createEntry({
+        type: 'income',
+        description: 'Test entry',
+        category: 'Test',
+        amount: 1.005,
+        date: '2026-07-11',
+        semester: '1st Sem',
+        academic_year: '2025-2026',
+      })
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.error).toBe('Validation failed')
+        expect(result.validationErrors?.amount).toContain('Amount must have at most 2 decimal places')
+      }
+    })
+
+    it('correctly converts 19.99 to 1999 centavos', async () => {
+      const mockResult = {
+        id: 'new-entry-uuid',
+        type: 'income',
+        description: 'Student fees',
+        category: 'Fees',
+        amount: 1999,
+        date: '2026-07-11',
+        semester: '1st Sem',
+        academic_year: '2025-2026',
+        notes: null,
+        status: 'paid',
+        entered_by: 'user-uuid',
+      }
+      currentMockQuery = new MockQuery(mockResult)
+
+      const result = await createEntry({
+        type: 'income',
+        description: 'Student fees',
+        category: 'Fees',
+        amount: 19.99,
+        date: '2026-07-11',
+        semester: '1st Sem',
+        academic_year: '2025-2026',
+      })
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(currentMockQuery.insert).toHaveBeenCalledWith(expect.objectContaining({
+          amount: 1999,
+        }))
+      }
+    })
+
+    it('correctly converts 1500.50 to 150050 centavos', async () => {
+      const mockResult = {
+        id: 'new-entry-uuid',
+        type: 'income',
+        description: 'Student fees',
+        category: 'Fees',
+        amount: 150050,
+        date: '2026-07-11',
+        semester: '1st Sem',
+        academic_year: '2025-2026',
+        notes: null,
+        status: 'paid',
+        entered_by: 'user-uuid',
+      }
+      currentMockQuery = new MockQuery(mockResult)
+
+      const result = await createEntry({
+        type: 'income',
+        description: 'Student fees',
+        category: 'Fees',
+        amount: 1500.50,
+        date: '2026-07-11',
+        semester: '1st Sem',
+        academic_year: '2025-2026',
+      })
+
+      expect(result.success).toBe(true)
+      if (result.success) {
+        expect(currentMockQuery.insert).toHaveBeenCalledWith(expect.objectContaining({
+          amount: 150050,
+        }))
+      }
+    })
+
+    it('rejects amount with more than 2 decimal places', async () => {
+      const result = await createEntry({
+        type: 'income',
+        description: 'Test entry',
+        category: 'Test',
+        amount: 1.005,
+        date: '2026-07-11',
+        semester: '1st Sem',
+        academic_year: '2025-2026',
+      })
+
+      expect(result.success).toBe(false)
+      if (!result.success) {
+        expect(result.validationErrors?.amount).toContain('Amount must have at most 2 decimal places')
+      }
+    })
+  })
 })
