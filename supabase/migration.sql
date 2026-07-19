@@ -43,12 +43,15 @@ CREATE INDEX IF NOT EXISTS budget_entries_category_idx ON public.budget_entries 
 
 -- 6. Trigger for updated_at column
 CREATE OR REPLACE FUNCTION update_modified_column()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SET search_path = ''
+AS $$
 BEGIN
     NEW.updated_at = now();
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
 -- Attach triggers to auto-update updated_at
 DROP TRIGGER IF EXISTS update_profiles_updated_at ON public.profiles;

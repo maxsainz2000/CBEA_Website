@@ -64,6 +64,6 @@ npx vitest run
 - After applying to production, verify `updated_at` still auto-updates on row changes.
 
 ## Acceptance Criteria
-- [ ] `update_modified_column()` function has `SET search_path = ''`.
-- [ ] `npx vitest run supabase/database.test.ts` passes (triggers still work).
-- [ ] `npx vitest run` passes.
+- [x] `update_modified_column()` function has `SET search_path = ''`.
+- [x] `npx vitest run supabase/database.test.ts` passes (triggers still work).
+- [x] `npx vitest run` passes.
