@@ -1,5 +1,6 @@
 import { createClient } from '../supabase/server'
 import { BudgetEntry } from '../types'
+import { logger } from '../log'
 
 export type DataResult<T> =
   | { status: 'ok'; data: T }
@@ -31,7 +32,9 @@ export async function getEntries(filters?: {
     const { data, error, count } = await query;
 
     if (error) {
-      console.error('Database error fetching entries:', error.message);
+      logger.error('Database error fetching entries', {
+        code: error.code,
+      });
       return { status: 'error', message: "We couldn't load budget entries. Please try again later." };
     }
 
@@ -44,8 +47,8 @@ export async function getEntries(filters?: {
         hasMore: page * pageSize < totalCount,
       },
     };
-  } catch (err) {
-    console.error('Unhandled exception fetching entries:', err);
+  } catch {
+    logger.error('Unhandled exception fetching entries');
     return { status: 'error', message: "We couldn't load budget entries. Please try again later." };
   }
 }
@@ -60,13 +63,16 @@ export async function getEntry(id: string): Promise<DataResult<BudgetEntry | nul
       .maybeSingle();
 
     if (error) {
-      console.error(`Database error fetching entry ${id}:`, error.message);
+      logger.error('Database error fetching entry', {
+        id,
+        code: error.code,
+      });
       return { status: 'error', message: "We couldn't load this budget entry. Please try again later." };
     }
 
     return { status: 'ok', data: data as BudgetEntry | null };
-  } catch (err) {
-    console.error(`Unhandled exception fetching entry ${id}:`, err);
+  } catch {
+    logger.error('Unhandled exception fetching entry', { id });
     return { status: 'error', message: "We couldn't load this budget entry. Please try again later." };
   }
 }
@@ -85,7 +91,10 @@ export async function getSummaryStats(semester?: string): Promise<DataResult<{
     const { data, error } = await supabase.rpc('get_summary_stats', { p_semester: semester });
 
     if (error) {
-      console.error('Database error fetching summary stats:', error.message);
+      logger.error('Database error fetching summary stats', {
+        semester,
+        code: error.code,
+      });
       return { status: 'error', message: "We couldn't load summary statistics. Please try again later." };
     }
 
@@ -102,8 +111,8 @@ export async function getSummaryStats(semester?: string): Promise<DataResult<{
         remainingBalance: Number(row.remaining_balance),
       },
     };
-  } catch (err) {
-    console.error('Unhandled exception fetching summary stats:', err);
+  } catch {
+    logger.error('Unhandled exception fetching summary stats', { semester });
     return { status: 'error', message: "We couldn't load summary statistics. Please try again later." };
   }
 }
@@ -114,13 +123,15 @@ export async function getSemesters(): Promise<DataResult<string[]>> {
     const { data, error } = await supabase.from('distinct_semesters').select('semester');
 
     if (error) {
-      console.error('Database error fetching semesters:', error.message);
+      logger.error('Database error fetching semesters', {
+        code: error.code,
+      });
       return { status: 'error', message: "We couldn't load semester options. Please try again later." };
     }
 
     return { status: 'ok', data: (data || []).map(row => row.semester) };
-  } catch (err) {
-    console.error('Unhandled exception fetching semesters:', err);
+  } catch {
+    logger.error('Unhandled exception fetching semesters');
     return { status: 'error', message: "We couldn't load semester options. Please try again later." };
   }
 }
@@ -131,13 +142,15 @@ export async function getCategories(): Promise<DataResult<string[]>> {
     const { data, error } = await supabase.from('distinct_categories').select('category');
 
     if (error) {
-      console.error('Database error fetching categories:', error.message);
+      logger.error('Database error fetching categories', {
+        code: error.code,
+      });
       return { status: 'error', message: "We couldn't load category options. Please try again later." };
     }
 
     return { status: 'ok', data: (data || []).map(row => row.category) };
-  } catch (err) {
-    console.error('Unhandled exception fetching categories:', err);
+  } catch {
+    logger.error('Unhandled exception fetching categories');
     return { status: 'error', message: "We couldn't load category options. Please try again later." };
   }
 }

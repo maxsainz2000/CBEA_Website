@@ -108,13 +108,13 @@ npm run build
 - Check server logs — should see structured JSON, not raw Supabase error details.
 
 ## Acceptance Criteria
-- [ ] `lib/log.ts` exists with `logger.error`, `logger.warn`, `logger.info` exports.
-- [ ] Logger outputs structured JSON with `level`, `message`, `timestamp`.
-- [ ] Logger suppresses `info` level in production.
-- [ ] `app/actions/entries.ts` has 0 `console.error` calls.
-- [ ] `lib/data/entries.ts` has 0 `console.error` calls.
-- [ ] `app/admin/components/AdminHeader.tsx` has 0 `console.error` calls.
-- [ ] No raw `error.message` or `error.details` from Supabase is logged.
-- [ ] `grep -rn 'console\.error' app/ lib/ | grep -v test` returns 0 hits.
-- [ ] `npx vitest run` passes all tests.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
+- [x] `lib/log.ts` exists with `logger.error`, `logger.warn`, `logger.info` exports.
+- [x] Logger outputs structured JSON with `level`, `message`, `timestamp`.
+- [x] Logger suppresses `info` level in production.
+- [x] `app/actions/entries.ts` has 0 `console.error` calls.
+- [x] `lib/data/entries.ts` has 0 `console.error` calls.
+- [x] `app/admin/components/AdminHeader.tsx` has 0 `console.error` calls.
+- [x] No raw `error.message` or `error.details` from Supabase is logged.
+- [x] `grep -rn 'console\.error' app/ lib/ | grep -v test` returns 0 hits.
+- [x] `npx vitest run` passes all tests.
+- [x] `npx tsc --noEmit` passes with 0 errors.

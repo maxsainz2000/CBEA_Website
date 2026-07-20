@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { startTransition } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import Header from '@/app/components/Header';
+import { logger } from '@/lib/log';
 
 export default function AdminHeader() {
   const router = useRouter();
@@ -16,8 +17,8 @@ export default function AdminHeader() {
         router.push('/login');
         router.refresh();
       });
-    } catch (err) {
-      console.error('Error signing out:', err);
+    } catch {
+      logger.error('Error signing out');
     }
   };
 

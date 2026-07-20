@@ -59,8 +59,11 @@ const mockFrom = vi.fn().mockImplementation(() => {
   return currentMockQuery
 })
 
+const mockRpc = vi.fn()
+
 const mockSupabase = {
   from: mockFrom,
+  rpc: mockRpc,
 }
 
 vi.mock('../../lib/supabase/server', () => ({
@@ -71,6 +74,7 @@ describe('Budget Entries API and Server Actions', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     currentMockQuery = new MockQuery([])
+    mockRpc.mockReset()
     ;(getOfficer as ReturnType<typeof vi.fn>).mockResolvedValue(null) // default: unauth
     ;(getOfficerAndClient as ReturnType<typeof vi.fn>).mockImplementation(async () => {
       const officer = await getOfficer()
@@ -366,14 +370,16 @@ describe('Budget Entries API and Server Actions', () => {
     })
 
     it('should compute correct summary stats including negative balances', async () => {
-      const dbRows = [
-        { type: 'income', amount: 10000 },  // 100.00
-        { type: 'expense', amount: 4500 },  // 45.00
-        { type: 'income', amount: 5000 },   // 50.00
-        { type: 'expense', amount: 12000 }, // 120.00
-      ]
-      // Income = 15000, Expense = 16500, Balance = -1500
-      currentMockQuery = new MockQuery(dbRows)
+      mockRpc.mockResolvedValue({
+        data: [
+          {
+            total_collected: 15000,
+            total_spent: 16500,
+            remaining_balance: -1500,
+          },
+        ],
+        error: null,
+      })
 
       const stats = await getSummaryStats('1st Sem')
 
@@ -385,7 +391,7 @@ describe('Budget Entries API and Server Actions', () => {
           remainingBalance: -1500,
         }
       })
-      expect(currentMockQuery.eq).toHaveBeenCalledWith('semester', '1st Sem')
+      expect(mockRpc).toHaveBeenCalledWith('get_summary_stats', { p_semester: '1st Sem' })
     })
   })
 

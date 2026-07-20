@@ -4,6 +4,7 @@
 import { BudgetEntrySchema, BudgetEntry } from '../../lib/types'
 import { getOfficerAndClient } from '../../lib/auth/session'
 import { getEntries } from '../../lib/data/entries'
+import { logger } from '../../lib/log'
 
 export type ActionResponse<T = unknown> =
   | { success: true; data: T }
@@ -53,7 +54,11 @@ export async function createEntry(data: unknown): Promise<ActionResponse<BudgetE
       .single()
 
     if (dbError) {
-      console.error('Database insert error:', dbError)
+      logger.error('Database insert failed', {
+        code: dbError.code,
+        table: 'budget_entries',
+        action: 'createEntry',
+      })
       return { success: false, error: dbError.message }
     }
 
@@ -65,7 +70,9 @@ export async function createEntry(data: unknown): Promise<ActionResponse<BudgetE
 
     return { success: true, data: insertedData as BudgetEntry }
   } catch (err) {
-    console.error('Unhandled action error:', err)
+    logger.error('Unhandled action error', {
+      action: 'createEntry',
+    })
     const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred.'
     return { success: false, error: errorMessage }
   }
@@ -119,7 +126,11 @@ export async function updateEntry(id: string, data: unknown): Promise<ActionResp
       if (dbError.code === 'PGRST116') {
         return { success: false, error: 'Entry not found or you do not have permission to modify it.' }
       }
-      console.error('Database update error:', dbError)
+      logger.error('Database update failed', {
+        code: dbError.code,
+        table: 'budget_entries',
+        action: 'updateEntry',
+      })
       return { success: false, error: 'Failed to update entry. Please try again.' }
     }
 
@@ -128,7 +139,9 @@ export async function updateEntry(id: string, data: unknown): Promise<ActionResp
 
     return { success: true, data: updatedData as BudgetEntry }
   } catch (err) {
-    console.error('Unhandled action error:', err)
+    logger.error('Unhandled action error', {
+      action: 'updateEntry',
+    })
     const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred.'
     return { success: false, error: errorMessage }
   }
@@ -151,7 +164,11 @@ export async function deleteEntry(id: string): Promise<ActionResponse<{ id: stri
       .eq('entered_by', userId)
 
     if (dbError) {
-      console.error('Database delete error:', dbError)
+      logger.error('Database delete failed', {
+        code: dbError.code,
+        table: 'budget_entries',
+        action: 'deleteEntry',
+      })
       return { success: false, error: 'Failed to delete entry. Please try again.' }
     }
 
@@ -164,7 +181,9 @@ export async function deleteEntry(id: string): Promise<ActionResponse<{ id: stri
 
     return { success: true, data: { id } }
   } catch (err) {
-    console.error('Unhandled action error:', err)
+    logger.error('Unhandled action error', {
+      action: 'deleteEntry',
+    })
     const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred.'
     return { success: false, error: errorMessage }
   }
