@@ -15,14 +15,15 @@ describe('getEntries', () => {
     vi.clearAllMocks();
   });
 
-  const setupMockSupabase = (data: any, error: any) => {
+  const setupMockSupabase = (data: any, error: any, count: number | null = null) => {
     mockQuery = {
       select: vi.fn().mockImplementation(() => mockQuery),
       eq: vi.fn().mockImplementation(() => mockQuery),
       ilike: vi.fn().mockImplementation(() => mockQuery),
       order: vi.fn().mockImplementation(() => mockQuery),
+      range: vi.fn().mockImplementation(() => mockQuery),
       then: vi.fn().mockImplementation((onfulfilled) => {
-        return Promise.resolve({ data, error }).then(onfulfilled);
+        return Promise.resolve({ data, error, count }).then(onfulfilled);
       }),
     };
 
@@ -57,14 +58,35 @@ describe('getEntries', () => {
   });
 
   it('returns ok status with empty array when Supabase returns no data', async () => {
-    setupMockSupabase(null, null);
+    setupMockSupabase(null, null, 0);
 
     const result = await getEntries();
 
     expect(result).toEqual({
       status: 'ok',
-      data: [],
+      data: {
+        entries: [],
+        totalCount: 0,
+        hasMore: false,
+      },
     });
+  });
+
+  it('returns paginated data with correct hasMore and totalCount', async () => {
+    const mockData = Array(60).fill({ id: '1', description: 'a' });
+    setupMockSupabase(mockData.slice(0, 50), null, 60);
+
+    const result = await getEntries({ page: 1, pageSize: 50 });
+
+    expect(result).toEqual({
+      status: 'ok',
+      data: {
+        entries: mockData.slice(0, 50),
+        totalCount: 60,
+        hasMore: true,
+      },
+    });
+    expect(mockQuery.range).toHaveBeenCalledWith(0, 49);
   });
 
   it('NEVER returns mock data', async () => {

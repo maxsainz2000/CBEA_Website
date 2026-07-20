@@ -37,6 +37,7 @@ class MockQuery {
   eq = vi.fn().mockReturnValue(this)
   ilike = vi.fn().mockReturnValue(this)
   order = vi.fn().mockReturnValue(this)
+  range = vi.fn().mockReturnValue(this)
   single = vi.fn().mockImplementation(async () => {
     return { data: Array.isArray(this.data) ? this.data[0] : this.data, error: this.error, count: this.count }
   })
@@ -339,7 +340,14 @@ describe('Budget Entries API and Server Actions', () => {
         search: 'test',
       })
 
-      expect(result).toEqual({ status: 'ok', data: mockEntries })
+      expect(result).toEqual({
+        status: 'ok',
+        data: {
+          entries: mockEntries,
+          totalCount: 0,
+          hasMore: false,
+        },
+      })
       expect(currentMockQuery.eq).toHaveBeenCalledWith('semester', '1st Sem')
       expect(currentMockQuery.eq).toHaveBeenCalledWith('category', 'A')
       expect(currentMockQuery.ilike).toHaveBeenCalledWith('description', '%test%')

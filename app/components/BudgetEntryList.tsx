@@ -1,22 +1,61 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { BudgetEntry } from '../../lib/types';
 import { formatCentavos } from '@/lib/format/currency';
 import { formatISODate } from '@/lib/format/date';
+import { fetchEntriesAction } from '@/app/actions/entries';
 
 interface BudgetEntryListProps {
   entries: BudgetEntry[];
   emptyMessage?: string;
   onEntryClick?: (entry: BudgetEntry) => void;
+  hasMoreInitial?: boolean;
+  semester?: string;
+  category?: string;
+  search?: string;
+  initialPage?: number;
 }
 
 export default function BudgetEntryList({
   entries,
   emptyMessage = 'No budget entries found.',
   onEntryClick,
+  hasMoreInitial = false,
+  semester,
+  category,
+  search,
+  initialPage = 1,
 }: BudgetEntryListProps) {
+  const [displayedEntries, setDisplayedEntries] = useState<BudgetEntry[]>(entries);
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [hasMore, setHasMore] = useState(hasMoreInitial);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-  if (entries.length === 0) {
+  useEffect(() => {
+    setDisplayedEntries(entries);
+    setCurrentPage(initialPage);
+    setHasMore(hasMoreInitial);
+  }, [entries, hasMoreInitial, initialPage]);
+
+  const loadMore = async () => {
+    setIsLoadingMore(true);
+    const nextPage = currentPage + 1;
+    const result = await fetchEntriesAction({
+      semester,
+      category,
+      search,
+      page: nextPage,
+    });
+    if (result.status === 'ok') {
+      setDisplayedEntries((prev) => [...prev, ...result.data.entries]);
+      setCurrentPage(nextPage);
+      setHasMore(result.data.hasMore);
+    }
+    setIsLoadingMore(false);
+  };
+
+  if (displayedEntries.length === 0) {
     return (
       <div
         className="flex flex-col items-center justify-center p-xl border border-outline text-secondary bg-surface text-center"
@@ -31,7 +70,7 @@ export default function BudgetEntryList({
 
   return (
     <div className="w-full flex flex-col border border-outline" data-testid="budget-entry-list">
-      {entries.map((entry) => {
+      {displayedEntries.map((entry) => {
         const isIncome = entry.type === 'income';
         const indicatorClass = isIncome
           ? 'budget-entry-indicator-income'
@@ -88,6 +127,18 @@ export default function BudgetEntryList({
           </div>
         );
       })}
+      {hasMore && (
+        <div className="flex justify-center p-md border-t border-outline">
+          <button
+            onClick={loadMore}
+            disabled={isLoadingMore}
+            className="btn-ghost uppercase tracking-wider font-body-sm-strong select-none"
+            data-testid="load-more-btn"
+          >
+            {isLoadingMore ? 'Loading...' : 'Load More'}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

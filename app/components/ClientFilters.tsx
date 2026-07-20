@@ -54,6 +54,9 @@ export default function ClientFilters({
       }
     }
 
+    // Reset pagination to page 1 when filters are updated
+    params.delete('page');
+
     startTransition(() => {
       router.push(`${pathname}?${params.toString()}`);
     });

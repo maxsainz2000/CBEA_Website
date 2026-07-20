@@ -6,6 +6,7 @@ import { deleteEntry } from '@/app/actions/entries';
 
 vi.mock('@/app/actions/entries', () => ({
   deleteEntry: vi.fn(),
+  fetchEntriesAction: vi.fn(),
 }));
 
 const mockEntries: BudgetEntry[] = [
@@ -132,5 +133,57 @@ describe('EntryTable Component', () => {
 
     const errMsg = await screen.findByTestId('table-error-message');
     expect(errMsg.textContent).toContain('Cannot delete: record is locked.');
+  });
+
+  it('renders Load More button and handles loadMore action', async () => {
+    const mockNextEntries: BudgetEntry[] = [
+      {
+        id: 'b3',
+        type: 'income',
+        description: 'New Fees',
+        category: 'Fees',
+        amount: 200000,
+        date: '2025-01-17',
+        semester: '1st Sem',
+        academic_year: '2024-2025',
+        notes: null,
+        status: 'paid',
+        entered_by: 'officer-1',
+        created_at: '2025-01-17T00:00:00Z',
+        updated_at: '2025-01-17T00:00:00Z',
+      },
+    ];
+
+    const { fetchEntriesAction } = await import('@/app/actions/entries');
+    vi.mocked(fetchEntriesAction).mockResolvedValue({
+      status: 'ok',
+      data: {
+        entries: mockNextEntries,
+        hasMore: false,
+        totalCount: 3,
+      },
+    });
+
+    render(
+      <EntryTable
+        entries={mockEntries}
+        hasMoreInitial={true}
+        semester="1st Sem"
+      />
+    );
+
+    const loadMoreBtn = screen.getByTestId('admin-load-more-btn');
+    expect(loadMoreBtn).toBeDefined();
+
+    fireEvent.click(loadMoreBtn);
+
+    await waitFor(() => {
+      expect(fetchEntriesAction).toHaveBeenCalledWith({
+        semester: '1st Sem',
+        page: 2,
+      });
+      expect(screen.getByText('New Fees')).toBeDefined();
+      expect(screen.queryByTestId('admin-load-more-btn')).toBeNull();
+    });
   });
 });

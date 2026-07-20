@@ -1,20 +1,53 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useEffect } from 'react';
 import Link from 'next/link';
 import { BudgetEntry } from '@/lib/types';
-import { deleteEntry } from '@/app/actions/entries';
+import { deleteEntry, fetchEntriesAction } from '@/app/actions/entries';
 import { formatCentavos } from '@/lib/format/currency';
 import { formatISODate } from '@/lib/format/date';
 
 interface EntryTableProps {
   entries: BudgetEntry[];
+  hasMoreInitial?: boolean;
+  semester?: string;
+  initialPage?: number;
 }
 
-export default function EntryTable({ entries }: EntryTableProps) {
+export default function EntryTable({
+  entries,
+  hasMoreInitial = false,
+  semester,
+  initialPage = 1,
+}: EntryTableProps) {
+  const [displayedEntries, setDisplayedEntries] = useState<BudgetEntry[]>(entries);
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [hasMore, setHasMore] = useState(hasMoreInitial);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    setDisplayedEntries(entries);
+    setCurrentPage(initialPage);
+    setHasMore(hasMoreInitial);
+  }, [entries, hasMoreInitial, initialPage]);
+
+  const loadMore = async () => {
+    setIsLoadingMore(true);
+    const nextPage = currentPage + 1;
+    const result = await fetchEntriesAction({
+      semester,
+      page: nextPage,
+    });
+    if (result.status === 'ok') {
+      setDisplayedEntries((prev) => [...prev, ...result.data.entries]);
+      setCurrentPage(nextPage);
+      setHasMore(result.data.hasMore);
+    }
+    setIsLoadingMore(false);
+  };
 
   const handleDelete = (id: string) => {
     setError(null);
@@ -22,6 +55,7 @@ export default function EntryTable({ entries }: EntryTableProps) {
       const result = await deleteEntry(id);
       if (result.success) {
         setDeletingId(null);
+        setDisplayedEntries((prev) => prev.filter((e) => e.id !== id));
       } else {
         setError(result.error || 'Failed to delete the entry.');
       }
@@ -50,14 +84,14 @@ export default function EntryTable({ entries }: EntryTableProps) {
             </tr>
           </thead>
           <tbody>
-            {entries.length === 0 ? (
+            {displayedEntries.length === 0 ? (
               <tr>
                 <td colSpan={7} className="text-center text-secondary py-lg">
                   No records found in the database.
                 </td>
               </tr>
             ) : (
-              entries.map((entry) => {
+              displayedEntries.map((entry) => {
                 const isIncome = entry.type === 'income';
                 const statusBadgeClass =
                   entry.status === 'paid'
@@ -140,6 +174,18 @@ export default function EntryTable({ entries }: EntryTableProps) {
           </tbody>
         </table>
       </div>
+      {hasMore && (
+        <div className="flex justify-center p-md border border-t-0 border-outline bg-surface/50">
+          <button
+            onClick={loadMore}
+            disabled={isLoadingMore}
+            className="btn-ghost uppercase tracking-wider font-body-sm-strong select-none"
+            data-testid="admin-load-more-btn"
+          >
+            {isLoadingMore ? 'Loading...' : 'Load More'}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

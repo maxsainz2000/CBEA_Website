@@ -15,6 +15,7 @@ interface SearchParams {
   search?: string;
   semester?: string;
   category?: string;
+  page?: string;
 }
 
 interface PageProps {
@@ -26,6 +27,7 @@ async function HomepageContent({ searchParams }: PageProps) {
   const search = params.search || '';
   const semester = params.semester || '';
   const category = params.category || '';
+  const page = Number(params.page) || 1;
 
   // Fetch semesters and categories list to populate the filters
   const semestersResult = await getSemesters();
@@ -43,6 +45,7 @@ async function HomepageContent({ searchParams }: PageProps) {
       semester: activeSemester,
       category: category && category !== 'All' ? category : undefined,
       search: search || undefined,
+      page,
     }),
     getSummaryStats(activeSemester),
     getCategories(),
@@ -52,7 +55,8 @@ async function HomepageContent({ searchParams }: PageProps) {
     return <ErrorBanner message="We couldn't load budget data. Please try again later." />;
   }
 
-  const entries = entriesResult.data;
+  const entries = entriesResult.data.entries;
+  const hasMore = entriesResult.data.hasMore;
   const stats = statsResult.data;
   const categoriesList = categoriesResult.data;
 
@@ -64,7 +68,7 @@ async function HomepageContent({ searchParams }: PageProps) {
   });
 
   return (
-    <div className="flex flex-col gap-lg">
+    <div className="flex flex-col gap-lg w-full">
       {/* Summary Stats Cards */}
       <section aria-label="Financial Summary Stats">
         <SummaryStats
@@ -87,12 +91,17 @@ async function HomepageContent({ searchParams }: PageProps) {
       </section>
 
       {/* Budget Entries List with Slide-in Fade Animation */}
-      <section aria-label="Budget Entries" className="animate-slide-in-fade" key={`${activeSemester}-${category}-${search}`}>
+      <section aria-label="Budget Entries" className="animate-slide-in-fade" key={`${activeSemester}-${category}-${search}-${page}`}>
         <h2 className="font-label-caps text-label-caps text-secondary uppercase tracking-label-caps mb-sm select-none">
           Budget Entries for {activeSemester}
         </h2>
         <BudgetEntryList
           entries={entries}
+          hasMoreInitial={hasMore}
+          semester={activeSemester}
+          category={category && category !== 'All' ? category : undefined}
+          search={search || undefined}
+          initialPage={page}
           emptyMessage={`No budget entries found for ${activeSemester}${category && category !== 'All' ? ` in category "${category}"` : ''}${search ? ` matching "${search}"` : ''}.`}
         />
       </section>

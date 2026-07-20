@@ -19,6 +19,7 @@ export default function AdminSemesterSelector({
   const handleTabChange = (semester: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set('semester', semester);
+    params.delete('page');
     router.push(`${pathname}?${params.toString()}`);
   };
 

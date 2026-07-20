@@ -1,7 +1,11 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import BudgetEntryList from './BudgetEntryList';
 import { BudgetEntry } from '../../lib/types';
+
+vi.mock('@/app/actions/entries', () => ({
+  fetchEntriesAction: vi.fn(),
+}));
 
 const mockEntries: BudgetEntry[] = [
   {
@@ -98,5 +102,59 @@ describe('BudgetEntryList Component', () => {
     fireEvent.keyDown(row, { key: ' ', code: 'Space' });
 
     expect(handleEntryClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders Load More button and handles loadMore action', async () => {
+    const mockNextEntries: BudgetEntry[] = [
+      {
+        id: 'b3',
+        type: 'income',
+        description: 'New Fees',
+        category: 'Fees',
+        amount: 200000,
+        date: '2025-01-17',
+        semester: '1st Sem',
+        academic_year: '2024-2025',
+        notes: null,
+        status: 'paid',
+        entered_by: 'officer-1',
+        created_at: '2025-01-17T00:00:00Z',
+        updated_at: '2025-01-17T00:00:00Z',
+      },
+    ];
+
+    const { fetchEntriesAction } = await import('@/app/actions/entries');
+    vi.mocked(fetchEntriesAction).mockResolvedValue({
+      status: 'ok',
+      data: {
+        entries: mockNextEntries,
+        hasMore: false,
+        totalCount: 3,
+      },
+    });
+
+    render(
+      <BudgetEntryList
+        entries={mockEntries}
+        hasMoreInitial={true}
+        semester="1st Sem"
+      />
+    );
+
+    const loadMoreBtn = screen.getByTestId('load-more-btn');
+    expect(loadMoreBtn).toBeDefined();
+
+    fireEvent.click(loadMoreBtn);
+
+    await waitFor(() => {
+      expect(fetchEntriesAction).toHaveBeenCalledWith({
+        semester: '1st Sem',
+        category: undefined,
+        search: undefined,
+        page: 2,
+      });
+      expect(screen.getByText('New Fees')).toBeDefined();
+      expect(screen.queryByTestId('load-more-btn')).toBeNull();
+    });
   });
 });

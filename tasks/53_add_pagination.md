@@ -127,12 +127,12 @@ npm run build
 - Visit with <50 entries — "Load more" should NOT appear.
 
 ## Acceptance Criteria
-- [ ] `getEntries` accepts `page` and `pageSize` parameters.
-- [ ] `getEntries` returns `{ entries, totalCount, hasMore }`.
-- [ ] Default page is 1, default pageSize is 50, max pageSize is 100.
-- [ ] `app/page.tsx` and `app/admin/page.tsx` handle the new return shape.
-- [ ] `BudgetEntryList` renders a "Load more" button when `hasMore` is true.
-- [ ] `EntryTable` renders a "Load more" button when `hasMore` is true.
-- [ ] `npx vitest run` passes all tests.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
-- [ ] `npm run build` succeeds.
+- [x] `getEntries` accepts `page` and `pageSize` parameters.
+- [x] `getEntries` returns `{ entries, totalCount, hasMore }`.
+- [x] Default page is 1, default pageSize is 50, max pageSize is 100.
+- [x] `app/page.tsx` and `app/admin/page.tsx` handle the new return shape.
+- [x] `BudgetEntryList` renders a "Load more" button when `hasMore` is true.
+- [x] `EntryTable` renders a "Load more" button when `hasMore` is true.
+- [x] `npx vitest run` passes all tests.
+- [x] `npx tsc --noEmit` passes with 0 errors.
+- [x] `npm run build` succeeds.

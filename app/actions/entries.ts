@@ -3,6 +3,7 @@
 
 import { BudgetEntrySchema, BudgetEntry } from '../../lib/types'
 import { getOfficerAndClient } from '../../lib/auth/session'
+import { getEntries } from '../../lib/data/entries'
 
 export type ActionResponse<T = unknown> =
   | { success: true; data: T }
@@ -167,4 +168,14 @@ export async function deleteEntry(id: string): Promise<ActionResponse<{ id: stri
     const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred.'
     return { success: false, error: errorMessage }
   }
+}
+
+export async function fetchEntriesAction(filters?: {
+  semester?: string;
+  category?: string;
+  search?: string;
+  page?: number;
+  pageSize?: number;
+}) {
+  return getEntries(filters);
 }

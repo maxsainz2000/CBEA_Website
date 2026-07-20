@@ -12,6 +12,7 @@ export const dynamic = 'force-dynamic';
 
 interface SearchParams {
   semester?: string;
+  page?: string;
 }
 
 interface PageProps {
@@ -38,10 +39,11 @@ export default async function AdminPage({ searchParams }: PageProps) {
   }
   const semestersList = semestersResult.data;
   const activeSemester = params.semester || semestersList[0] || '1st Sem';
+  const page = Number(params.page) || 1;
 
   // Fetch entries and statistics filtered by semester
   const [entriesResult, statsResult] = await Promise.all([
-    getEntries({ semester: activeSemester }),
+    getEntries({ semester: activeSemester, page }),
     getSummaryStats(activeSemester),
   ]);
 
@@ -56,7 +58,8 @@ export default async function AdminPage({ searchParams }: PageProps) {
     );
   }
 
-  const entries = entriesResult.data;
+  const entries = entriesResult.data.entries;
+  const hasMore = entriesResult.data.hasMore;
   const stats = statsResult.data;
 
   const asOfDate = new Date().toLocaleDateString('en-US', {
@@ -127,7 +130,13 @@ export default async function AdminPage({ searchParams }: PageProps) {
           <h2 className="font-label-caps text-label-caps text-secondary uppercase tracking-label-caps select-none">
             Manage Budget Records
           </h2>
-          <EntryTable entries={entries} />
+          <EntryTable
+            entries={entries}
+            hasMoreInitial={hasMore}
+            semester={activeSemester}
+            initialPage={page}
+            key={`${activeSemester}-${page}`}
+          />
         </section>
       </main>
     </div>
