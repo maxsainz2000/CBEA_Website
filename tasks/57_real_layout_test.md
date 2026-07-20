@@ -74,9 +74,9 @@ npx tsc --noEmit
 - Verify the test actually imports and renders `RootLayout`, not a plain `<div>`.
 
 ## Acceptance Criteria
-- [ ] `app/layout.test.tsx` imports and renders `<RootLayout>`.
-- [ ] Test asserts `container.querySelector('html')?.lang === 'en'`.
-- [ ] Test asserts body has `bg-background` and `text-on-background` classes.
-- [ ] Test asserts children are rendered inside `<body>`.
-- [ ] `npx vitest run app/layout.test.tsx` passes.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
+- [x] `app/layout.test.tsx` imports and renders `<RootLayout>`.
+- [x] Test asserts `container.querySelector('html')?.lang === 'en'`.
+- [x] Test asserts body has `bg-background` and `text-on-background` classes.
+- [x] Test asserts children are rendered inside `<body>`.
+- [x] `npx vitest run app/layout.test.tsx` passes.
+- [x] `npx tsc --noEmit` passes with 0 errors.
