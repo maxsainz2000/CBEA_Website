@@ -137,6 +137,8 @@ describe('Budget Entries API and Server Actions', () => {
       ;(getOfficer as ReturnType<typeof vi.fn>).mockResolvedValue({
         id: 'user-uuid',
         email: 'test@csu.edu.ph',
+        role: 'Treasurer',
+        full_name: 'Test Officer',
       })
     })
 
@@ -199,6 +201,8 @@ describe('Budget Entries API and Server Actions', () => {
       ;(getOfficer as ReturnType<typeof vi.fn>).mockResolvedValue({
         id: 'user-uuid',
         email: 'test@csu.edu.ph',
+        role: 'Treasurer',
+        full_name: 'Test Officer',
       })
     })
 
@@ -388,6 +392,8 @@ describe('Budget Entries API and Server Actions', () => {
       ;(getOfficer as ReturnType<typeof vi.fn>).mockResolvedValue({
         id: 'user-uuid',
         email: 'test@csu.edu.ph',
+        role: 'Treasurer',
+        full_name: 'Test Officer',
       })
     })
 

@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation';
 import { getOfficer } from '@/lib/auth/session';
-import { createClient } from '@/lib/supabase/server';
 import AdminHeader from './components/AdminHeader';
 import SummaryStats from '../components/SummaryStats';
 import EntryTable from './components/EntryTable';
@@ -24,14 +23,6 @@ export default async function AdminPage({ searchParams }: PageProps) {
   if (!officer) {
     redirect('/login');
   }
-
-  const supabase = await createClient();
-  const { data: profileData } = await supabase
-    .from('profiles')
-    .select('full_name, role')
-    .eq('id', officer.id)
-    .maybeSingle();
-  const profile = profileData;
 
   const params = await searchParams;
   const semestersResult = await getSemesters();
@@ -92,13 +83,11 @@ export default async function AdminPage({ searchParams }: PageProps) {
             </h1>
             <div className="flex items-center gap-sm mt-xs">
               <span className="font-body-md text-on-background font-bold">
-                {profile?.full_name || officer.email || 'Officer'}
+                {officer.full_name || officer.email}
               </span>
-              {profile?.role && (
-                <span className="status-badge status-badge-paid">
-                  {profile.role}
-                </span>
-              )}
+              <span className="status-badge status-badge-paid">
+                {officer.role}
+              </span>
             </div>
           </div>
           <div>
