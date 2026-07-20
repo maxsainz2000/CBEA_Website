@@ -160,3 +160,21 @@ ALTER TABLE public.profiles
   ADD CONSTRAINT profiles_role_check
   CHECK (role IN ('Treasurer', 'Auditor', 'President', 'Vice President', 'Secretary'));
 
+-- Aggregate function for getSummaryStats (replaces JS-side summing)
+CREATE OR REPLACE FUNCTION public.get_summary_stats(p_semester text)
+RETURNS TABLE (total_collected bigint, total_spent bigint, remaining_balance bigint)
+LANGUAGE sql
+STABLE
+SECURITY INVOKER
+SET search_path = ''
+AS $$
+  SELECT
+    COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0)::bigint AS total_collected,
+    COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0)::bigint AS total_spent,
+    (COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0)
+     - COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0))::bigint AS remaining_balance
+  FROM public.budget_entries
+  WHERE semester = p_semester;
+$$;
+
+GRANT EXECUTE ON FUNCTION public.get_summary_stats(text) TO anon, authenticated;

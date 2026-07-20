@@ -134,11 +134,11 @@ npm run build
 - Verify via Supabase Dashboard SQL editor: `SELECT * FROM get_summary_stats('1st Sem');` returns expected aggregates.
 
 ## Acceptance Criteria
-- [ ] `supabase/migration.sql` contains `CREATE OR REPLACE FUNCTION public.get_summary_stats(...)`.
-- [ ] The function uses `SECURITY INVOKER` and `SET search_path = ''`.
-- [ ] `GRANT EXECUTE` is issued to `anon` and `authenticated` roles.
-- [ ] `lib/data/entries.ts` `getSummaryStats` calls `.rpc('get_summary_stats', ...)` instead of JS-side aggregation.
-- [ ] `supabase/database.test.ts` has a test for the aggregate function.
-- [ ] `npx vitest run` passes all tests.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
-- [ ] `npm run build` succeeds.
+- [x] `supabase/migration.sql` contains `CREATE OR REPLACE FUNCTION public.get_summary_stats(...)`.
+- [x] The function uses `SECURITY INVOKER` and `SET search_path = ''`.
+- [x] `GRANT EXECUTE` is issued to `anon` and `authenticated` roles.
+- [x] `lib/data/entries.ts` `getSummaryStats` calls `.rpc('get_summary_stats', ...)` instead of JS-side aggregation.
+- [x] `supabase/database.test.ts` has a test for the aggregate function.
+- [x] `npx vitest run` passes all tests.
+- [x] `npx tsc --noEmit` passes with 0 errors.
+- [x] `npm run build` succeeds.

@@ -76,42 +76,30 @@ export async function getSummaryStats(semester?: string): Promise<DataResult<{
   totalSpent: number;
   remainingBalance: number;
 }>> {
+  if (!semester) {
+    return { status: 'ok', data: { totalCollected: 0, totalSpent: 0, remainingBalance: 0 } };
+  }
+
   try {
     const supabase = await createClient();
-    let query = supabase.from('budget_entries').select('type, amount');
-
-    if (semester) {
-      query = query.eq('semester', semester);
-    }
-
-    const { data, error } = await query;
+    const { data, error } = await supabase.rpc('get_summary_stats', { p_semester: semester });
 
     if (error) {
       console.error('Database error fetching summary stats:', error.message);
       return { status: 'error', message: "We couldn't load summary statistics. Please try again later." };
     }
 
-    let totalCollected = 0;
-    let totalSpent = 0;
-
-    if (data) {
-      for (const entry of data) {
-        if (entry.type === 'income') {
-          totalCollected += Number(entry.amount);
-        } else if (entry.type === 'expense') {
-          totalSpent += Number(entry.amount);
-        }
-      }
+    if (!data || data.length === 0) {
+      return { status: 'ok', data: { totalCollected: 0, totalSpent: 0, remainingBalance: 0 } };
     }
 
-    const remainingBalance = totalCollected - totalSpent;
-
+    const row = data[0];
     return {
       status: 'ok',
       data: {
-        totalCollected,
-        totalSpent,
-        remainingBalance,
+        totalCollected: Number(row.total_collected),
+        totalSpent: Number(row.total_spent),
+        remainingBalance: Number(row.remaining_balance),
       },
     };
   } catch (err) {

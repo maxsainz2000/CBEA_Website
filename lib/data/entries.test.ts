@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { getEntries } from './entries';
+import { getEntries, getSummaryStats } from './entries';
 import { createClient } from '../supabase/server';
 
 vi.mock('../supabase/server', () => ({
@@ -98,5 +98,86 @@ describe('getEntries', () => {
     expect(result).not.toHaveProperty('data');
     // Ensure it doesn't return MOCK_ENTRIES or fallback values
     expect((result as any).data).toBeUndefined();
+  });
+});
+
+describe('getSummaryStats', () => {
+  let mockSupabase: any;
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  const setupMockRpc = (data: any, error: any) => {
+    mockSupabase = {
+      rpc: vi.fn().mockResolvedValue({ data, error }),
+    };
+    vi.mocked(createClient).mockResolvedValue(mockSupabase as any);
+  };
+
+  it('returns zeros if semester is not provided', async () => {
+    const result = await getSummaryStats();
+    expect(result).toEqual({
+      status: 'ok',
+      data: { totalCollected: 0, totalSpent: 0, remainingBalance: 0 },
+    });
+  });
+
+  it('calls rpc and returns correct statistics when database query succeeds', async () => {
+    setupMockRpc(
+      [
+        {
+          total_collected: 5000,
+          total_spent: 3000,
+          remaining_balance: 2000,
+        },
+      ],
+      null
+    );
+
+    const result = await getSummaryStats('1st Sem');
+
+    expect(mockSupabase.rpc).toHaveBeenCalledWith('get_summary_stats', { p_semester: '1st Sem' });
+    expect(result).toEqual({
+      status: 'ok',
+      data: {
+        totalCollected: 5000,
+        totalSpent: 3000,
+        remainingBalance: 2000,
+      },
+    });
+  });
+
+  it('returns default zeros if rpc returns no data', async () => {
+    setupMockRpc([], null);
+
+    const result = await getSummaryStats('1st Sem');
+
+    expect(result).toEqual({
+      status: 'ok',
+      data: { totalCollected: 0, totalSpent: 0, remainingBalance: 0 },
+    });
+  });
+
+  it('returns error status when rpc call returns an error', async () => {
+    setupMockRpc(null, { message: 'RPC execution failed' });
+
+    const result = await getSummaryStats('1st Sem');
+
+    expect(result).toEqual({
+      status: 'error',
+      message: "We couldn't load summary statistics. Please try again later.",
+    });
+  });
+
+  it('returns error status when createClient or rpc throws an exception', async () => {
+    vi.mocked(createClient).mockRejectedValue(new Error('Connection failure'));
+
+    const result = await getSummaryStats('1st Sem');
+
+    expect(result).toEqual({
+      status: 'error',
+      message: "We couldn't load summary statistics. Please try again later.",
+    });
   });
 });

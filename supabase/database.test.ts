@@ -352,5 +352,18 @@ describe('Database Schema & Migration Setup', () => {
       expect(new Set(categories).size).toBe(categories.length);
     });
   });
+
+  describe('Summary Stats Function', () => {
+    it('should have a get_summary_stats function that returns correct aggregates', async () => {
+      const result = await db.query('SELECT * FROM public.get_summary_stats($1)', ['1st Sem']);
+      expect(result.rows.length).toBe(1);
+      const row = result.rows[0] as any;
+      expect(Number(row.total_collected)).toBeGreaterThanOrEqual(0);
+      expect(Number(row.total_spent)).toBeGreaterThanOrEqual(0);
+      expect(Number(row.remaining_balance)).toBe(
+        Number(row.total_collected) - Number(row.total_spent)
+      );
+    });
+  });
 });
 
