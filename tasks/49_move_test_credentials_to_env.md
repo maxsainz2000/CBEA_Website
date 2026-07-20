@@ -134,12 +134,12 @@ npx tsc --noEmit
 - Run `npx playwright test` (requires real Supabase creds) to verify E2E tests still pass.
 
 ## Acceptance Criteria
-- [ ] `tests/global-setup.ts` reads credentials from `process.env.TEST_USER_EMAIL` and `process.env.TEST_USER_PASSWORD`.
-- [ ] `tests/auth.setup.ts` reads credentials from env vars.
-- [ ] `tests/auth-flow.spec.ts` reads credentials from env vars.
-- [ ] `scratch/create-test-user.ts` reads credentials from env vars.
-- [ ] All 4 files throw a descriptive error if env vars are missing.
-- [ ] `.env.example` documents `TEST_USER_EMAIL` and `TEST_USER_PASSWORD` with placeholder values.
-- [ ] `grep -rn 'jane.doe@csu.edu.ph' app/ lib/ supabase/ tests/ scratch/ middleware.ts` returns 0 hits.
-- [ ] `grep -rn 'Password123' app/ lib/ supabase/ tests/ scratch/ middleware.ts` returns 0 hits.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
+- [x] `tests/global-setup.ts` reads credentials from `process.env.TEST_USER_EMAIL` and `process.env.TEST_USER_PASSWORD`.
+- [x] `tests/auth.setup.ts` reads credentials from env vars.
+- [x] `tests/auth-flow.spec.ts` reads credentials from env vars.
+- [x] `scratch/create-test-user.ts` reads credentials from env vars.
+- [x] All 4 files throw a descriptive error if env vars are missing.
+- [x] `.env.example` documents `TEST_USER_EMAIL` and `TEST_USER_PASSWORD` with placeholder values.
+- [x] `grep -rn 'jane.doe@csu.edu.ph' app/ lib/ supabase/ tests/ scratch/ middleware.ts` returns 0 hits.
+- [x] `grep -rn 'Password123' app/ lib/ supabase/ tests/ scratch/ middleware.ts` returns 0 hits.
+- [x] `npx tsc --noEmit` passes with 0 errors.

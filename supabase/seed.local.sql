@@ -23,6 +23,6 @@ $$;
 
 -- Seed auth users for testing
 INSERT INTO auth.users (id, email) VALUES
-  ('d0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001', 'jane.doe@csu.edu.ph'),
+  ('d0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001', 'test-officer@your-project.supabase.co'),
   ('d0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d002', 'john.smith@csu.edu.ph')
 ON CONFLICT (id) DO NOTHING;

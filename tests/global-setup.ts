@@ -1,8 +1,12 @@
 import { createClient } from '@supabase/supabase-js';
 
 const TEST_USER_ID = 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001';
-const TEST_USER_EMAIL = 'jane.doe@csu.edu.ph';
-const TEST_USER_PASSWORD = 'Password123!';
+const TEST_USER_EMAIL = process.env.TEST_USER_EMAIL;
+const TEST_USER_PASSWORD = process.env.TEST_USER_PASSWORD;
+
+if (!TEST_USER_EMAIL || !TEST_USER_PASSWORD) {
+  throw new Error('TEST_USER_EMAIL and TEST_USER_PASSWORD must be set in .env.local for Playwright tests');
+}
 
 export default async function globalSetup() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;

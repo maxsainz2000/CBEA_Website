@@ -38,10 +38,15 @@ test.describe('Officer Authentication Flow', () => {
   test('Valid Login: Successfully authenticates and redirects to /admin dashboard', async ({ page }) => {
     await page.goto('/login');
 
-    // Fill in mock seeded credentials
-    // Note: This relies on the user jane.doe@csu.edu.ph being configured with Password123! in Supabase Auth
-    await page.locator('[data-testid="email-input"]').fill('jane.doe@csu.edu.ph');
-    await page.locator('[data-testid="password-input"]').fill('Password123!');
+    const TEST_USER_EMAIL = process.env.TEST_USER_EMAIL;
+    const TEST_USER_PASSWORD = process.env.TEST_USER_PASSWORD;
+
+    if (!TEST_USER_EMAIL || !TEST_USER_PASSWORD) {
+      throw new Error('TEST_USER_EMAIL and TEST_USER_PASSWORD must be set in .env.local for Playwright tests');
+    }
+
+    await page.locator('[data-testid="email-input"]').fill(TEST_USER_EMAIL);
+    await page.locator('[data-testid="password-input"]').fill(TEST_USER_PASSWORD);
 
     // Click submit
     await page.locator('[data-testid="login-submit-button"]').click();
