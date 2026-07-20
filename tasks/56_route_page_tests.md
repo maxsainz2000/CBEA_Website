@@ -95,11 +95,11 @@ npx tsc --noEmit
 - Verify test count in `npx vitest run` output is ≥100.
 
 ## Acceptance Criteria
-- [ ] `app/page.test.tsx` exists with tests for data loading and error states.
-- [ ] `app/login/page.test.tsx` exists with tests for form rendering and error display.
-- [ ] `app/admin/page.test.tsx` exists with tests for auth redirect and dashboard rendering.
-- [ ] `app/admin/new/page.test.tsx` exists with tests for auth redirect and form rendering.
-- [ ] `app/admin/edit/[id]/page.test.tsx` exists with tests for auth redirect, 404, and form rendering.
-- [ ] Each test file covers at least: (a) unauthenticated redirect, (b) successful render, (c) error state.
-- [ ] `npx vitest run` passes all tests (≥100 total).
-- [ ] `npx tsc --noEmit` passes with 0 errors.
+- [x] `app/page.test.tsx` exists with tests for data loading and error states.
+- [x] `app/login/page.test.tsx` exists with tests for form rendering and error display.
+- [x] `app/admin/page.test.tsx` exists with tests for auth redirect and dashboard rendering.
+- [x] `app/admin/new/page.test.tsx` exists with tests for auth redirect and form rendering.
+- [x] `app/admin/edit/[id]/page.test.tsx` exists with tests for auth redirect, 404, and form rendering.
+- [x] Each test file covers at least: (a) unauthenticated redirect, (b) successful render, (c) error state.
+- [x] `npx vitest run` passes all tests (≥100 total).
+- [x] `npx tsc --noEmit` passes with 0 errors.
