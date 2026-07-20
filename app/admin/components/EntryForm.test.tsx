@@ -1,7 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import EntryForm from './EntryForm';
-import { BudgetEntry } from '@/lib/types';
+import EntryForm, { EntryFormInitialData } from './EntryForm';
 import { createEntry, updateEntry } from '@/app/actions/entries';
 
 const mockPush = vi.fn();
@@ -19,12 +18,12 @@ vi.mock('@/app/actions/entries', () => ({
   updateEntry: vi.fn(),
 }));
 
-const mockInitialData: BudgetEntry = {
+const mockInitialData: EntryFormInitialData = {
   id: 'b1',
   type: 'income',
   description: 'Membership Fee Collection',
   category: 'Fees',
-  amount: 150000, // stored in centavos -> ₱1,500.00
+  amount: 1500, // decimal pesos -> ₱1,500.00 (form receives pesos, not centavos)
   date: '2025-01-15',
   semester: '1st Sem',
   academic_year: '2024-2025',
@@ -69,7 +68,7 @@ describe('EntryForm Component', () => {
 
     expect((screen.getByTestId('description-input') as HTMLInputElement).value).toBe('Membership Fee Collection');
     expect((screen.getByTestId('category-input') as HTMLInputElement).value).toBe('Fees');
-    expect((screen.getByTestId('amount-input') as HTMLInputElement).value).toBe('150000'); // stored as string inside state
+    expect((screen.getByTestId('amount-input') as HTMLInputElement).value).toBe('1500'); // form receives pesos, not centavos
     expect((screen.getByTestId('notes-input') as HTMLTextAreaElement).value).toBe('Notes text');
     expect((screen.getByTestId('semester-input') as HTMLSelectElement).value).toBe('1st Sem');
     expect((screen.getByTestId('academic-year-input') as HTMLInputElement).value).toBe('2024-2025');
@@ -158,7 +157,7 @@ describe('EntryForm Component', () => {
         type: 'income',
         description: 'Updated Membership Fee',
         category: 'Fees',
-        amount: 150000,
+        amount: 1500,
         date: '2025-01-15',
         semester: '1st Sem',
         academic_year: '2024-2025',

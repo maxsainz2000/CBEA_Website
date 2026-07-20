@@ -5,8 +5,14 @@ import { useRouter } from 'next/navigation';
 import { BudgetEntry, BudgetEntrySchema } from '@/lib/types';
 import { createEntry, updateEntry } from '@/app/actions/entries';
 
+// Form initial data: amount is in decimal pesos (user-facing), NOT centavos.
+// This is distinct from BudgetEntry (which stores amount as integer centavos).
+export type EntryFormInitialData = Omit<BudgetEntry, 'amount'> & {
+  amount: number; // decimal pesos
+};
+
 interface EntryFormProps {
-  initialData?: BudgetEntry;
+  initialData?: EntryFormInitialData;
 }
 
 export default function EntryForm({ initialData }: EntryFormProps) {

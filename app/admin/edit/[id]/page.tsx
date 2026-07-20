@@ -2,7 +2,7 @@ import { redirect, notFound } from 'next/navigation';
 import { getOfficer } from '@/lib/auth/session';
 import { createClient } from '@/lib/supabase/server';
 import AdminHeader from '../../components/AdminHeader';
-import EntryForm from '../../components/EntryForm';
+import EntryForm, { EntryFormInitialData } from '../../components/EntryForm';
 import { BudgetEntry } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
@@ -33,7 +33,7 @@ export default async function EditEntryPage({ params }: PageProps) {
   }
 
   // Rehydrate initialData: Convert amount from centavos (integer) back to decimal (pesos)
-  const initialData = {
+  const initialData: EntryFormInitialData = {
     ...(entry as BudgetEntry),
     amount: (entry as BudgetEntry).amount / 100,
   };

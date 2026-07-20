@@ -108,9 +108,9 @@ npx eslint
 - Submit an edit and verify the saved amount is correct.
 
 ## Acceptance Criteria
-- [ ] `EntryFormInitialData` type exists in `EntryForm.tsx` with `amount: number // decimal pesos`.
-- [ ] `EntryFormProps.initialData` uses `EntryFormInitialData`, not `BudgetEntry`.
-- [ ] `app/admin/edit/[id]/page.tsx` uses `EntryFormInitialData` for the `initialData` variable.
-- [ ] `EntryForm.test.tsx` uses `EntryFormInitialData` type and passes amounts in pesos (not centavos).
-- [ ] `npx vitest run app/admin/components/EntryForm.test.tsx` passes all tests.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
+- [x] `EntryFormInitialData` type exists in `EntryForm.tsx` with `amount: number // decimal pesos`.
+- [x] `EntryFormProps.initialData` uses `EntryFormInitialData`, not `BudgetEntry`.
+- [x] `app/admin/edit/[id]/page.tsx` uses `EntryFormInitialData` for the `initialData` variable.
+- [x] `EntryForm.test.tsx` uses `EntryFormInitialData` type and passes amounts in pesos (not centavos).
+- [x] `npx vitest run app/admin/components/EntryForm.test.tsx` passes all tests.
+- [x] `npx tsc --noEmit` passes with 0 errors.
