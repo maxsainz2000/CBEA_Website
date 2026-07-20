@@ -1,6 +1,6 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
+
 import { BudgetEntrySchema, BudgetEntry } from '../../lib/types'
 import { getOfficerAndClient } from '../../lib/auth/session'
 
@@ -56,9 +56,11 @@ export async function createEntry(data: unknown): Promise<ActionResponse<BudgetE
       return { success: false, error: dbError.message }
     }
 
-    // 5. Bust caches
-    revalidatePath('/')
-    revalidatePath('/admin')
+    // 5. Cache invalidation: both / and /admin are dynamic routes (force-dynamic
+    //    + searchParams), so revalidatePath is a no-op. The admin UI calls
+    //    router.refresh() after success; the public homepage re-fetches on
+    //    next request. If we migrate to unstable_cache + tags later, switch
+    //    to revalidateTag('budget-entries') here.
 
     return { success: true, data: insertedData as BudgetEntry }
   } catch (err) {
@@ -120,9 +122,8 @@ export async function updateEntry(id: string, data: unknown): Promise<ActionResp
       return { success: false, error: 'Failed to update entry. Please try again.' }
     }
 
-    // 5. Bust caches
-    revalidatePath('/')
-    revalidatePath('/admin')
+    // 5. Cache invalidation note: see createEntry comment. Dynamic routes,
+    //    router.refresh() handles admin; public homepage re-fetches on next request.
 
     return { success: true, data: updatedData as BudgetEntry }
   } catch (err) {
@@ -157,9 +158,8 @@ export async function deleteEntry(id: string): Promise<ActionResponse<{ id: stri
       return { success: false, error: 'Entry not found or you do not have permission to delete it.' }
     }
 
-    // 3. Bust caches
-    revalidatePath('/')
-    revalidatePath('/admin')
+    // 3. Cache invalidation note: see createEntry comment. Dynamic routes,
+    //    router.refresh() handles admin; public homepage re-fetches on next request.
 
     return { success: true, data: { id } }
   } catch (err) {

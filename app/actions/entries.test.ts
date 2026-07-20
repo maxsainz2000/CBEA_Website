@@ -5,12 +5,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { createEntry, updateEntry, deleteEntry } from './entries'
 import { getEntries, getEntry, getSummaryStats } from '../../lib/data/entries'
-import { revalidatePath } from 'next/cache'
 
-// Mock next/cache
-vi.mock('next/cache', () => ({
-  revalidatePath: vi.fn(),
-}))
+
+
 
 // Mock lib/auth/session
 vi.mock('../../lib/auth/session', () => ({
@@ -242,8 +239,7 @@ describe('Budget Entries API and Server Actions', () => {
         amount: 15075,
         entered_by: 'user-uuid',
       }))
-      expect(revalidatePath).toHaveBeenCalledWith('/')
-      expect(revalidatePath).toHaveBeenCalledWith('/admin')
+
     })
 
     it('should update entry with correct fields and convert amount', async () => {
@@ -281,8 +277,7 @@ describe('Budget Entries API and Server Actions', () => {
         amount: 9999,
         notes: 'Paper and pens',
       }))
-      expect(revalidatePath).toHaveBeenCalledWith('/')
-      expect(revalidatePath).toHaveBeenCalledWith('/admin')
+
     })
 
     it('should delete entry by id', async () => {
@@ -295,8 +290,7 @@ describe('Budget Entries API and Server Actions', () => {
         expect(result.data).toEqual({ id: 'delete-uuid' })
       }
       expect(currentMockQuery.delete).toHaveBeenCalled()
-      expect(revalidatePath).toHaveBeenCalledWith('/')
-      expect(revalidatePath).toHaveBeenCalledWith('/admin')
+
     })
 
     it('returns friendly error when officer tries to update another user\'s entry', async () => {

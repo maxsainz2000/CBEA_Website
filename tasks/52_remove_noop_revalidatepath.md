@@ -109,10 +109,10 @@ grep -n 'revalidatePath' app/actions/entries.ts
 - Verify the public homepage shows the updated data on next load.
 
 ## Acceptance Criteria
-- [ ] `app/actions/entries.ts` contains 0 `revalidatePath` calls.
-- [ ] `app/actions/entries.ts` has explanatory comments about the cache strategy.
-- [ ] `revalidatePath` import is removed from `app/actions/entries.ts`.
-- [ ] `app/actions/entries.test.ts` has 0 `revalidatePath` assertions.
-- [ ] `npx vitest run app/actions/entries.test.ts` passes all tests.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
-- [ ] `npm run build` succeeds.
+- [x] `app/actions/entries.ts` contains 0 `revalidatePath` calls.
+- [x] `app/actions/entries.ts` has explanatory comments about the cache strategy.
+- [x] `revalidatePath` import is removed from `app/actions/entries.ts`.
+- [x] `app/actions/entries.test.ts` has 0 `revalidatePath` assertions.
+- [x] `npx vitest run app/actions/entries.test.ts` passes all tests.
+- [x] `npx tsc --noEmit` passes with 0 errors.
+- [x] `npm run build` succeeds.
