@@ -81,6 +81,7 @@ node scratch/verify-signup-disabled.js
 - Try to sign up via the SDK — should fail with "Signups not allowed for this instance."
 
 ## Acceptance Criteria
-- [ ] Supabase Dashboard → Authentication → Providers → Email → "Allow new users to sign up" is OFF.
-- [ ] Attempting to sign up via the SDK with the anon key fails with an appropriate error.
-- [ ] Verification script `scratch/verify-signup-disabled.js` exists and prints PASS.
+- [x] Supabase Dashboard → Authentication → Providers → Email → "Allow new users to sign up" is OFF.
+- [x] Attempting to sign up via the SDK with the anon key fails with an appropriate error.
+- [x] Verification script `scratch/verify-signup-disabled.js` exists and prints PASS.
+
