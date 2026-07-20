@@ -71,6 +71,7 @@ export default function LoginPage() {
           <form onSubmit={handleLogin} className="flex flex-col gap-md">
             {error && (
               <div
+                role="alert"
                 className="text-error font-body-sm leading-body-sm p-sm bg-surface select-none border-l-4 border-error"
                 data-testid="login-error-message"
               >

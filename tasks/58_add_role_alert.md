@@ -104,9 +104,9 @@ npx tsc --noEmit
 - Trigger a server error on the entry form — screen reader should announce it.
 
 ## Acceptance Criteria
-- [ ] `app/login/page.tsx` error div has `role="alert"`.
-- [ ] `app/admin/components/EntryForm.tsx` server error div has `role="alert"`.
-- [ ] `app/admin/components/EntryTable.tsx` error div has `role="alert"`.
-- [ ] All 3 are consistent with `ErrorBanner.tsx`'s existing `role="alert"`.
-- [ ] `npx vitest run` passes all tests.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
+- [x] `app/login/page.tsx` error div has `role="alert"`.
+- [x] `app/admin/components/EntryForm.tsx` server error div has `role="alert"`.
+- [x] `app/admin/components/EntryTable.tsx` error div has `role="alert"`.
+- [x] All 3 are consistent with `ErrorBanner.tsx`'s existing `role="alert"`.
+- [x] `npx vitest run` passes all tests.
+- [x] `npx tsc --noEmit` passes with 0 errors.

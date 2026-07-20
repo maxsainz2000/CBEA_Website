@@ -65,7 +65,7 @@ export default function EntryTable({
   return (
     <div className="w-full flex flex-col gap-sm">
       {error && (
-        <div className="p-sm bg-error/10 border-l-4 border-error text-error font-body-sm text-body-sm select-none" data-testid="table-error-message">
+        <div role="alert" className="p-sm bg-error/10 border-l-4 border-error text-error font-body-sm text-body-sm select-none" data-testid="table-error-message">
           {error}
         </div>
       )}

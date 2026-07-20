@@ -121,7 +121,7 @@ export default function EntryForm({ initialData }: EntryFormProps) {
       </h2>
 
       {serverError && (
-        <div className="p-sm bg-error/10 border-l-4 border-error text-error font-body-sm text-body-sm select-none" data-testid="form-server-error">
+        <div role="alert" className="p-sm bg-error/10 border-l-4 border-error text-error font-body-sm text-body-sm select-none" data-testid="form-server-error">
           {serverError}
         </div>
       )}
