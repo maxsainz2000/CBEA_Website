@@ -50,6 +50,6 @@ npx tsc --noEmit
 ```
 
 ## Acceptance Criteria
-- [ ] Profile fetch is either removed (post-Task 48) or parallelized with getSemesters.
-- [ ] `npm run build` succeeds.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
+- [x] Profile fetch is either removed (post-Task 48) or parallelized with getSemesters.
+- [x] `npm run build` succeeds.
+- [x] `npx tsc --noEmit` passes with 0 errors.

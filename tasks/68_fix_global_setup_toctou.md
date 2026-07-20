@@ -61,8 +61,8 @@ npx tsc --noEmit
 ```
 
 ## Acceptance Criteria
-- [ ] `getUserById` error is checked and handled.
-- [ ] "User not found" error triggers user creation.
-- [ ] Transient errors throw descriptive Error.
-- [ ] Cleanup deletion has error handling.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
+- [x] `getUserById` error is checked and handled.
+- [x] "User not found" error triggers user creation.
+- [x] Transient errors throw descriptive Error.
+- [x] Cleanup deletion has error handling.
+- [x] `npx tsc --noEmit` passes with 0 errors.

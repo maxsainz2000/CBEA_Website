@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition, useEffect } from 'react';
+import { useState, useTransition, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { BudgetEntry } from '@/lib/types';
 import { deleteEntry, fetchEntriesAction } from '@/app/actions/entries';
@@ -27,6 +27,13 @@ export default function EntryTable({
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const confirmBtnRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (deletingId) {
+      confirmBtnRef.current?.focus();
+    }
+  }, [deletingId]);
 
   useEffect(() => {
     setDisplayedEntries(entries);
@@ -126,6 +133,7 @@ export default function EntryTable({
                       {isConfirming ? (
                         <div className="flex items-center justify-end gap-xs">
                           <button
+                            ref={confirmBtnRef}
                             onClick={() => handleDelete(entry.id)}
                             disabled={isPending}
                             className="btn-danger flex items-center justify-center cursor-pointer select-none text-body-sm h-12 px-sm"

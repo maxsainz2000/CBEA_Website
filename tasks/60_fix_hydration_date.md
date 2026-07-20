@@ -45,7 +45,7 @@ npx tsc --noEmit
 ```
 
 ## Acceptance Criteria
-- [ ] `useState` initializer uses empty string for date (not `new Date()`).
-- [ ] `useEffect` sets today's date on mount when date is empty.
-- [ ] `npx vitest run app/admin/components/EntryForm.test.tsx` passes.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
+- [x] `useState` initializer uses empty string for date (not `new Date()`).
+- [x] `useEffect` sets today's date on mount when date is empty.
+- [x] `npx vitest run app/admin/components/EntryForm.test.tsx` passes.
+- [x] `npx tsc --noEmit` passes with 0 errors.

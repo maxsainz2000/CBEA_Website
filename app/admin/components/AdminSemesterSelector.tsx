@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useTransition } from 'react';
 import PivotTabs from '@/app/components/PivotTabs';
 
 interface AdminSemesterSelectorProps {
@@ -15,12 +16,15 @@ export default function AdminSemesterSelector({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [, startTransition] = useTransition();
 
   const handleTabChange = (semester: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set('semester', semester);
     params.delete('page');
-    router.push(`${pathname}?${params.toString()}`);
+    startTransition(() => {
+      router.push(`${pathname}?${params.toString()}`);
+    });
   };
 
   return (

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { BudgetEntry, BudgetEntrySchema } from '@/lib/types';
 import { createEntry, updateEntry } from '@/app/actions/entries';
@@ -23,12 +23,22 @@ export default function EntryForm({ initialData }: EntryFormProps) {
     description: initialData?.description || '',
     category: initialData?.category || '',
     amount: initialData?.amount !== undefined ? String(initialData.amount) : '',
-    date: initialData?.date || new Date().toISOString().split('T')[0],
+    date: initialData?.date || '',
     semester: initialData?.semester || '1st Sem',
     academic_year: initialData?.academic_year || '2025-2026',
     notes: initialData?.notes || '',
     status: initialData?.status || 'paid',
   });
+
+  useEffect(() => {
+    if (!formData.date) {
+      setFormData((prev) => ({
+        ...prev,
+        date: new Date().toISOString().split('T')[0],
+      }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState<string | null>(null);
@@ -128,35 +138,41 @@ export default function EntryForm({ initialData }: EntryFormProps) {
 
       {/* Field: Type (Income/Expense toggle) */}
       <div className="flex flex-col gap-xs">
-        <span className="font-label-caps text-label-caps text-secondary uppercase tracking-label-caps select-none">
-          Transaction Type
-        </span>
-        <div className="grid grid-cols-2 gap-0 border border-outline h-12">
-          <button
-            type="button"
-            onClick={() => handleTypeChange('income')}
-            className={`flex items-center justify-center cursor-pointer select-none font-body-sm-strong transition-all ${
-              formData.type === 'income'
-                ? 'bg-income text-on-income'
-                : 'bg-transparent text-secondary hover:bg-outline/50'
-            }`}
-            data-testid="type-toggle-income"
-          >
-            INCOME
-          </button>
-          <button
-            type="button"
-            onClick={() => handleTypeChange('expense')}
-            className={`flex items-center justify-center cursor-pointer select-none font-body-sm-strong transition-all ${
-              formData.type === 'expense'
-                ? 'bg-expense text-on-expense'
-                : 'bg-transparent text-secondary hover:bg-outline/50'
-            }`}
-            data-testid="type-toggle-expense"
-          >
-            EXPENSE
-          </button>
-        </div>
+        <fieldset role="radiogroup" aria-label="Transaction Type" className="border-0 p-0 m-0">
+          <legend className="font-label-caps text-label-caps text-secondary uppercase tracking-label-caps select-none mb-xs">
+            Transaction Type
+          </legend>
+          <div className="grid grid-cols-2 gap-0 border border-outline h-12">
+            <button
+              type="button"
+              role="radio"
+              aria-checked={formData.type === 'income'}
+              onClick={() => handleTypeChange('income')}
+              className={`flex items-center justify-center cursor-pointer select-none font-body-sm-strong transition-all ${
+                formData.type === 'income'
+                  ? 'bg-income text-on-income'
+                  : 'bg-transparent text-secondary hover:bg-outline/50'
+              }`}
+              data-testid="type-toggle-income"
+            >
+              INCOME
+            </button>
+            <button
+              type="button"
+              role="radio"
+              aria-checked={formData.type === 'expense'}
+              onClick={() => handleTypeChange('expense')}
+              className={`flex items-center justify-center cursor-pointer select-none font-body-sm-strong transition-all ${
+                formData.type === 'expense'
+                  ? 'bg-expense text-on-expense'
+                  : 'bg-transparent text-secondary hover:bg-outline/50'
+              }`}
+              data-testid="type-toggle-expense"
+            >
+              EXPENSE
+            </button>
+          </div>
+        </fieldset>
         {validationErrors.type && (
           <span className="font-caption text-caption text-error" data-testid="error-type">
             {validationErrors.type}

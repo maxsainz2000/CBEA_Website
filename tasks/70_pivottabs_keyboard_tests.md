@@ -55,6 +55,6 @@ npx vitest run app/components/PivotTabs.test.tsx
 ```
 
 ## Acceptance Criteria
-- [ ] Tests cover ArrowRight, ArrowLeft (with wrap), Home, and End keys.
-- [ ] Tests verify focus moves to the correct tab element.
-- [ ] `npx vitest run app/components/PivotTabs.test.tsx` passes.
+- [x] Tests cover ArrowRight, ArrowLeft (with wrap), Home, and End keys.
+- [x] Tests verify focus moves to the correct tab element.
+- [x] `npx vitest run app/components/PivotTabs.test.tsx` passes.

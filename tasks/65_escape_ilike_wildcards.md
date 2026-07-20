@@ -45,7 +45,7 @@ npx tsc --noEmit
 ```
 
 ## Acceptance Criteria
-- [ ] `%`, `_`, and `\` are escaped before ILIKE query.
-- [ ] Test verifies wildcard escaping.
-- [ ] `npx vitest run` passes all tests.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
+- [x] `%`, `_`, and `\` are escaped before ILIKE query.
+- [x] Test verifies wildcard escaping.
+- [x] `npx vitest run` passes all tests.
+- [x] `npx tsc --noEmit` passes with 0 errors.

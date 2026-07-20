@@ -2,6 +2,7 @@
  * @vitest-environment node
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { createClient as createBrowserClientHelper } from './client'
 import { createClient as createServerClientHelper } from './server'
@@ -81,14 +82,14 @@ describe('Supabase Client and Middleware Setup', () => {
 
       // Test cookie helper wrapper functions
       const serverClientCalls = vi.mocked(createServerClient).mock.calls
-      const cookiesObj = serverClientCalls[serverClientCalls.length - 1][2].cookies
+      const cookiesObj = serverClientCalls[serverClientCalls.length - 1][2].cookies as any;
 
       // Test getAll
-      const allCookies = cookiesObj.getAll()
-      expect(allCookies).toEqual([{ name: 'sb-access-token', value: 'fake-token' }])
+      const allCookies = cookiesObj.getAll();
+      expect(allCookies).toEqual([{ name: 'sb-access-token', value: 'fake-token' }]);
 
       // Test setAll
-      cookiesObj.setAll!([{ name: 'sb-refresh-token', value: 'new-token', options: {} }], {})
+      (cookiesObj as any).setAll([{ name: 'sb-refresh-token', value: 'new-token', options: {} }])
       expect(mockCookieStore.set).toHaveBeenCalledWith('sb-refresh-token', 'new-token', {})
     })
 

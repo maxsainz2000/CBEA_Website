@@ -99,6 +99,14 @@ describe('getEntries', () => {
     // Ensure it doesn't return MOCK_ENTRIES or fallback values
     expect((result as any).data).toBeUndefined();
   });
+
+  it('escapes ILIKE wildcards in search', async () => {
+    setupMockSupabase([], null);
+
+    await getEntries({ search: '100%_\\foo' });
+
+    expect(mockQuery.ilike).toHaveBeenCalledWith('description', '%100\\%\\_\\\\foo%');
+  });
 });
 
 describe('getSummaryStats', () => {

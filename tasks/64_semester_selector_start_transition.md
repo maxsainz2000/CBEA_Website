@@ -43,6 +43,6 @@ npx tsc --noEmit
 ```
 
 ## Acceptance Criteria
-- [ ] `router.push` is wrapped in `startTransition`.
-- [ ] `useTransition` is imported from React.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
+- [x] `router.push` is wrapped in `startTransition`.
+- [x] `useTransition` is imported from React.
+- [x] `npx tsc --noEmit` passes with 0 errors.

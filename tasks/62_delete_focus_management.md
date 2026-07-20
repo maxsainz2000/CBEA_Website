@@ -60,7 +60,7 @@ npx tsc --noEmit
 ```
 
 ## Acceptance Criteria
-- [ ] Confirm button receives focus when delete confirmation is shown.
-- [ ] Test verifies focus moves to Confirm button.
-- [ ] `npx vitest run app/admin/components/EntryTable.test.tsx` passes.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
+- [x] Confirm button receives focus when delete confirmation is shown.
+- [x] Test verifies focus moves to Confirm button.
+- [x] `npx vitest run app/admin/components/EntryTable.test.tsx` passes.
+- [x] `npx tsc --noEmit` passes with 0 errors.

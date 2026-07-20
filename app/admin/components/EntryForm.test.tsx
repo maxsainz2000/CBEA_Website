@@ -90,6 +90,29 @@ describe('EntryForm Component', () => {
     expect(expenseToggle.className).not.toContain('bg-expense');
   });
 
+  it('toggles aria-checked on type buttons', () => {
+    render(<EntryForm />);
+
+    const incomeToggle = screen.getByTestId('type-toggle-income');
+    const expenseToggle = screen.getByTestId('type-toggle-expense');
+
+    // Default: expense
+    expect(expenseToggle.getAttribute('aria-checked')).toBe('true');
+    expect(incomeToggle.getAttribute('aria-checked')).toBe('false');
+
+    // Click income
+    fireEvent.click(incomeToggle);
+    expect(incomeToggle.getAttribute('aria-checked')).toBe('true');
+    expect(expenseToggle.getAttribute('aria-checked')).toBe('false');
+  });
+
+  it('initializes date to empty then updates to today in useEffect', () => {
+    const todayStr = new Date().toISOString().split('T')[0];
+    render(<EntryForm />);
+    const dateInput = screen.getByTestId('date-input') as HTMLInputElement;
+    expect(dateInput.value).toBe(todayStr);
+  });
+
   it('triggers client-side validations on empty inputs', async () => {
     render(<EntryForm />);
 

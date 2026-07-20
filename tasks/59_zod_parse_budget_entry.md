@@ -57,7 +57,7 @@ npx tsc --noEmit
 ```
 
 ## Acceptance Criteria
-- [ ] `BudgetEntryRecordSchema` exists in `lib/types.ts` with `id`, `entered_by`, `created_at`, `updated_at`.
-- [ ] 0 `as BudgetEntry` casts remain in `app/actions/entries.ts` and `app/admin/edit/[id]/page.tsx`.
-- [ ] `npx vitest run` passes all tests.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
+- [x] `BudgetEntryRecordSchema` exists in `lib/types.ts` with `id`, `entered_by`, `created_at`, `updated_at`.
+- [x] 0 `as BudgetEntry` casts remain in `app/actions/entries.ts` and `app/admin/edit/[id]/page.tsx`.
+- [x] `npx vitest run` passes all tests.
+- [x] `npx tsc --noEmit` passes with 0 errors.

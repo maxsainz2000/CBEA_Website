@@ -36,3 +36,13 @@ export const BudgetEntrySchema = z.object({
   notes: z.string().nullable().optional(),
   status: z.enum(['paid', 'pending', 'flagged']).default('paid'),
 })
+
+export const BudgetEntryRecordSchema = BudgetEntrySchema.extend({
+  id: z.string().uuid(),
+  entered_by: z.string().uuid(),
+  created_at: z.string(),
+  updated_at: z.string(),
+}).transform((data) => ({
+  ...data,
+  notes: data.notes ?? null,
+}));

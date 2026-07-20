@@ -3,6 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import EntryTable from './EntryTable';
 import { BudgetEntry } from '@/lib/types';
 import { deleteEntry } from '@/app/actions/entries';
+import '@testing-library/jest-dom';
 
 vi.mock('@/app/actions/entries', () => ({
   deleteEntry: vi.fn(),
@@ -96,6 +97,16 @@ describe('EntryTable Component', () => {
     expect(screen.getByTestId('edit-btn-b1')).toBeDefined();
     expect(screen.queryByTestId('confirm-delete-b1')).toBeNull();
     expect(screen.queryByTestId('cancel-delete-b1')).toBeNull();
+  });
+
+  it('focuses Confirm button when delete confirmation is shown', async () => {
+    render(<EntryTable entries={mockEntries} />);
+
+    const deleteBtn = screen.getByTestId('delete-btn-b1');
+    fireEvent.click(deleteBtn);
+
+    const confirmBtn = screen.getByTestId('confirm-delete-b1');
+    expect(confirmBtn).toHaveFocus();
   });
 
   it('calls deleteEntry action when confirming delete', async () => {

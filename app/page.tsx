@@ -4,7 +4,7 @@ import SummaryStats from './components/SummaryStats';
 import ClientFilters from './components/ClientFilters';
 import BudgetEntryList from './components/BudgetEntryList';
 import ErrorBanner from './components/ErrorBanner';
-import { getEntries, getSummaryStats, getSemesters, getCategories } from '../lib/data/entries';
+import { getEntries, getSummaryStats, getSemesters, getCategories, getLastUpdatedDate } from '../lib/data/entries';
 
 // This page reads searchParams (a Dynamic API in Next.js 15), which forces
 // dynamic rendering. No ISR/revalidate is possible without PPR + Suspense.
@@ -60,12 +60,15 @@ async function HomepageContent({ searchParams }: PageProps) {
   const stats = statsResult.data;
   const categoriesList = categoriesResult.data;
 
-  const asOfDate = new Date().toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    timeZone: 'Asia/Manila',
-  });
+  const lastUpdated = await getLastUpdatedDate(activeSemester);
+  const asOfDate = lastUpdated
+    ? new Date(lastUpdated).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        timeZone: 'Asia/Manila',
+      })
+    : 'No data published yet';
 
   return (
     <div className="flex flex-col gap-lg w-full">

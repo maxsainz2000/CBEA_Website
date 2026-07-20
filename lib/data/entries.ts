@@ -22,7 +22,11 @@ export async function getEntries(filters?: {
 
     if (filters?.semester) query = query.eq('semester', filters.semester);
     if (filters?.category) query = query.eq('category', filters.category);
-    if (filters?.search) query = query.ilike('description', `%${filters.search}%`);
+    if (filters?.search) {
+      // Escape ILIKE wildcards so user input is treated literally
+      const escaped = filters.search.replace(/[%_\\]/g, '\\$&');
+      query = query.ilike('description', `%${escaped}%`);
+    }
 
     query = query
       .order('date', { ascending: false })
@@ -152,5 +156,19 @@ export async function getCategories(): Promise<DataResult<string[]>> {
   } catch {
     logger.error('Unhandled exception fetching categories');
     return { status: 'error', message: "We couldn't load category options. Please try again later." };
+  }
+}
+
+export async function getLastUpdatedDate(semester?: string): Promise<string | null> {
+  try {
+    const supabase = await createClient();
+    let query = supabase.from('budget_entries').select('updated_at');
+    if (semester) query = query.eq('semester', semester);
+    query = query.order('updated_at', { ascending: false }).limit(1);
+    const { data, error } = await query;
+    if (error || !data || data.length === 0) return null;
+    return data[0].updated_at;
+  } catch {
+    return null;
   }
 }

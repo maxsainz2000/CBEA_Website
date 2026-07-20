@@ -28,5 +28,5 @@ npx vitest run
 ```
 
 ## Acceptance Criteria
-- [ ] `scratch/test-crud.test.ts` does not exist.
-- [ ] `npx vitest run` passes all tests (scratch is excluded by vitest config).
+- [x] `scratch/test-crud.test.ts` does not exist.
+- [x] `npx vitest run` passes all tests (scratch is excluded by vitest config).

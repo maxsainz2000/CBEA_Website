@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import Homepage from './page';
-import { getEntries, getSummaryStats, getSemesters, getCategories } from '@/lib/data/entries';
+import { getEntries, getSummaryStats, getSemesters, getCategories, getLastUpdatedDate } from '@/lib/data/entries';
 
 // Extract the private HomepageContent component using JSX tree traversal of the default-exported Homepage.
 // Next.js pages strictly prohibit exporting anything other than page/metadata configurations,
@@ -29,16 +29,19 @@ vi.mock('@/lib/data/entries', () => ({
   getSummaryStats: vi.fn(),
   getSemesters: vi.fn(),
   getCategories: vi.fn(),
+  getLastUpdatedDate: vi.fn(),
 }));
 
 const mockGetEntries = vi.mocked(getEntries);
 const mockGetSummaryStats = vi.mocked(getSummaryStats);
 const mockGetSemesters = vi.mocked(getSemesters);
 const mockGetCategories = vi.mocked(getCategories);
+const mockGetLastUpdatedDate = vi.mocked(getLastUpdatedDate);
 
 describe('Homepage Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockGetLastUpdatedDate.mockResolvedValue('2026-07-20T00:00:00Z');
   });
 
   it('renders synchronous Homepage wrapper with Title and fallback loader', () => {

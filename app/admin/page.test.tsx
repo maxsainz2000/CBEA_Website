@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import AdminPage from './page';
 import { getOfficer } from '@/lib/auth/session';
-import { getEntries, getSummaryStats, getSemesters } from '@/lib/data/entries';
+import { getEntries, getSummaryStats, getSemesters, getLastUpdatedDate } from '@/lib/data/entries';
 import { redirect } from 'next/navigation';
 
 vi.mock('next/navigation', () => ({
@@ -25,16 +25,19 @@ vi.mock('@/lib/data/entries', () => ({
   getEntries: vi.fn(),
   getSummaryStats: vi.fn(),
   getSemesters: vi.fn(),
+  getLastUpdatedDate: vi.fn(),
 }));
 
 const mockGetOfficer = vi.mocked(getOfficer);
 const mockGetEntries = vi.mocked(getEntries);
 const mockGetSummaryStats = vi.mocked(getSummaryStats);
 const mockGetSemesters = vi.mocked(getSemesters);
+const mockGetLastUpdatedDate = vi.mocked(getLastUpdatedDate);
 
 describe('AdminPage Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockGetLastUpdatedDate.mockResolvedValue('2026-07-20T00:00:00Z');
   });
 
   it('redirects to /login when unauthenticated', async () => {

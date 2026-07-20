@@ -23,25 +23,45 @@ export default async function globalSetup() {
   );
 
   // 1. Ensure the test user exists with the deterministic UUID
-  const { data: existingUser } = await supabaseAdmin.auth.admin.getUserById(TEST_USER_ID);
-  if (!existingUser?.user) {
-    // Check if a user with this email already exists (different UUID)
-    const { data: { users } } = await supabaseAdmin.auth.admin.listUsers();
-    const existingByEmail = users?.find(u => u.email === TEST_USER_EMAIL);
-    if (existingByEmail) {
-      // Delete the existing user so we can recreate with the target UUID
-      await supabaseAdmin.auth.admin.deleteUser(existingByEmail.id);
-    }
+  const { data: existingUser, error: getUserError } = await supabaseAdmin.auth.admin.getUserById(TEST_USER_ID);
 
-    // Create the user with the deterministic UUID
-    const { error: createError } = await supabaseAdmin.auth.admin.createUser({
-      id: TEST_USER_ID,
-      email: TEST_USER_EMAIL,
-      password: TEST_USER_PASSWORD,
-      email_confirm: true,
-      user_metadata: { full_name: 'Jane Doe', role: 'Treasurer' },
-    });
-    if (createError) throw createError;
+  if (getUserError) {
+    if (getUserError.message?.includes('User not found') || getUserError.status === 404) {
+      // Check if a user with this email already exists (different UUID)
+      const { data: listData, error: listError } = await supabaseAdmin.auth.admin.listUsers();
+      if (listError) throw new Error(`Failed to list users: ${listError.message}`);
+
+      const existingByEmail = listData?.users?.find(u => u.email === TEST_USER_EMAIL);
+      if (existingByEmail) {
+        // Delete the existing user so we can recreate with the target UUID
+        const { error: deleteUserError } = await supabaseAdmin.auth.admin.deleteUser(existingByEmail.id);
+        if (deleteUserError) throw new Error(`Failed to delete existing user: ${deleteUserError.message}`);
+      }
+
+      // Create the user with the deterministic UUID
+      const { error: createError } = await supabaseAdmin.auth.admin.createUser({
+        id: TEST_USER_ID,
+        email: TEST_USER_EMAIL,
+        password: TEST_USER_PASSWORD,
+        email_confirm: true,
+        user_metadata: { full_name: 'Jane Doe', role: 'Treasurer' },
+      });
+      if (createError) throw new Error(`Failed to create test user: ${createError.message}`);
+    } else {
+      throw new Error(`Failed to check test user: ${getUserError.message}`);
+    }
+  } else if (!existingUser?.user) {
+    throw new Error('Failed to retrieve test user: Response data is empty');
+  } else {
+    // User exists — delete residual entries
+    const { error: deleteError } = await supabaseAdmin
+      .from('budget_entries')
+      .delete()
+      .eq('entered_by', TEST_USER_ID)
+      .like('description', 'E2E Sponsorship %');
+    if (deleteError) {
+      console.warn(`Failed to clean up test entries: ${deleteError.message}`);
+    }
   }
 
   // 2. Ensure a profiles row exists for the test user

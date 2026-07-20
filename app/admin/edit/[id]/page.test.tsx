@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import EditEntryPage from './page';
 import { getOfficer } from '@/lib/auth/session';
-import { createClient } from '@/lib/supabase/server';
 import { redirect, notFound } from 'next/navigation';
 
 const mockPush = vi.fn();
@@ -57,7 +56,7 @@ describe('EditEntryPage Component', () => {
     mockGetOfficer.mockResolvedValue(null);
 
     await expect(
-      EditEntryPage({ params: Promise.resolve({ id: 'e1' }) })
+      EditEntryPage({ params: Promise.resolve({ id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d002' }) })
     ).rejects.toThrow('Redirect to /login');
 
     expect(redirect).toHaveBeenCalledWith('/login');
@@ -65,7 +64,7 @@ describe('EditEntryPage Component', () => {
 
   it('calls notFound() if entry does not exist or officer does not own it', async () => {
     mockGetOfficer.mockResolvedValue({
-      id: 'o1',
+      id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
       email: 'treasurer@csu.edu.ph',
       role: 'Treasurer',
       full_name: 'Jane Doe',
@@ -77,19 +76,19 @@ describe('EditEntryPage Component', () => {
     });
 
     await expect(
-      EditEntryPage({ params: Promise.resolve({ id: 'e1' }) })
+      EditEntryPage({ params: Promise.resolve({ id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d002' }) })
     ).rejects.toThrow('Not Found');
 
     expect(mockFrom).toHaveBeenCalledWith('budget_entries');
     expect(mockSelect).toHaveBeenCalledWith('*');
-    expect(mockEqFirst).toHaveBeenCalledWith('id', 'e1');
-    expect(mockEqSecond).toHaveBeenCalledWith('entered_by', 'o1');
+    expect(mockEqFirst).toHaveBeenCalledWith('id', 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d002');
+    expect(mockEqSecond).toHaveBeenCalledWith('entered_by', 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001');
     expect(notFound).toHaveBeenCalled();
   });
 
   it('calls notFound() if database query returns an error', async () => {
     mockGetOfficer.mockResolvedValue({
-      id: 'o1',
+      id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
       email: 'treasurer@csu.edu.ph',
       role: 'Treasurer',
       full_name: 'Jane Doe',
@@ -101,7 +100,7 @@ describe('EditEntryPage Component', () => {
     });
 
     await expect(
-      EditEntryPage({ params: Promise.resolve({ id: 'e1' }) })
+      EditEntryPage({ params: Promise.resolve({ id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d002' }) })
     ).rejects.toThrow('Not Found');
 
     expect(notFound).toHaveBeenCalled();
@@ -109,7 +108,7 @@ describe('EditEntryPage Component', () => {
 
   it('renders pre-populated EntryForm when entry is found and owned by officer', async () => {
     mockGetOfficer.mockResolvedValue({
-      id: 'o1',
+      id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
       email: 'treasurer@csu.edu.ph',
       role: 'Treasurer',
       full_name: 'Jane Doe',
@@ -117,7 +116,7 @@ describe('EditEntryPage Component', () => {
 
     mockMaybeSingle.mockResolvedValue({
       data: {
-        id: 'e1',
+        id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d002',
         type: 'income',
         description: 'Semester Membership Fees',
         category: 'Fees',
@@ -127,12 +126,14 @@ describe('EditEntryPage Component', () => {
         academic_year: '2025-2026',
         notes: 'Pre-populated notes',
         status: 'paid',
-        entered_by: 'o1',
+        entered_by: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
+        created_at: '2026-07-20T00:00:00Z',
+        updated_at: '2026-07-20T00:00:00Z',
       },
       error: null,
     });
 
-    const jsx = await EditEntryPage({ params: Promise.resolve({ id: 'e1' }) });
+    const jsx = await EditEntryPage({ params: Promise.resolve({ id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d002' }) });
     render(jsx);
 
     expect(screen.getByText('Modify Entry')).toBeDefined();

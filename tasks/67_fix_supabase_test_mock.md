@@ -31,5 +31,5 @@ npx vitest run lib/supabase/supabase.test.ts
 ```
 
 ## Acceptance Criteria
-- [ ] `setAll` call has no `!` assertion and no extra `{}` argument.
-- [ ] `npx vitest run lib/supabase/supabase.test.ts` passes.
+- [x] `setAll` call has no `!` assertion and no extra `{}` argument.
+- [x] `npx vitest run lib/supabase/supabase.test.ts` passes.

@@ -1,7 +1,7 @@
 'use server'
 
 
-import { BudgetEntrySchema, BudgetEntry } from '../../lib/types'
+import { BudgetEntrySchema, BudgetEntry, BudgetEntryRecordSchema } from '../../lib/types'
 import { getOfficerAndClient } from '../../lib/auth/session'
 import { getEntries } from '../../lib/data/entries'
 import { logger } from '../../lib/log'
@@ -68,7 +68,12 @@ export async function createEntry(data: unknown): Promise<ActionResponse<BudgetE
     //    next request. If we migrate to unstable_cache + tags later, switch
     //    to revalidateTag('budget-entries') here.
 
-    return { success: true, data: insertedData as BudgetEntry }
+    const parsed = BudgetEntryRecordSchema.safeParse(insertedData)
+    if (!parsed.success) {
+      logger.error('Schema validation failed on inserted data', { errors: parsed.error.issues })
+      return { success: false, error: 'Inserted data failed schema validation.' }
+    }
+    return { success: true, data: parsed.data }
   } catch (err) {
     logger.error('Unhandled action error', {
       action: 'createEntry',
@@ -137,7 +142,12 @@ export async function updateEntry(id: string, data: unknown): Promise<ActionResp
     // 5. Cache invalidation note: see createEntry comment. Dynamic routes,
     //    router.refresh() handles admin; public homepage re-fetches on next request.
 
-    return { success: true, data: updatedData as BudgetEntry }
+    const parsed = BudgetEntryRecordSchema.safeParse(updatedData)
+    if (!parsed.success) {
+      logger.error('Schema validation failed on updated data', { errors: parsed.error.issues })
+      return { success: false, error: 'Updated data failed schema validation.' }
+    }
+    return { success: true, data: parsed.data }
   } catch (err) {
     logger.error('Unhandled action error', {
       action: 'updateEntry',

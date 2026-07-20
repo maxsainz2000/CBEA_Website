@@ -5,7 +5,7 @@ import SummaryStats from '../components/SummaryStats';
 import EntryTable from './components/EntryTable';
 import AdminSemesterSelector from './components/AdminSemesterSelector';
 import ErrorBanner from '../components/ErrorBanner';
-import { getEntries, getSummaryStats, getSemesters } from '@/lib/data/entries';
+import { getEntries, getSummaryStats, getSemesters, getLastUpdatedDate } from '@/lib/data/entries';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
@@ -62,12 +62,15 @@ export default async function AdminPage({ searchParams }: PageProps) {
   const hasMore = entriesResult.data.hasMore;
   const stats = statsResult.data;
 
-  const asOfDate = new Date().toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    timeZone: 'Asia/Manila',
-  });
+  const lastUpdated = await getLastUpdatedDate(activeSemester);
+  const asOfDate = lastUpdated
+    ? new Date(lastUpdated).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        timeZone: 'Asia/Manila',
+      })
+    : 'No data published yet';
 
   return (
     <div className="min-h-screen bg-background flex flex-col">

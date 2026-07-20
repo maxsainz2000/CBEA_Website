@@ -137,7 +137,7 @@ describe('Budget Entries API and Server Actions', () => {
   describe('Schema Validation', () => {
     beforeEach(() => {
       ;(getOfficer as ReturnType<typeof vi.fn>).mockResolvedValue({
-        id: 'user-uuid',
+        id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
         email: 'test@csu.edu.ph',
         role: 'Treasurer',
         full_name: 'Test Officer',
@@ -201,7 +201,7 @@ describe('Budget Entries API and Server Actions', () => {
   describe('Happy Path Actions', () => {
     beforeEach(() => {
       ;(getOfficer as ReturnType<typeof vi.fn>).mockResolvedValue({
-        id: 'user-uuid',
+        id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
         email: 'test@csu.edu.ph',
         role: 'Treasurer',
         full_name: 'Test Officer',
@@ -210,7 +210,7 @@ describe('Budget Entries API and Server Actions', () => {
 
     it('should create entry and convert decimal amount to integer cents', async () => {
       const mockResult = {
-        id: 'new-entry-uuid',
+        id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d002',
         type: 'income',
         description: 'Student fees',
         category: 'Fees',
@@ -220,7 +220,9 @@ describe('Budget Entries API and Server Actions', () => {
         academic_year: '2025-2026',
         notes: null,
         status: 'paid',
-        entered_by: 'user-uuid',
+        entered_by: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
+        created_at: '2026-07-20T00:00:00Z',
+        updated_at: '2026-07-20T00:00:00Z',
       }
       currentMockQuery = new MockQuery(mockResult)
 
@@ -242,14 +244,14 @@ describe('Budget Entries API and Server Actions', () => {
       expect(mockFrom).toHaveBeenCalledWith('budget_entries')
       expect(currentMockQuery.insert).toHaveBeenCalledWith(expect.objectContaining({
         amount: 15075,
-        entered_by: 'user-uuid',
+        entered_by: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
       }))
 
     })
 
     it('should update entry with correct fields and convert amount', async () => {
       const mockResult = {
-        id: 'existing-uuid',
+        id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d002',
         type: 'expense',
         description: 'Office supplies',
         category: 'Supplies',
@@ -259,10 +261,13 @@ describe('Budget Entries API and Server Actions', () => {
         academic_year: '2025-2026',
         notes: 'Paper and pens',
         status: 'paid',
+        entered_by: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
+        created_at: '2026-07-20T00:00:00Z',
+        updated_at: '2026-07-20T00:00:00Z',
       }
       currentMockQuery = new MockQuery(mockResult)
 
-      const result = await updateEntry('existing-uuid', {
+      const result = await updateEntry('d0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d002', {
         type: 'expense',
         description: 'Office supplies',
         category: 'Supplies',
@@ -398,7 +403,7 @@ describe('Budget Entries API and Server Actions', () => {
   describe('Precision and Validation Edge Cases', () => {
     beforeEach(() => {
       ;(getOfficer as ReturnType<typeof vi.fn>).mockResolvedValue({
-        id: 'user-uuid',
+        id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
         email: 'test@csu.edu.ph',
         role: 'Treasurer',
         full_name: 'Test Officer',
@@ -426,7 +431,7 @@ describe('Budget Entries API and Server Actions', () => {
 
     it('correctly converts 19.99 to 1999 centavos', async () => {
       const mockResult = {
-        id: 'new-entry-uuid',
+        id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d002',
         type: 'income',
         description: 'Student fees',
         category: 'Fees',
@@ -436,7 +441,9 @@ describe('Budget Entries API and Server Actions', () => {
         academic_year: '2025-2026',
         notes: null,
         status: 'paid',
-        entered_by: 'user-uuid',
+        entered_by: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
+        created_at: '2026-07-20T00:00:00Z',
+        updated_at: '2026-07-20T00:00:00Z',
       }
       currentMockQuery = new MockQuery(mockResult)
 
@@ -460,7 +467,7 @@ describe('Budget Entries API and Server Actions', () => {
 
     it('correctly converts 1500.50 to 150050 centavos', async () => {
       const mockResult = {
-        id: 'new-entry-uuid',
+        id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d002',
         type: 'income',
         description: 'Student fees',
         category: 'Fees',
@@ -470,7 +477,9 @@ describe('Budget Entries API and Server Actions', () => {
         academic_year: '2025-2026',
         notes: null,
         status: 'paid',
-        entered_by: 'user-uuid',
+        entered_by: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
+        created_at: '2026-07-20T00:00:00Z',
+        updated_at: '2026-07-20T00:00:00Z',
       }
       currentMockQuery = new MockQuery(mockResult)
 

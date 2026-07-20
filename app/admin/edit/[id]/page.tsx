@@ -3,7 +3,7 @@ import { getOfficer } from '@/lib/auth/session';
 import { createClient } from '@/lib/supabase/server';
 import AdminHeader from '../../components/AdminHeader';
 import EntryForm, { EntryFormInitialData } from '../../components/EntryForm';
-import { BudgetEntry } from '@/lib/types';
+import { BudgetEntryRecordSchema } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,10 +32,18 @@ export default async function EditEntryPage({ params }: PageProps) {
     notFound();   // 404 — don't reveal whether the entry exists
   }
 
+  // Validate and parse the database record using Zod
+  let parsedEntry;
+  try {
+    parsedEntry = BudgetEntryRecordSchema.parse(entry);
+  } catch {
+    notFound();
+  }
+
   // Rehydrate initialData: Convert amount from centavos (integer) back to decimal (pesos)
   const initialData: EntryFormInitialData = {
-    ...(entry as BudgetEntry),
-    amount: (entry as BudgetEntry).amount / 100,
+    ...parsedEntry,
+    amount: parsedEntry.amount / 100,
   };
 
   return (

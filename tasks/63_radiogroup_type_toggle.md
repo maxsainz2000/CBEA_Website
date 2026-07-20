@@ -70,8 +70,8 @@ npx tsc --noEmit
 ```
 
 ## Acceptance Criteria
-- [ ] Type toggle is wrapped in `<fieldset role="radiogroup">`.
-- [ ] Each button has `role="radio"` and `aria-checked`.
-- [ ] `aria-checked` toggles correctly between income and expense.
-- [ ] `npx vitest run app/admin/components/EntryForm.test.tsx` passes.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
+- [x] Type toggle is wrapped in `<fieldset role="radiogroup">`.
+- [x] Each button has `role="radio"` and `aria-checked`.
+- [x] `aria-checked` toggles correctly between income and expense.
+- [x] `npx vitest run app/admin/components/EntryForm.test.tsx` passes.
+- [x] `npx tsc --noEmit` passes with 0 errors.

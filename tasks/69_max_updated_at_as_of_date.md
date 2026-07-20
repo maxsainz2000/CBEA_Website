@@ -58,9 +58,9 @@ npm run build
 ```
 
 ## Acceptance Criteria
-- [ ] `getLastUpdatedDate` function exists in `lib/data/entries.ts`.
-- [ ] `app/page.tsx` uses `getLastUpdatedDate` instead of `new Date()`.
-- [ ] `app/admin/page.tsx` uses `getLastUpdatedDate` instead of `new Date()`.
-- [ ] Falls back to "No data published yet" when no entries exist.
-- [ ] `npx vitest run` passes all tests.
-- [ ] `npx tsc --noEmit` passes with 0 errors.
+- [x] `getLastUpdatedDate` function exists in `lib/data/entries.ts`.
+- [x] `app/page.tsx` uses `getLastUpdatedDate` instead of `new Date()`.
+- [x] `app/admin/page.tsx` uses `getLastUpdatedDate` instead of `new Date()`.
+- [x] Falls back to "No data published yet" when no entries exist.
+- [x] `npx vitest run` passes all tests.
+- [x] `npx tsc --noEmit` passes with 0 errors.
