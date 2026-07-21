@@ -37,5 +37,5 @@ npx eslint
 - N/A
 
 ## Acceptance Criteria
-- [ ] npx eslint passes without errors
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] npx eslint passes without errors
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

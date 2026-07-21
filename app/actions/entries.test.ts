@@ -339,7 +339,21 @@ describe('Budget Entries API and Server Actions', () => {
   describe('Data Fetching helpers', () => {
     it('should getEntries with filters and apply order options', async () => {
       const mockEntries = [
-        { id: '1', description: 'a', date: '2026-07-11', semester: '1st Sem', category: 'A' },
+        {
+          id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
+          type: 'income',
+          description: 'a',
+          category: 'A',
+          amount: 100,
+          date: '2026-07-11',
+          semester: '1st Sem',
+          academic_year: '2025-2026',
+          notes: null,
+          status: 'paid',
+          entered_by: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
+          created_at: '2026-07-11T00:00:00Z',
+          updated_at: '2026-07-11T00:00:00Z',
+        },
       ]
       currentMockQuery = new MockQuery(mockEntries)
 
@@ -365,13 +379,27 @@ describe('Budget Entries API and Server Actions', () => {
     })
 
     it('should fetch a single entry via getEntry', async () => {
-      const mockEntry = { id: 'single-id', description: 'one' }
+      const mockEntry = {
+        id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
+        type: 'income',
+        description: 'one',
+        category: 'A',
+        amount: 100,
+        date: '2026-07-11',
+        semester: '1st Sem',
+        academic_year: '2025-2026',
+        notes: null,
+        status: 'paid',
+        entered_by: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
+        created_at: '2026-07-11T00:00:00Z',
+        updated_at: '2026-07-11T00:00:00Z',
+      }
       currentMockQuery = new MockQuery(mockEntry)
 
-      const result = await getEntry('single-id')
+      const result = await getEntry('d0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001')
 
       expect(result).toEqual({ status: 'ok', data: mockEntry })
-      expect(currentMockQuery.eq).toHaveBeenCalledWith('id', 'single-id')
+      expect(currentMockQuery.eq).toHaveBeenCalledWith('id', 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001')
     })
 
     it('should compute correct summary stats including negative balances', async () => {

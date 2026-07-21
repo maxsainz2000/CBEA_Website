@@ -183,7 +183,7 @@ export default function EntryTable({
         </table>
       </div>
       {hasMore && (
-        <div className="flex justify-center p-md border border-t-0 border-outline bg-surface/50">
+        <div className="flex justify-center p-md border border-t-0 border-outline bg-surface">
           <button
             onClick={loadMore}
             disabled={isLoadingMore}

@@ -37,5 +37,5 @@ cat cbea-metro-design/cbea-package/DESIGN.md
 - N/A
 
 ## Acceptance Criteria
-- [ ] Documentation reflects current design token usage
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Documentation reflects current design token usage
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

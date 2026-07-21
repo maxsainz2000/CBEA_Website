@@ -38,5 +38,5 @@ grep -rn "bg-surface/50\|hover:bg-outline/50" app/
 - N/A
 
 ## Acceptance Criteria
-- [ ] No opacity modifiers are used for background colors
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] No opacity modifiers are used for background colors
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

@@ -73,7 +73,21 @@ describe('getEntries', () => {
   });
 
   it('returns paginated data with correct hasMore and totalCount', async () => {
-    const mockData = Array(60).fill({ id: '1', description: 'a' });
+    const mockData = Array(60).fill({
+      id: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
+      type: 'income',
+      description: 'a',
+      category: 'Fees',
+      amount: 100,
+      date: '2025-01-15',
+      semester: '1st Sem',
+      academic_year: '2024-2025',
+      notes: null,
+      status: 'paid',
+      entered_by: 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001',
+      created_at: '2025-01-15T00:00:00Z',
+      updated_at: '2025-01-15T00:00:00Z',
+    });
     setupMockSupabase(mockData.slice(0, 50), null, 60);
 
     const result = await getEntries({ page: 1, pageSize: 50 });

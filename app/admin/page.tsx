@@ -20,13 +20,16 @@ interface PageProps {
 }
 
 export default async function AdminPage({ searchParams }: PageProps) {
-  const officer = await getOfficer();
+  const [officer, semestersResult] = await Promise.all([
+    getOfficer(),
+    getSemesters(),
+  ]);
+
   if (!officer) {
     redirect('/login');
   }
 
   const params = await searchParams;
-  const semestersResult = await getSemesters();
   if (semestersResult.status === 'error') {
     return (
       <div className="min-h-screen bg-background flex flex-col">
@@ -41,10 +44,11 @@ export default async function AdminPage({ searchParams }: PageProps) {
   const activeSemester = params.semester || semestersList[0] || '1st Sem';
   const page = Number(params.page) || 1;
 
-  // Fetch entries and statistics filtered by semester
-  const [entriesResult, statsResult] = await Promise.all([
+  // Fetch entries, statistics, and last updated date in parallel
+  const [entriesResult, statsResult, lastUpdated] = await Promise.all([
     getEntries({ semester: activeSemester, page }),
     getSummaryStats(activeSemester),
+    getLastUpdatedDate(activeSemester),
   ]);
 
   if (entriesResult.status === 'error' || statsResult.status === 'error') {
@@ -61,8 +65,6 @@ export default async function AdminPage({ searchParams }: PageProps) {
   const entries = entriesResult.data.entries;
   const hasMore = entriesResult.data.hasMore;
   const stats = statsResult.data;
-
-  const lastUpdated = await getLastUpdatedDate(activeSemester);
   const asOfDate = lastUpdated
     ? new Date(lastUpdated).toLocaleDateString('en-US', {
         month: 'short',

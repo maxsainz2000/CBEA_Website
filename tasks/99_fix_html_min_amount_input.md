@@ -37,5 +37,5 @@ grep "min=\"0\"" app/admin/components/EntryForm.tsx
 - N/A
 
 ## Acceptance Criteria
-- [ ] The HTML element uses min="0.01"
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] The HTML element uses min="0.01"
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

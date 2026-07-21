@@ -37,5 +37,5 @@ grep "color-accent" app/theme.css
 - N/A
 
 ## Acceptance Criteria
-- [ ] Token is removed from theme.css
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Token is removed from theme.css
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

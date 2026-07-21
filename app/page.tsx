@@ -22,7 +22,7 @@ interface PageProps {
   searchParams: Promise<SearchParams>;
 }
 
-async function HomepageContent({ searchParams }: PageProps) {
+export async function HomepageContent({ searchParams }: PageProps) {
   const params = await searchParams;
   const search = params.search || '';
   const semester = params.semester || '';
@@ -39,8 +39,8 @@ async function HomepageContent({ searchParams }: PageProps) {
   // Default to the first semester if none is specified in the URL
   const activeSemester = semester || semestersList[0] || '1st Sem';
 
-  // Fetch entries and summary statistics based on active filters
-  const [entriesResult, statsResult, categoriesResult] = await Promise.all([
+  // Fetch entries, summary statistics, categories, and last updated date in parallel
+  const [entriesResult, statsResult, categoriesResult, lastUpdated] = await Promise.all([
     getEntries({
       semester: activeSemester,
       category: category && category !== 'All' ? category : undefined,
@@ -49,6 +49,7 @@ async function HomepageContent({ searchParams }: PageProps) {
     }),
     getSummaryStats(activeSemester),
     getCategories(),
+    getLastUpdatedDate(activeSemester),
   ]);
 
   if (entriesResult.status === 'error' || statsResult.status === 'error' || categoriesResult.status === 'error') {
@@ -59,8 +60,6 @@ async function HomepageContent({ searchParams }: PageProps) {
   const hasMore = entriesResult.data.hasMore;
   const stats = statsResult.data;
   const categoriesList = categoriesResult.data;
-
-  const lastUpdated = await getLastUpdatedDate(activeSemester);
   const asOfDate = lastUpdated
     ? new Date(lastUpdated).toLocaleDateString('en-US', {
         month: 'short',

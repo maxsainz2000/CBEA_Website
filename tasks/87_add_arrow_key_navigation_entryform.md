@@ -40,6 +40,6 @@ npx vitest run app/admin/components/EntryForm.test.tsx
 - N/A
 
 ## Acceptance Criteria
-- [ ] Arrow keys change the selected radio option
-- [ ] Tests added and passing
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Arrow keys change the selected radio option
+- [x] Tests added and passing
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

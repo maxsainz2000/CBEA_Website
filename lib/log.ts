@@ -1,6 +1,23 @@
 // lib/log.ts — Structured JSON logger for production safety
 type LogLevel = 'error' | 'warn' | 'info';
 
+const SENSITIVE_KEYS = new Set([
+  'message',
+  'details',
+  'hint',
+  'query',
+  'parameters',
+  'stack',
+  'error',
+  'err',
+  'password',
+  'token',
+  'secret',
+  'authorization',
+  'email',
+  'apikey',
+]);
+
 function sanitize(val: unknown): unknown {
   if (!val || typeof val !== 'object') {
     return val;
@@ -20,7 +37,7 @@ function sanitize(val: unknown): unknown {
   const sanitized: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(val as Record<string, unknown>)) {
     const keyLower = key.toLowerCase();
-    if (['message', 'details', 'hint', 'query', 'parameters', 'stack', 'error', 'err', 'password', 'token', 'secret'].includes(keyLower)) {
+    if (SENSITIVE_KEYS.has(keyLower)) {
       sanitized[key] = '[REDACTED]';
     } else {
       sanitized[key] = sanitize(value);

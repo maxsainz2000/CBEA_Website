@@ -38,5 +38,5 @@ npx vitest run app/page.test.tsx app/admin/page.test.tsx
 - N/A
 
 ## Acceptance Criteria
-- [ ] Queries run in parallel via Promise.all
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Queries run in parallel via Promise.all
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

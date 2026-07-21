@@ -1,5 +1,5 @@
 import { createClient } from '../supabase/server'
-import { BudgetEntry } from '../types'
+import { BudgetEntry, BudgetEntryRecordSchema } from '../types'
 import { logger } from '../log'
 
 export type DataResult<T> =
@@ -43,10 +43,24 @@ export async function getEntries(filters?: {
     }
 
     const totalCount = count ?? 0;
+    const validatedEntries: BudgetEntry[] = [];
+    if (data) {
+      for (const row of data) {
+        const parsed = BudgetEntryRecordSchema.safeParse(row);
+        if (parsed.success) {
+          validatedEntries.push(parsed.data);
+        } else {
+          logger.error('Invalid budget entry database row', {
+            id: row.id,
+            errors: parsed.error.issues,
+          });
+        }
+      }
+    }
     return {
       status: 'ok',
       data: {
-        entries: (data || []) as BudgetEntry[],
+        entries: validatedEntries,
         totalCount,
         hasMore: page * pageSize < totalCount,
       },
@@ -74,7 +88,20 @@ export async function getEntry(id: string): Promise<DataResult<BudgetEntry | nul
       return { status: 'error', message: "We couldn't load this budget entry. Please try again later." };
     }
 
-    return { status: 'ok', data: data as BudgetEntry | null };
+    if (!data) {
+      return { status: 'ok', data: null };
+    }
+
+    const parsed = BudgetEntryRecordSchema.safeParse(data);
+    if (!parsed.success) {
+      logger.error('Invalid budget entry fetched', {
+        id,
+        errors: parsed.error.issues,
+      });
+      return { status: 'error', message: "We couldn't load this budget entry. Please try again later." };
+    }
+
+    return { status: 'ok', data: parsed.data };
   } catch {
     logger.error('Unhandled exception fetching entry', { id });
     return { status: 'error', message: "We couldn't load this budget entry. Please try again later." };

@@ -37,5 +37,5 @@ grep -n "revalidateTag" app/actions/entries.ts
 - N/A
 
 ## Acceptance Criteria
-- [ ] Comments mention the newer 2026 API
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Comments mention the newer 2026 API
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

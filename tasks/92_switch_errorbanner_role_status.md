@@ -38,5 +38,5 @@ grep -rn 'role="alert"' app/components/ErrorBanner.tsx
 - N/A
 
 ## Acceptance Criteria
-- [ ] ErrorBanner uses role="status"
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] ErrorBanner uses role="status"
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

@@ -1,18 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import Homepage from './page';
+import Homepage, { HomepageContent } from './page';
 import { getEntries, getSummaryStats, getSemesters, getCategories, getLastUpdatedDate } from '@/lib/data/entries';
-
-// Extract the private HomepageContent component using JSX tree traversal of the default-exported Homepage.
-// Next.js pages strictly prohibit exporting anything other than page/metadata configurations,
-// so this method avoids Next.js type compiler errors while retaining testability.
-const getHomepageContentComponent = () => {
-  const homepageElement = Homepage({ searchParams: Promise.resolve({}) });
-  const mainElement = homepageElement.props.children[1];
-  const suspenseElement = mainElement.props.children[1];
-  const homepageContentElement = suspenseElement.props.children;
-  return homepageContentElement.type;
-};
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
@@ -59,8 +48,6 @@ describe('HomepageContent Component', () => {
   });
 
   it('renders successfully on valid data fetches', async () => {
-    const HomepageContent = getHomepageContentComponent();
-    
     mockGetSemesters.mockResolvedValue({
       status: 'ok',
       data: ['1st Sem', '2nd Sem'],
@@ -114,8 +101,6 @@ describe('HomepageContent Component', () => {
   });
 
   it('renders ErrorBanner when getSemesters fails', async () => {
-    const HomepageContent = getHomepageContentComponent();
-    
     mockGetSemesters.mockResolvedValue({
       status: 'error',
       message: 'Failed to retrieve semesters from DB.',
@@ -130,8 +115,6 @@ describe('HomepageContent Component', () => {
   });
 
   it('renders fallback ErrorBanner when other fetches fail', async () => {
-    const HomepageContent = getHomepageContentComponent();
-    
     mockGetSemesters.mockResolvedValue({
       status: 'ok',
       data: ['1st Sem'],
@@ -158,8 +141,6 @@ describe('HomepageContent Component', () => {
   });
 
   it('passes searchParams properly to data fetchers', async () => {
-    const HomepageContent = getHomepageContentComponent();
-    
     mockGetSemesters.mockResolvedValue({
       status: 'ok',
       data: ['2nd Sem'],

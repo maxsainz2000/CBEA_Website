@@ -72,7 +72,9 @@ export async function createEntry(data: unknown): Promise<ActionResponse<BudgetE
     //    + searchParams), so revalidatePath is a no-op. The admin UI calls
     //    router.refresh() after success; the public homepage re-fetches on
     //    next request. If we migrate to unstable_cache + tags later, switch
-    //    to revalidateTag('budget-entries') here.
+    //    to revalidateTag('budget-entries', 'max') for stale-while-revalidate,
+    //    or updateTag('budget-entries') for immediate invalidation.
+    //    Note: single-arg revalidateTag(tag) is deprecated as of Next.js 15.5+.
 
     const parsed = BudgetEntryRecordSchema.safeParse(insertedData)
     if (!parsed.success) {

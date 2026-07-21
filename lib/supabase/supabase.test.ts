@@ -11,6 +11,17 @@ import { createBrowserClient, createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest } from 'next/server'
 
+interface CookieItem {
+  name: string;
+  value: string;
+  options?: Record<string, unknown>;
+}
+
+interface MockCookies {
+  getAll: () => CookieItem[];
+  setAll: (cookies: CookieItem[]) => void;
+}
+
 // Mock @supabase/ssr
 const mockGetClaims = vi.fn()
 const mockAuth = {
@@ -47,7 +58,7 @@ describe('Supabase Client and Middleware Setup', () => {
     process.env = {
       ...originalEnv,
       NEXT_PUBLIC_SUPABASE_URL: 'https://your-project.supabase.co',
-      NEXT_PUBLIC_SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.test-anon-key',
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.test-anon-key',
     }
   })
 
@@ -82,14 +93,14 @@ describe('Supabase Client and Middleware Setup', () => {
 
       // Test cookie helper wrapper functions
       const serverClientCalls = vi.mocked(createServerClient).mock.calls
-      const cookiesObj = serverClientCalls[serverClientCalls.length - 1][2].cookies as any;
+      const cookiesObj = serverClientCalls[serverClientCalls.length - 1][2].cookies as MockCookies;
 
       // Test getAll
       const allCookies = cookiesObj.getAll();
       expect(allCookies).toEqual([{ name: 'sb-access-token', value: 'fake-token' }]);
 
       // Test setAll
-      (cookiesObj as any).setAll([{ name: 'sb-refresh-token', value: 'new-token', options: {} }])
+      cookiesObj.setAll([{ name: 'sb-refresh-token', value: 'new-token', options: {} }])
       expect(mockCookieStore.set).toHaveBeenCalledWith('sb-refresh-token', 'new-token', {})
     })
 

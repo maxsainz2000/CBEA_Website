@@ -37,5 +37,5 @@ npx vitest run lib/supabase/supabase.test.ts
 - N/A
 
 ## Acceptance Criteria
-- [ ] Additional sensitive keys are redacted
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Additional sensitive keys are redacted
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

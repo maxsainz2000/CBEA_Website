@@ -37,5 +37,5 @@ npx vitest run app/admin/page.test.tsx
 - N/A
 
 ## Acceptance Criteria
-- [ ] admin page loads officer and semesters in parallel
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] admin page loads officer and semesters in parallel
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

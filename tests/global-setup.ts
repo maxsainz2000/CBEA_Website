@@ -22,19 +22,44 @@ export default async function globalSetup() {
     { auth: { autoRefreshToken: false, persistSession: false } }
   );
 
+  // Polyfill getUserByEmail since it is not natively present in this version of the SDK
+  const adminWithGetEmail = supabaseAdmin.auth.admin as typeof supabaseAdmin.auth.admin & {
+    getUserByEmail: (email: string) => Promise<any>;
+  };
+
+  adminWithGetEmail.getUserByEmail = async (email: string) => {
+    let page = 1;
+    while (true) {
+      const { data, error } = await supabaseAdmin.auth.admin.listUsers({
+        page,
+        perPage: 100,
+      });
+      if (error) return { data: { user: null }, error };
+      if (!data || !data.users || data.users.length === 0) break;
+      const user = data.users.find((u) => u.email === email);
+      if (user) {
+        return { data: { user }, error: null };
+      }
+      if (data.users.length < 100) break;
+      page++;
+    }
+    return { data: { user: null }, error: null };
+  };
+
   // 1. Ensure the test user exists with the deterministic UUID
   const { data: existingUser, error: getUserError } = await supabaseAdmin.auth.admin.getUserById(TEST_USER_ID);
 
   if (getUserError) {
     if (getUserError.message?.includes('User not found') || getUserError.status === 404) {
       // Check if a user with this email already exists (different UUID)
-      const { data: listData, error: listError } = await supabaseAdmin.auth.admin.listUsers();
-      if (listError) throw new Error(`Failed to list users: ${listError.message}`);
+      const { data: userData, error: getEmailError } = await adminWithGetEmail.getUserByEmail(TEST_USER_EMAIL!);
+      if (getEmailError && !getEmailError.message?.toLowerCase().includes('not found') && getEmailError.status !== 404) {
+        throw new Error(`Failed to check existing user by email: ${getEmailError.message}`);
+      }
 
-      const existingByEmail = listData?.users?.find(u => u.email === TEST_USER_EMAIL);
-      if (existingByEmail) {
+      if (userData?.user) {
         // Delete the existing user so we can recreate with the target UUID
-        const { error: deleteUserError } = await supabaseAdmin.auth.admin.deleteUser(existingByEmail.id);
+        const { error: deleteUserError } = await supabaseAdmin.auth.admin.deleteUser(userData.user.id);
         if (deleteUserError) throw new Error(`Failed to delete existing user: ${deleteUserError.message}`);
       }
 

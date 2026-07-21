@@ -17,6 +17,12 @@ interface TestRow {
   full_name?: string;
 }
 
+interface SummaryStatsRow {
+  total_collected: number | string;
+  total_spent: number | string;
+  remaining_balance: number | string;
+}
+
 describe('Database Schema & Migration Setup', () => {
   let db: PGlite;
 
@@ -365,7 +371,7 @@ describe('Database Schema & Migration Setup', () => {
     it('should have a get_summary_stats function that returns correct aggregates', async () => {
       const result = await db.query('SELECT * FROM public.get_summary_stats($1)', ['1st Sem']);
       expect(result.rows.length).toBe(1);
-      const row = result.rows[0] as any;
+      const row = result.rows[0] as unknown as SummaryStatsRow;
       expect(Number(row.total_collected)).toBeGreaterThanOrEqual(0);
       expect(Number(row.total_spent)).toBeGreaterThanOrEqual(0);
       expect(Number(row.remaining_balance)).toBe(

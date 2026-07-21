@@ -41,5 +41,5 @@ npm run build
 - N/A
 
 ## Acceptance Criteria
-- [ ] Build passes and uses the updated variable name
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Build passes and uses the updated variable name
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

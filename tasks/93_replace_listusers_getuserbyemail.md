@@ -37,5 +37,5 @@ npx playwright test --reporter=list
 - N/A
 
 ## Acceptance Criteria
-- [ ] Test setup correctly queries users using getUserByEmail
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Test setup correctly queries users using getUserByEmail
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

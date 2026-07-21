@@ -270,7 +270,7 @@ The color logic is severe by design, in service of trust. The background is pure
 
 The income green is darkened from the canonical WP7 #339933 to #2D7A2D so it passes WCAG AA both as fill behind white text AND as text on white background. The authentic WP7 value is preserved as `accent-green` for theme-alternate purposes. The "remaining balance" stat does not need its own color: if positive it uses `on-background` (black), if negative it uses `expense` (red) — two semantic colors are sufficient.
 
-The full 10-color Windows Phone 7 accent palette is included as the `accent-*` tokens. Only `accent-lime` is active (aliased to `colors.primary`). The other nine are user-selectable alternates for future theming — to switch the council's brand accent, repoint `colors.primary` to a different `accent-*` token. Do not introduce a second active accent in a single view.
+Only the single brand accent (`colors.primary` aliased to Lime) is active. The other nine alternate accent tokens are not used in production and have been removed from the theme configuration to keep the stylesheet clean. Do not introduce a second active accent in a single view.
 
 **Color discipline rules:**
 - The Lime accent (`primary`) is for interactive elements only: primary buttons, selected pivot tabs, links, focus rings.

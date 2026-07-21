@@ -37,5 +37,5 @@ npx vitest run lib/data/entries.test.ts
 - N/A
 
 ## Acceptance Criteria
-- [ ] Zod schema is used instead of unchecked casts
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Zod schema is used instead of unchecked casts
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

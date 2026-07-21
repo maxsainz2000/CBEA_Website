@@ -69,6 +69,20 @@ export default function EntryForm({ initialData }: EntryFormProps) {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const newType = formData.type === 'income' ? 'expense' : 'income';
+      handleTypeChange(newType);
+      
+      const targetId = newType === 'income' ? 'type-toggle-income' : 'type-toggle-expense';
+      const targetElement = document.querySelector(`[data-testid="${targetId}"]`) as HTMLButtonElement | null;
+      if (targetElement) {
+        targetElement.focus();
+      }
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setServerError(null);
@@ -125,7 +139,7 @@ export default function EntryForm({ initialData }: EntryFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-lg bg-surface p-lg w-full min-w-[300px] max-w-xl mx-auto" data-testid="entry-form">
+    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-lg bg-surface p-lg w-full min-w-[300px] max-w-xl mx-auto" data-testid="entry-form">
       <h2 className="font-headline-md text-headline-md text-on-background select-none">
         {initialData ? 'Edit Budget Record' : 'Add New Budget Record'}
       </h2>
@@ -147,11 +161,13 @@ export default function EntryForm({ initialData }: EntryFormProps) {
               type="button"
               role="radio"
               aria-checked={formData.type === 'income'}
+              tabIndex={formData.type === 'income' ? 0 : -1}
               onClick={() => handleTypeChange('income')}
+              onKeyDown={handleKeyDown}
               className={`flex items-center justify-center cursor-pointer select-none font-body-sm-strong transition-all ${
                 formData.type === 'income'
                   ? 'bg-income text-on-income'
-                  : 'bg-transparent text-secondary hover:bg-outline/50'
+                  : 'bg-transparent text-secondary hover:bg-outline'
               }`}
               data-testid="type-toggle-income"
             >
@@ -161,11 +177,13 @@ export default function EntryForm({ initialData }: EntryFormProps) {
               type="button"
               role="radio"
               aria-checked={formData.type === 'expense'}
+              tabIndex={formData.type === 'expense' ? 0 : -1}
               onClick={() => handleTypeChange('expense')}
+              onKeyDown={handleKeyDown}
               className={`flex items-center justify-center cursor-pointer select-none font-body-sm-strong transition-all ${
                 formData.type === 'expense'
                   ? 'bg-expense text-on-expense'
-                  : 'bg-transparent text-secondary hover:bg-outline/50'
+                  : 'bg-transparent text-secondary hover:bg-outline'
               }`}
               data-testid="type-toggle-expense"
             >
@@ -234,7 +252,7 @@ export default function EntryForm({ initialData }: EntryFormProps) {
           name="amount"
           type="number"
           step="0.01"
-          min="0"
+          min="0.01"
           value={formData.amount}
           onChange={handleChange}
           className={`input-underline ${validationErrors.amount ? 'input-underline-error' : ''}`}

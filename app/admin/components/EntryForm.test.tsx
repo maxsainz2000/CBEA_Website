@@ -90,7 +90,7 @@ describe('EntryForm Component', () => {
     expect(expenseToggle.className).not.toContain('bg-expense');
   });
 
-  it('toggles aria-checked on type buttons', () => {
+  it('toggles aria-checked on type buttons and manages tabIndex', () => {
     render(<EntryForm />);
 
     const incomeToggle = screen.getByTestId('type-toggle-income');
@@ -99,11 +99,43 @@ describe('EntryForm Component', () => {
     // Default: expense
     expect(expenseToggle.getAttribute('aria-checked')).toBe('true');
     expect(incomeToggle.getAttribute('aria-checked')).toBe('false');
+    expect(expenseToggle.getAttribute('tabIndex')).toBe('0');
+    expect(incomeToggle.getAttribute('tabIndex')).toBe('-1');
 
     // Click income
     fireEvent.click(incomeToggle);
     expect(incomeToggle.getAttribute('aria-checked')).toBe('true');
     expect(expenseToggle.getAttribute('aria-checked')).toBe('false');
+    expect(incomeToggle.getAttribute('tabIndex')).toBe('0');
+    expect(expenseToggle.getAttribute('tabIndex')).toBe('-1');
+  });
+
+  it('navigates with arrow keys, wrapping focus and selection', () => {
+    render(<EntryForm />);
+
+    const incomeToggle = screen.getByTestId('type-toggle-income');
+    const expenseToggle = screen.getByTestId('type-toggle-expense');
+
+    expenseToggle.focus();
+    expect(document.activeElement).toBe(expenseToggle);
+
+    // Press ArrowRight -> focuses income
+    fireEvent.keyDown(expenseToggle, { key: 'ArrowRight' });
+    expect(incomeToggle.getAttribute('aria-checked')).toBe('true');
+    expect(document.activeElement).toBe(incomeToggle);
+
+    // Press ArrowLeft -> focuses expense
+    fireEvent.keyDown(incomeToggle, { key: 'ArrowLeft' });
+    expect(expenseToggle.getAttribute('aria-checked')).toBe('true');
+    expect(document.activeElement).toBe(expenseToggle);
+
+    // Press ArrowDown -> focuses income
+    fireEvent.keyDown(expenseToggle, { key: 'ArrowDown' });
+    expect(document.activeElement).toBe(incomeToggle);
+
+    // Press ArrowUp -> focuses expense
+    fireEvent.keyDown(incomeToggle, { key: 'ArrowUp' });
+    expect(document.activeElement).toBe(expenseToggle);
   });
 
   it('initializes date to empty then updates to today in useEffect', () => {

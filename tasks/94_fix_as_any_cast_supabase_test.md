@@ -37,5 +37,5 @@ npx eslint lib/supabase/supabase.test.ts
 - N/A
 
 ## Acceptance Criteria
-- [ ] No as any casts in the file
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] No as any casts in the file
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
