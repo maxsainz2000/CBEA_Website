@@ -131,6 +131,21 @@ describe('EntryForm Component', () => {
     expect(createEntry).not.toHaveBeenCalled();
   });
 
+  it('triggers client-side validation on zero amount', async () => {
+    render(<EntryForm />);
+
+    fireEvent.change(screen.getByTestId('description-input'), { target: { value: 'New Chair' } });
+    fireEvent.change(screen.getByTestId('category-input'), { target: { value: 'Equipment' } });
+    fireEvent.change(screen.getByTestId('amount-input'), { target: { value: '0' } });
+
+    const submitBtn = screen.getByTestId('submit-form-button');
+    fireEvent.click(submitBtn);
+
+    const errorAmt = await screen.findByTestId('error-amount');
+    expect(errorAmt.textContent).toContain('Amount must be greater than zero');
+    expect(createEntry).not.toHaveBeenCalled();
+  });
+
   it('submits form successfully and calls createEntry action for Add mode', async () => {
     (createEntry as ReturnType<typeof vi.fn>).mockResolvedValue({ success: true });
 

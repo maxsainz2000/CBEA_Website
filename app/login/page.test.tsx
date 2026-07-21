@@ -71,9 +71,9 @@ describe('LoginPage Component', () => {
     });
   });
 
-  it('displays error message when authentication fails', async () => {
+  it('displays error message when authentication fails with Invalid login credentials', async () => {
     mockSignInWithPassword.mockResolvedValue({
-      error: { message: 'Invalid credentials. Please try again.' },
+      error: { message: 'Invalid login credentials' },
     });
 
     render(<LoginPage />);
@@ -86,9 +86,63 @@ describe('LoginPage Component', () => {
 
     await waitFor(() => {
       expect(mockSignInWithPassword).toHaveBeenCalled();
-      expect(screen.getByTestId('login-error-message').textContent).toContain('Invalid credentials. Please try again.');
+      expect(screen.getByTestId('login-error-message').textContent).toContain('Invalid email or password.');
     });
     expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  it('displays error message when authentication fails with Email not confirmed', async () => {
+    mockSignInWithPassword.mockResolvedValue({
+      error: { message: 'Email not confirmed' },
+    });
+
+    render(<LoginPage />);
+
+    fireEvent.change(screen.getByTestId('email-input'), { target: { value: 'unconfirmed@csu.edu.ph' } });
+    fireEvent.change(screen.getByTestId('password-input'), { target: { value: 'password' } });
+    
+    const form = screen.getByTestId('email-input').closest('form')!;
+    fireEvent.submit(form);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('login-error-message').textContent).toContain('Please confirm your email address before signing in.');
+    });
+  });
+
+  it('displays error message when authentication fails with Too many requests', async () => {
+    mockSignInWithPassword.mockResolvedValue({
+      error: { message: 'Too many requests' },
+    });
+
+    render(<LoginPage />);
+
+    fireEvent.change(screen.getByTestId('email-input'), { target: { value: 'treasurer@csu.edu.ph' } });
+    fireEvent.change(screen.getByTestId('password-input'), { target: { value: 'password' } });
+    
+    const form = screen.getByTestId('email-input').closest('form')!;
+    fireEvent.submit(form);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('login-error-message').textContent).toContain('Too many login attempts. Please wait a moment and try again.');
+    });
+  });
+
+  it('falls back to generic error message for unknown authentication failures', async () => {
+    mockSignInWithPassword.mockResolvedValue({
+      error: { message: 'Some raw database or internal auth error' },
+    });
+
+    render(<LoginPage />);
+
+    fireEvent.change(screen.getByTestId('email-input'), { target: { value: 'treasurer@csu.edu.ph' } });
+    fireEvent.change(screen.getByTestId('password-input'), { target: { value: 'password' } });
+    
+    const form = screen.getByTestId('email-input').closest('form')!;
+    fireEvent.submit(form);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('login-error-message').textContent).toContain('Invalid email or password.');
+    });
   });
 
   it('handles unexpected exceptions during login gracefully', async () => {

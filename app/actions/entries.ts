@@ -22,17 +22,23 @@ export async function createEntry(data: unknown): Promise<ActionResponse<BudgetE
     // 2. Validate input schema
     const validation = BudgetEntrySchema.safeParse(data)
     if (!validation.success) {
+      const rawErrors = validation.error.flatten().fieldErrors;
+      const fieldErrors: Record<string, string[]> = {};
+      for (const [k, v] of Object.entries(rawErrors)) {
+        if (v) fieldErrors[k] = v;
+      }
       return {
         success: false,
         error: 'Validation failed',
-        validationErrors: validation.error.flatten().fieldErrors as Record<string, string[]>,
+        validationErrors: fieldErrors,
       }
     }
 
     const validData = validation.data
 
     // 3. Convert amount from decimal to centavos using toFixed(2) to avoid IEEE-754 error.
-    // Examples: 1.005 → "1.01" → 101, 19.99 → "19.99" → 1999, 1500.5 → "1500.50" → 150050
+    // 1.5 → "1.50" → 150 (toFixed(2) serializes to 2-dp string, then Number() + * 100)
+    // Note: Zod refine rejects >2 decimal place inputs before this code runs.
     const amountInCentavos = Math.round(Number(validData.amount.toFixed(2)) * 100)
 
     // 4. Insert database record
@@ -95,17 +101,23 @@ export async function updateEntry(id: string, data: unknown): Promise<ActionResp
     // 2. Validate input schema
     const validation = BudgetEntrySchema.safeParse(data)
     if (!validation.success) {
+      const rawErrors = validation.error.flatten().fieldErrors;
+      const fieldErrors: Record<string, string[]> = {};
+      for (const [k, v] of Object.entries(rawErrors)) {
+        if (v) fieldErrors[k] = v;
+      }
       return {
         success: false,
         error: 'Validation failed',
-        validationErrors: validation.error.flatten().fieldErrors as Record<string, string[]>,
+        validationErrors: fieldErrors,
       }
     }
 
     const validData = validation.data
 
     // 3. Convert amount from decimal to centavos using toFixed(2) to avoid IEEE-754 error.
-    // Examples: 1.005 → "1.01" → 101, 19.99 → "19.99" → 1999, 1500.5 → "1500.50" → 150050
+    // 1.5 → "1.50" → 150 (toFixed(2) serializes to 2-dp string, then Number() + * 100)
+    // Note: Zod refine rejects >2 decimal place inputs before this code runs.
     const amountInCentavos = Math.round(Number(validData.amount.toFixed(2)) * 100)
 
     // 4. Update database record

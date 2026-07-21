@@ -37,7 +37,7 @@ npx tsc --noEmit
 ```
 
 ## Acceptance Criteria
-- [ ] 0 `as Record<string, string[]>` casts on Zod field errors.
-- [ ] Runtime filter removes `undefined` values.
-- [ ] `npx vitest run app/actions/entries.test.ts` passes.
-- [ ] `npx tsc --noEmit` passes.
+- [x] 0 `as Record<string, string[]>` casts on Zod field errors.
+- [x] Runtime filter removes `undefined` values.
+- [x] `npx vitest run app/actions/entries.test.ts` passes.
+- [x] `npx tsc --noEmit` passes.

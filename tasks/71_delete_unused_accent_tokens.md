@@ -26,6 +26,6 @@ npm run build
 ```
 
 ## Acceptance Criteria
-- [ ] Unused `--color-accent-*` tokens are removed from `app/theme.css`.
-- [ ] `--color-primary` (Lime), `--color-income`, `--color-expense` are preserved.
-- [ ] `npm run build` succeeds with no CSS errors.
+- [x] Unused `--color-accent-*` tokens are removed from `app/theme.css`.
+- [x] `--color-primary` (Lime), `--color-income`, `--color-expense` are preserved.
+- [x] `npm run build` succeeds with no CSS errors.

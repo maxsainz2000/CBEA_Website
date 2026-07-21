@@ -350,7 +350,9 @@ The shape language is **squared angles**. Corner radius is 0px by default for ev
 
 The `rounded` tokens encode this: `none`, `sm`, `md`, `lg` are all 0px; only `full` (9999px) is non-zero, reserved for circular elements (a council logo mark, a user avatar in the admin panel, the loading-progress dots).
 
-- **Exception:** circular spinners and loading indicators use `rounded-full` (defined as `--radius-full: 9999px` in `app/theme.css`) — this is the only allowed deviation from the zero-radius rule.
+- **Exceptions:**
+  1. Circular spinners and loading indicators use `rounded-full` (defined as `--radius-full: 9999px` in `app/theme.css`) — this is the only allowed deviation from the zero-radius rule.
+  2. `--color-income` green (`#2d7a2d`) is used for income entries. Serves a semantic data-communication purpose: income (green) vs expense (red `#c81000`). Using Lime for both the primary accent and income would create ambiguity between interactive elements and data categories.
 
 Mixing rounded and sharp corners in the same view is forbidden. If a single circular element appears (the logo, an avatar), it must be the only circular element in its immediate visual context; everything around it stays squared.
 

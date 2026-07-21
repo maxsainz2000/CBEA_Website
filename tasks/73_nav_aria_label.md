@@ -30,5 +30,5 @@ npx tsc --noEmit
 ```
 
 ## Acceptance Criteria
-- [ ] `<nav>` has `aria-label="Primary"`.
-- [ ] `npx tsc --noEmit` passes.
+- [x] `<nav>` has `aria-label="Primary"`.
+- [x] `npx tsc --noEmit` passes.

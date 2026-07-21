@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS public.profiles (
     id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
     full_name text NOT NULL,
     role text NOT NULL,
-    created_at timestamp with time zone DEFAULT timezone('utc'::text, now()),
-    updated_at timestamp with time zone DEFAULT timezone('utc'::text, now())
+    created_at timestamp with time zone DEFAULT now(),
+    updated_at timestamp with time zone DEFAULT now()
 );
 
 -- 4. Create budget_entries table
@@ -26,15 +26,15 @@ CREATE TABLE IF NOT EXISTS public.budget_entries (
     type public.entry_type NOT NULL,
     description varchar(255) NOT NULL,
     category varchar(100) NOT NULL,
-    amount bigint NOT NULL CHECK (amount >= 0),
+    amount bigint NOT NULL CHECK (amount > 0),
     date date NOT NULL,
     semester varchar(50) NOT NULL,
     academic_year varchar(50) NOT NULL,
     notes text,
     status public.entry_status NOT NULL DEFAULT 'paid',
     entered_by uuid REFERENCES public.profiles(id) ON DELETE SET NULL,
-    created_at timestamp with time zone DEFAULT timezone('utc'::text, now()),
-    updated_at timestamp with time zone DEFAULT timezone('utc'::text, now())
+    created_at timestamp with time zone DEFAULT now(),
+    updated_at timestamp with time zone DEFAULT now()
 );
 
 -- 5. Create indexes for performance optimization

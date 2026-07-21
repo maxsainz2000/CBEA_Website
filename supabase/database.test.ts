@@ -48,14 +48,14 @@ describe('Database Schema & Migration Setup', () => {
     expect(entriesResult.rows.length).toBeGreaterThanOrEqual(10);
   });
 
-  it('should enforce Check Constraint amount >= 0 on budget_entries', async () => {
-    // Valid amount (0)
+  it('should enforce Check Constraint amount > 0 on budget_entries', async () => {
+    // Invalid amount (0)
     await expect(
       db.query(`
         INSERT INTO public.budget_entries (type, description, category, amount, date, semester, academic_year, entered_by)
         VALUES ('income', 'Test Zero', 'Testing', 0, '2025-09-05', '1st Sem', '2025-2026', 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001')
       `)
-    ).resolves.toBeDefined();
+    ).rejects.toThrow(/violates check constraint/i);
 
     // Invalid amount (-1)
     await expect(
@@ -64,6 +64,14 @@ describe('Database Schema & Migration Setup', () => {
         VALUES ('income', 'Test Negative', 'Testing', -1, '2025-09-05', '1st Sem', '2025-2026', 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001')
       `)
     ).rejects.toThrow(/violates check constraint/i);
+
+    // Valid amount (1)
+    await expect(
+      db.query(`
+        INSERT INTO public.budget_entries (type, description, category, amount, date, semester, academic_year, entered_by)
+        VALUES ('income', 'Test Positive', 'Testing', 1, '2025-09-05', '1st Sem', '2025-2026', 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001')
+      `)
+    ).resolves.toBeDefined();
   });
 
   it('should enforce Check Constraint semester on budget_entries', async () => {
@@ -302,7 +310,7 @@ describe('Database Schema & Migration Setup', () => {
       await expect(
         db.query(`
           INSERT INTO public.budget_entries (type, description, category, amount, date, semester, academic_year, entered_by)
-          VALUES ('income', 'Hacked Entry', 'Fees', 10000, '2025-01-15', '1st Semester AY 2024-2025', '2024-2025', 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001')
+          VALUES ('income', 'Hacked Entry', 'Fees', 10000, '2025-01-15', '1st Sem', '2024-2025', 'd0d0d0d0-d0d0-d0d0-d0d0-d0d0d0d0d001')
         `)
       ).rejects.toThrow(/violates row-level security policy/i);
     });

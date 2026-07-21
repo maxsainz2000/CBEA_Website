@@ -34,6 +34,6 @@ npm run build
 ```
 
 ## Acceptance Criteria
-- [ ] `bg-error/10` replaced with `bg-surface` in both files.
-- [ ] Consistent with `ErrorBanner.tsx` styling.
-- [ ] `npm run build` succeeds.
+- [x] `bg-error/10` replaced with `bg-surface` in both files.
+- [x] Consistent with `ErrorBanner.tsx` styling.
+- [x] `npm run build` succeeds.

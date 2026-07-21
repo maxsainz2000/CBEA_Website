@@ -35,7 +35,13 @@ export default function LoginPage() {
       });
 
       if (signInError) {
-        setError(signInError.message);
+        const safeMessages: Record<string, string> = {
+          'Invalid login credentials': 'Invalid email or password.',
+          'Email not confirmed': 'Please confirm your email address before signing in.',
+          'Too many requests': 'Too many login attempts. Please wait a moment and try again.',
+        };
+        const safeMessage = safeMessages[signInError.message] ?? 'Invalid email or password.';
+        setError(safeMessage);
         setIsLoading(false);
       } else {
         // Successful login, redirect to /admin

@@ -34,6 +34,6 @@ npm run build
 ```
 
 ## Acceptance Criteria
-- [ ] `README.md` documents `--color-income` green as a permitted semantic deviation.
-- [ ] `DESIGN.md` documents the same.
-- [ ] `npm run build` succeeds.
+- [x] `README.md` documents `--color-income` green as a permitted semantic deviation.
+- [x] `DESIGN.md` documents the same.
+- [x] `npm run build` succeeds.

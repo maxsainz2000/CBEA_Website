@@ -34,6 +34,6 @@ npx vitest run supabase/database.test.ts
 ```
 
 ## Acceptance Criteria
-- [ ] 0 `timezone('utc'::text, now())` calls in migration.sql.
-- [ ] Replaced with `DEFAULT now()`.
-- [ ] `npx vitest run supabase/database.test.ts` passes.
+- [x] 0 `timezone('utc'::text, now())` calls in migration.sql.
+- [x] Replaced with `DEFAULT now()`.
+- [x] `npx vitest run supabase/database.test.ts` passes.

@@ -29,6 +29,6 @@ npx vitest run supabase/database.test.ts
 ```
 
 ## Acceptance Criteria
-- [ ] RLS test uses a valid semester value that passes the CHECK constraint.
-- [ ] The test still correctly verifies RLS blocks cross-user writes.
-- [ ] `npx vitest run supabase/database.test.ts` passes.
+- [x] RLS test uses a valid semester value that passes the CHECK constraint.
+- [x] The test still correctly verifies RLS blocks cross-user writes.
+- [x] `npx vitest run supabase/database.test.ts` passes.

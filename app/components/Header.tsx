@@ -13,7 +13,7 @@ export default function Header({ isLoggedIn = false, onLogout }: HeaderProps) {
       <span className="font-headline-sm text-headline-sm text-on-background select-none">
         CBEA Student Council
       </span>
-      <nav className="flex items-center gap-sm">
+      <nav aria-label="Primary" className="flex items-center gap-sm">
         {isLoggedIn ? (
           <>
             <Link href="/admin" className="btn-ghost flex items-center justify-center">

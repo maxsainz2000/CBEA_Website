@@ -41,7 +41,7 @@ npx tsc --noEmit
 ```
 
 ## Acceptance Criteria
-- [ ] DB CHECK constraint rejects `amount = 0`.
-- [ ] Zod schema rejects `amount < 0.01`.
-- [ ] `npx vitest run` passes.
-- [ ] `npx tsc --noEmit` passes.
+- [x] DB CHECK constraint rejects `amount = 0`.
+- [x] Zod schema rejects `amount < 0.01`.
+- [x] `npx vitest run` passes.
+- [x] `npx tsc --noEmit` passes.

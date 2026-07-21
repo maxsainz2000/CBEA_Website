@@ -16,7 +16,7 @@ test.describe('Admin Dashboard CRUD and Inline Actions', () => {
     await expect(addCta).toBeVisible();
     await addCta.click();
     await expect(page).toHaveURL(/\/admin\/new/);
-    await page.waitForTimeout(500); // Wait for form slide-in animation to finish
+    await expect(page.locator('[data-testid="description-input"]')).toBeVisible();
 
     // Fill form fields
     const description = `E2E Sponsorship ${Date.now()}`;
@@ -58,7 +58,7 @@ test.describe('Admin Dashboard CRUD and Inline Actions', () => {
     await expect(editBtn).toBeVisible();
     await editBtn.click();
     await expect(page).toHaveURL(/\/admin\/edit\//);
-    await page.waitForTimeout(500);
+    await expect(page.locator('[data-testid="description-input"]')).toBeVisible();
 
     // Verify fields are pre-populated
     const descValue = await page.locator('[data-testid="description-input"]').inputValue();

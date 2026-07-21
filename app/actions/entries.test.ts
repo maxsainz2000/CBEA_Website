@@ -176,7 +176,7 @@ describe('Budget Entries API and Server Actions', () => {
 
       expect(result.success).toBe(false)
       if (!result.success) {
-        expect(result.validationErrors?.amount).toContain('Amount must be a non-negative number')
+        expect(result.validationErrors?.amount).toContain('Amount must be greater than zero')
       }
     })
 

@@ -30,5 +30,5 @@ npx tsc --noEmit
 ```
 
 ## Acceptance Criteria
-- [ ] Comment uses a correct example (e.g., `1.5 → "1.50" → 150`).
-- [ ] No inaccurate claims about `toFixed(2)` behavior.
+- [x] Comment uses a correct example (e.g., `1.5 → "1.50" → 150`).
+- [x] No inaccurate claims about `toFixed(2)` behavior.

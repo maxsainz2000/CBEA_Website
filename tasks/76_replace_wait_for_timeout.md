@@ -32,6 +32,6 @@ npx tsc --noEmit
 ```
 
 ## Acceptance Criteria
-- [ ] 0 `waitForTimeout` calls in `tests/admin-crud.spec.ts`.
-- [ ] Replaced with proper element-visibility assertions.
-- [ ] `npx tsc --noEmit` passes.
+- [x] 0 `waitForTimeout` calls in `tests/admin-crud.spec.ts`.
+- [x] Replaced with proper element-visibility assertions.
+- [x] `npx tsc --noEmit` passes.

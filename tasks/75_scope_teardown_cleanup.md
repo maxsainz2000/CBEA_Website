@@ -36,5 +36,5 @@ npx tsc --noEmit
 ```
 
 ## Acceptance Criteria
-- [ ] Teardown deletion includes `.eq('entered_by', TEST_USER_ID)`.
-- [ ] `npx tsc --noEmit` passes.
+- [x] Teardown deletion includes `.eq('entered_by', TEST_USER_ID)`.
+- [x] `npx tsc --noEmit` passes.

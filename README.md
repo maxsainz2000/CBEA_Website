@@ -43,7 +43,9 @@ Next.js 15 (App Router) · React 19 · Tailwind CSS v4 · Supabase · Zod · Vit
 The portal uses a strict Metro (Windows Phone 7) derivative design system. Key rules:
 - Pure white background, black text, single Lime accent (`#8CBF26`)
 - Zero shadows, zero gradients, zero corner radius
-- **Exception:** circular spinners and loading indicators use `rounded-full` (defined as `--radius-full: 9999px` in `app/theme.css`) — this is the only allowed deviation from the zero-radius rule.
+- **Exceptions:**
+  1. Circular spinners and loading indicators use `rounded-full` (defined as `--radius-full: 9999px` in `app/theme.css`) — this is the only allowed deviation from the zero-radius rule.
+  2. `--color-income` green (`#2d7a2d`) is used for income entries. Serves a semantic data-communication purpose: income (green) vs expense (red `#c81000`). Using Lime for both the primary accent and income would create ambiguity between interactive elements and data categories.
 - `Segoe UI` font stack with cross-platform fallbacks
 - Tabular numerals on all currency figures
 - Content before chrome — minimal decorative elements

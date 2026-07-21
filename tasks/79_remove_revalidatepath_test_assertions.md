@@ -32,6 +32,6 @@ npx vitest run app/actions/entries.test.ts
 ```
 
 ## Acceptance Criteria
-- [ ] Task 52 is applied first.
-- [ ] 0 `revalidatePath` assertions remain in tests.
-- [ ] `npx vitest run app/actions/entries.test.ts` passes.
+- [x] Task 52 is applied first.
+- [x] 0 `revalidatePath` assertions remain in tests.
+- [x] `npx vitest run app/actions/entries.test.ts` passes.

@@ -29,4 +29,4 @@ cat .env.example
 ```
 
 ## Acceptance Criteria
-- [ ] `.env.example` comment matches README's description of `SUPABASE_SERVICE_ROLE_KEY`.
+- [x] `.env.example` comment matches README's description of `SUPABASE_SERVICE_ROLE_KEY`.

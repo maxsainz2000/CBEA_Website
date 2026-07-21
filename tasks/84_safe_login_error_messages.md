@@ -37,7 +37,7 @@ npx vitest run
 ```
 
 ## Acceptance Criteria
-- [ ] Login page maps known Supabase error messages to safe user-facing messages.
-- [ ] Unknown errors fall back to "Invalid email or password."
-- [ ] Raw Supabase error messages are never displayed to the user.
-- [ ] `npx tsc --noEmit` passes.
+- [x] Login page maps known Supabase error messages to safe user-facing messages.
+- [x] Unknown errors fall back to "Invalid email or password."
+- [x] Raw Supabase error messages are never displayed to the user.
+- [x] `npx tsc --noEmit` passes.
