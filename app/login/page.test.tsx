@@ -157,7 +157,7 @@ describe('LoginPage Component', () => {
     fireEvent.submit(form);
 
     await waitFor(() => {
-      expect(screen.getByTestId('login-error-message').textContent).toContain('Network failure');
+      expect(screen.getByTestId('login-error-message').textContent).toContain('An unexpected error occurred. Please try again.');
     });
   });
 });

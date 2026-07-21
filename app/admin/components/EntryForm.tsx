@@ -117,8 +117,8 @@ export default function EntryForm({ initialData }: EntryFormProps) {
         }
         setServerError(response.error || 'Failed to submit the form.');
       }
-    } catch (err) {
-      setServerError(err instanceof Error ? err.message : 'An unexpected error occurred.');
+    } catch {
+      setServerError('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

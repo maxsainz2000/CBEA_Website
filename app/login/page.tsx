@@ -50,9 +50,8 @@ export default function LoginPage() {
           router.refresh();
         });
       }
-    } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.';
-      setError(errorMessage);
+    } catch {
+      setError('An unexpected error occurred. Please try again.');
       setIsLoading(false);
     }
   };

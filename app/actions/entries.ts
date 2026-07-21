@@ -65,7 +65,7 @@ export async function createEntry(data: unknown): Promise<ActionResponse<BudgetE
         table: 'budget_entries',
         action: 'createEntry',
       })
-      return { success: false, error: dbError.message }
+      return { success: false, error: 'An unexpected error occurred. Please try again.' }
     }
 
     // 5. Cache invalidation: both / and /admin are dynamic routes (force-dynamic
@@ -80,12 +80,11 @@ export async function createEntry(data: unknown): Promise<ActionResponse<BudgetE
       return { success: false, error: 'Inserted data failed schema validation.' }
     }
     return { success: true, data: parsed.data }
-  } catch (err) {
+  } catch {
     logger.error('Unhandled action error', {
       action: 'createEntry',
     })
-    const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred.'
-    return { success: false, error: errorMessage }
+    return { success: false, error: 'An unexpected error occurred. Please try again.' }
   }
 }
 
@@ -160,12 +159,11 @@ export async function updateEntry(id: string, data: unknown): Promise<ActionResp
       return { success: false, error: 'Updated data failed schema validation.' }
     }
     return { success: true, data: parsed.data }
-  } catch (err) {
+  } catch {
     logger.error('Unhandled action error', {
       action: 'updateEntry',
     })
-    const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred.'
-    return { success: false, error: errorMessage }
+    return { success: false, error: 'An unexpected error occurred. Please try again.' }
   }
 }
 
@@ -202,12 +200,11 @@ export async function deleteEntry(id: string): Promise<ActionResponse<{ id: stri
     //    router.refresh() handles admin; public homepage re-fetches on next request.
 
     return { success: true, data: { id } }
-  } catch (err) {
+  } catch {
     logger.error('Unhandled action error', {
       action: 'deleteEntry',
     })
-    const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred.'
-    return { success: false, error: errorMessage }
+    return { success: false, error: 'An unexpected error occurred. Please try again.' }
   }
 }
 

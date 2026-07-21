@@ -49,5 +49,5 @@ npx vitest run app/login/page.test.tsx
 - N/A
 
 ## Acceptance Criteria
-- [ ] No raw error strings are surfaced directly to users
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] No raw error strings are surfaced directly to users
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

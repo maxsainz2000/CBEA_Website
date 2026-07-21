@@ -37,5 +37,5 @@ node scratch/verify-signup-disabled.js
 - N/A
 
 ## Acceptance Criteria
-- [ ] Script passes
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Script passes
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
