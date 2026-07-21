@@ -37,5 +37,5 @@ npx tsc --noEmit
 - N/A
 
 ## Acceptance Criteria
-- [ ] Error handling captures legitimate failures
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Error handling captures legitimate failures
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

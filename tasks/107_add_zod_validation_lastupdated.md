@@ -37,5 +37,5 @@ npx vitest run lib/data/entries.test.ts
 - N/A
 
 ## Acceptance Criteria
-- [ ] Zod schema validates retrieved timestamp
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Zod schema validates retrieved timestamp
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

@@ -40,5 +40,5 @@ npx vitest run app/page.test.tsx
 - N/A
 
 ## Acceptance Criteria
-- [ ] Test uses direct component import and passes
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Test uses direct component import and passes
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

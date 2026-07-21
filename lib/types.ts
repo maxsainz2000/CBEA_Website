@@ -46,3 +46,7 @@ export const BudgetEntryRecordSchema = BudgetEntrySchema.extend({
   ...data,
   notes: data.notes ?? null,
 }));
+
+export const LastUpdatedSchema = z.object({
+  updated_at: z.string(),
+});

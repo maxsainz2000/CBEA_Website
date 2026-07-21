@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { getEntries, getSummaryStats } from './entries';
+import { getEntries, getSummaryStats, getLastUpdatedDate } from './entries';
 import { createClient } from '../supabase/server';
 
 vi.mock('../supabase/server', () => ({
@@ -22,6 +22,7 @@ describe('getEntries', () => {
       ilike: vi.fn().mockImplementation(() => mockQuery),
       order: vi.fn().mockImplementation(() => mockQuery),
       range: vi.fn().mockImplementation(() => mockQuery),
+      limit: vi.fn().mockImplementation(() => mockQuery),
       then: vi.fn().mockImplementation((onfulfilled) => {
         return Promise.resolve({ data, error, count }).then(onfulfilled);
       }),
@@ -201,5 +202,44 @@ describe('getSummaryStats', () => {
       status: 'error',
       message: "We couldn't load summary statistics. Please try again later.",
     });
+  });
+});
+
+describe('getLastUpdatedDate', () => {
+  let mockQuery: any;
+  let mockSupabase: any;
+
+  const setupMockSupabase = (data: any, error: any) => {
+    mockQuery = {
+      select: vi.fn().mockImplementation(() => mockQuery),
+      eq: vi.fn().mockImplementation(() => mockQuery),
+      order: vi.fn().mockImplementation(() => mockQuery),
+      limit: vi.fn().mockImplementation(() => mockQuery),
+      then: vi.fn().mockImplementation((onfulfilled) => {
+        return Promise.resolve({ data, error }).then(onfulfilled);
+      }),
+    };
+    mockSupabase = {
+      from: vi.fn().mockImplementation(() => mockQuery),
+    };
+    vi.mocked(createClient).mockResolvedValue(mockSupabase as any);
+  };
+
+  it('returns validated updated_at timestamp when database returns it', async () => {
+    setupMockSupabase([{ updated_at: '2026-07-20T00:00:00Z' }], null);
+    const result = await getLastUpdatedDate('1st Sem');
+    expect(result).toBe('2026-07-20T00:00:00Z');
+  });
+
+  it('returns null on database error or empty payload', async () => {
+    setupMockSupabase(null, { message: 'DB Error' });
+    const result = await getLastUpdatedDate('1st Sem');
+    expect(result).toBeNull();
+  });
+
+  it('returns null if validation fails (missing updated_at)', async () => {
+    setupMockSupabase([{ not_updated_at: '2026-07-20' }], null);
+    const result = await getLastUpdatedDate('1st Sem');
+    expect(result).toBeNull();
   });
 });

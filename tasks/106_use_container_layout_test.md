@@ -37,5 +37,5 @@ npx vitest run app/layout.test.tsx
 - N/A
 
 ## Acceptance Criteria
-- [ ] Hydration warnings are resolved
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Hydration warnings are resolved
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

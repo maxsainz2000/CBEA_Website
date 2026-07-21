@@ -88,16 +88,16 @@ export default function BudgetEntryList({
         return (
           <div
             key={entry.id}
-            onClick={() => onEntryClick?.(entry)}
-            className="budget-entry select-none cursor-pointer focus-visible:bg-surface focus-visible:outline-none"
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
+            onClick={onEntryClick ? () => onEntryClick(entry) : undefined}
+            className={`budget-entry select-none focus-visible:bg-surface focus-visible:outline-none${onEntryClick ? ' cursor-pointer' : ''}`}
+            role={onEntryClick ? 'button' : undefined}
+            tabIndex={onEntryClick ? 0 : undefined}
+            onKeyDown={onEntryClick ? (e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                onEntryClick?.(entry);
+                onEntryClick(entry);
               }
-            }}
+            } : undefined}
             data-testid={`budget-entry-row-${entry.id}`}
           >
             {/* Column 1: Left indicator strip */}

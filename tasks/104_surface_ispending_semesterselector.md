@@ -37,5 +37,5 @@ npx vitest run app/admin/components/AdminSemesterSelector.test.tsx
 - N/A
 
 ## Acceptance Criteria
-- [ ] Loading indicator renders when switching semesters
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Loading indicator renders when switching semesters
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

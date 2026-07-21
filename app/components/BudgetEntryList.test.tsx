@@ -157,4 +157,12 @@ describe('BudgetEntryList Component', () => {
       expect(screen.queryByTestId('load-more-btn')).toBeNull();
     });
   });
+
+  it('renders rows as non-interactive when onEntryClick is not provided', () => {
+    render(<BudgetEntryList entries={mockEntries} />);
+    const row = screen.getByTestId('budget-entry-row-b1');
+    expect(row.className).not.toContain('cursor-pointer');
+    expect(row.getAttribute('role')).toBeNull();
+    expect(row.getAttribute('tabindex')).toBeNull();
+  });
 });

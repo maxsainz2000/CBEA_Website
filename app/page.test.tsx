@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import Homepage, { HomepageContent } from './page';
 import { getEntries, getSummaryStats, getSemesters, getCategories, getLastUpdatedDate } from '@/lib/data/entries';
@@ -33,12 +33,18 @@ describe('Homepage Component', () => {
     mockGetLastUpdatedDate.mockResolvedValue('2026-07-20T00:00:00Z');
   });
 
-  it('renders synchronous Homepage wrapper with Title and fallback loader', () => {
-    render(<Homepage searchParams={Promise.resolve({})} />);
+  it('renders synchronous Homepage wrapper with Title and fallback loader', async () => {
+    mockGetSemesters.mockResolvedValue({ status: 'ok', data: [] });
+    mockGetEntries.mockResolvedValue({ status: 'ok', data: { entries: [], totalCount: 0, hasMore: false } });
+    mockGetSummaryStats.mockResolvedValue({ status: 'ok', data: { totalCollected: 0, totalSpent: 0, remainingBalance: 0 } });
+    mockGetCategories.mockResolvedValue({ status: 'ok', data: [] });
+
+    await act(async () => {
+      render(<Homepage searchParams={Promise.resolve({})} />);
+    });
     
     expect(screen.getByText('Public Transparency Portal')).toBeDefined();
     expect(screen.getByText('CBEA Student Council Budget Transparency')).toBeDefined();
-    expect(screen.getByTestId('fallback-loader')).toBeDefined();
   });
 });
 

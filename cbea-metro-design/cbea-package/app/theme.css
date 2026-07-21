@@ -12,6 +12,11 @@
   --color-on-expense: #ffffff;
   --color-error: #c81000;
   --color-warning: #f09609;
+  /*
+   * Canonical Full Reference:
+   * All 10 accent tokens (blue, brown, magenta, purple, teal, green, red, orange, pink, lime)
+   * are retained below as the reference palette for the CBEA Metro Design package system.
+   */
   --color-accent-blue: #1ba1e2;
   --color-accent-brown: #a05000;
   --color-accent-magenta: #ff0097;

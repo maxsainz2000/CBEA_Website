@@ -1,5 +1,5 @@
 import { createClient } from '../supabase/server'
-import { BudgetEntry, BudgetEntryRecordSchema } from '../types'
+import { BudgetEntry, BudgetEntryRecordSchema, LastUpdatedSchema } from '../types'
 import { logger } from '../log'
 
 export type DataResult<T> =
@@ -194,7 +194,10 @@ export async function getLastUpdatedDate(semester?: string): Promise<string | nu
     query = query.order('updated_at', { ascending: false }).limit(1);
     const { data, error } = await query;
     if (error || !data || data.length === 0) return null;
-    return data[0].updated_at;
+    
+    const parsed = LastUpdatedSchema.safeParse(data[0]);
+    if (!parsed.success) return null;
+    return parsed.data.updated_at;
   } catch {
     return null;
   }

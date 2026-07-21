@@ -37,5 +37,5 @@ npx vitest run supabase/database.test.ts
 - N/A
 
 ## Acceptance Criteria
-- [ ] Migration passes testing
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Migration passes testing
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

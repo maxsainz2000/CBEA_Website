@@ -24,7 +24,10 @@ export default async function globalSetup() {
 
   // Polyfill getUserByEmail since it is not natively present in this version of the SDK
   const adminWithGetEmail = supabaseAdmin.auth.admin as typeof supabaseAdmin.auth.admin & {
-    getUserByEmail: (email: string) => Promise<any>;
+    getUserByEmail: (email: string) => Promise<{
+      data: { user: { id: string } | null };
+      error: { message: string; status?: number } | null;
+    }>;
   };
 
   adminWithGetEmail.getUserByEmail = async (email: string) => {
@@ -90,11 +93,15 @@ export default async function globalSetup() {
   }
 
   // 2. Ensure a profiles row exists for the test user
-  const { data: profile } = await supabaseAdmin
+  const { data: profile, error: profileGetError } = await supabaseAdmin
     .from('profiles')
     .select('id')
     .eq('id', TEST_USER_ID)
     .single();
+
+  if (profileGetError && profileGetError.code !== 'PGRST116') {
+    throw new Error(`Failed to check profile: ${profileGetError.message}`);
+  }
 
   if (!profile) {
     const { error: profileError } = await supabaseAdmin

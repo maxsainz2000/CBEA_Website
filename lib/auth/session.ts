@@ -24,11 +24,16 @@ export async function getOfficer(): Promise<Officer | null> {
       .eq('id', id)
       .maybeSingle()
 
-    if (profileError || !profile || !AUTHORIZED_ROLES.includes(profile.role as typeof AUTHORIZED_ROLES[number])) {
+    if (profileError || !profile) {
       return null
     }
 
-    return { id, email, role: profile.role, full_name: profile.full_name }
+    const roleStr = profile.role as string
+    if (!AUTHORIZED_ROLES.includes(roleStr as typeof AUTHORIZED_ROLES[number])) {
+      return null
+    }
+
+    return { id, email, role: roleStr as Officer['role'], full_name: profile.full_name }
   } catch {
     return null
   }

@@ -43,5 +43,5 @@ npx tsc --noEmit
 - N/A
 
 ## Acceptance Criteria
-- [ ] All listed tech debt items are resolved
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] All listed tech debt items are resolved
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

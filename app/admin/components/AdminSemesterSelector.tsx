@@ -16,7 +16,7 @@ export default function AdminSemesterSelector({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   const handleTabChange = (semester: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -28,10 +28,17 @@ export default function AdminSemesterSelector({
   };
 
   return (
-    <PivotTabs
-      tabs={semesters}
-      activeTab={activeSemester}
-      onTabChange={handleTabChange}
-    />
+    <div className="flex items-center gap-sm">
+      <PivotTabs
+        tabs={semesters}
+        activeTab={activeSemester}
+        onTabChange={handleTabChange}
+      />
+      {isPending && (
+        <span className="text-body-sm text-secondary animate-pulse ml-2" data-testid="switching-indicator">
+          Switching...
+        </span>
+      )}
+    </div>
   );
 }

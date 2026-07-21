@@ -45,6 +45,7 @@ CREATE INDEX IF NOT EXISTS budget_entries_category_idx ON public.budget_entries 
 CREATE OR REPLACE FUNCTION update_modified_column()
 RETURNS TRIGGER
 LANGUAGE plpgsql
+SECURITY INVOKER
 SET search_path = ''
 AS $$
 BEGIN

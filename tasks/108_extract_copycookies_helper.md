@@ -37,5 +37,5 @@ npm run build
 - N/A
 
 ## Acceptance Criteria
-- [ ] Middleware code is simplified without logic changes
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Middleware code is simplified without logic changes
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

@@ -1,6 +1,20 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+function copyCookies(from: NextResponse, to: NextResponse) {
+  from.cookies.getAll().forEach((cookie) => {
+    to.cookies.set(cookie.name, cookie.value, {
+      path: cookie.path,
+      domain: cookie.domain,
+      maxAge: cookie.maxAge,
+      secure: cookie.secure,
+      sameSite: cookie.sameSite,
+      expires: cookie.expires,
+      httpOnly: cookie.httpOnly,
+    })
+  })
+}
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request: {
@@ -57,17 +71,7 @@ export async function updateSession(request: NextRequest) {
     
     const response = NextResponse.redirect(redirectUrl)
     // Copy cookies to redirect response to persist the updated session if any
-    supabaseResponse.cookies.getAll().forEach((cookie) => {
-      response.cookies.set(cookie.name, cookie.value, {
-        path: cookie.path,
-        domain: cookie.domain,
-        maxAge: cookie.maxAge,
-        secure: cookie.secure,
-        sameSite: cookie.sameSite,
-        expires: cookie.expires,
-        httpOnly: cookie.httpOnly,
-      })
-    })
+    copyCookies(supabaseResponse, response)
     return response
   }
 
@@ -77,17 +81,7 @@ export async function updateSession(request: NextRequest) {
     
     const response = NextResponse.redirect(redirectUrl)
     // Copy cookies to redirect response
-    supabaseResponse.cookies.getAll().forEach((cookie) => {
-      response.cookies.set(cookie.name, cookie.value, {
-        path: cookie.path,
-        domain: cookie.domain,
-        maxAge: cookie.maxAge,
-        secure: cookie.secure,
-        sameSite: cookie.sameSite,
-        expires: cookie.expires,
-        httpOnly: cookie.httpOnly,
-      })
-    })
+    copyCookies(supabaseResponse, response)
     return response
   }
 

@@ -37,5 +37,5 @@ npx vitest run app/components/BudgetEntryList.test.tsx
 - N/A
 
 ## Acceptance Criteria
-- [ ] Cursor pointer is absent when component is unclickable
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] Cursor pointer is absent when component is unclickable
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

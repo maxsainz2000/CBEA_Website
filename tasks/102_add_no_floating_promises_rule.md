@@ -37,5 +37,5 @@ npx eslint
 - N/A
 
 ## Acceptance Criteria
-- [ ] ESLint rule is enforced
-- [ ] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass
+- [x] ESLint rule is enforced
+- [x] Final quality gate: `npx tsc --noEmit`, `npx vitest run`, `npm run build` all pass

@@ -14,6 +14,19 @@ const eslintConfig = [
     ignores: [".next/**", "node_modules/**", "dist/**", "next-env.d.ts", "scratch/**"],
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    languageOptions: {
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: __dirname,
+      },
+    },
+    rules: {
+      "@typescript-eslint/no-floating-promises": "error",
+    },
+  },
 ];
 
 export default eslintConfig;
+
