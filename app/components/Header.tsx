@@ -19,6 +19,9 @@ export default function Header({ isLoggedIn = false, onLogout }: HeaderProps) {
             <Link href="/admin" className="btn-ghost flex items-center justify-center">
               Dashboard
             </Link>
+            <Link href="/admin/change-password" className="btn-ghost flex items-center justify-center">
+              Change Password
+            </Link>
             <button
               onClick={onLogout}
               className="btn-ghost flex items-center justify-center cursor-pointer"

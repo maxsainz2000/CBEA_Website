@@ -50,3 +50,12 @@ export const BudgetEntryRecordSchema = BudgetEntrySchema.extend({
 export const LastUpdatedSchema = z.object({
   updated_at: z.string(),
 });
+
+export const ChangePasswordSchema = z.object({
+  newPassword: z.string().min(8, "Password must be at least 8 characters long"),
+  confirmPassword: z.string().min(1, "Please confirm your password"),
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
+});
+

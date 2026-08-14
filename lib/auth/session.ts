@@ -3,7 +3,7 @@ import { SupabaseClient } from '@supabase/supabase-js'
 
 export type Officer = { id: string; email: string; role: string; full_name: string | null }
 
-const AUTHORIZED_ROLES = ['Treasurer', 'Auditor', 'President', 'Vice President', 'Secretary'] as const
+const AUTHORIZED_ROLES = ['Treasurer', 'Auditor', 'President', 'Vice President', 'Secretary', 'Governor'] as const
 
 /**
  * Returns the authenticated officer, or null.

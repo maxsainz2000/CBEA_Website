@@ -138,8 +138,8 @@ describe('Database Schema & Migration Setup', () => {
       `, [profileId])
     ).rejects.toThrow(/violates check constraint/i);
 
-    // Valid roles: 'Treasurer', 'Auditor', 'President', 'Vice President', 'Secretary' should succeed
-    for (const role of ['Treasurer', 'Auditor', 'President', 'Vice President', 'Secretary']) {
+    // Valid roles: 'Treasurer', 'Auditor', 'President', 'Vice President', 'Secretary', 'Governor' should succeed
+    for (const role of ['Treasurer', 'Auditor', 'President', 'Vice President', 'Secretary', 'Governor']) {
       await expect(
         db.query(`
           UPDATE public.profiles

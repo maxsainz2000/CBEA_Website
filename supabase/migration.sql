@@ -159,7 +159,7 @@ ALTER TABLE public.budget_entries
 
 ALTER TABLE public.profiles
   ADD CONSTRAINT profiles_role_check
-  CHECK (role IN ('Treasurer', 'Auditor', 'President', 'Vice President', 'Secretary'));
+  CHECK (role IN ('Treasurer', 'Auditor', 'President', 'Vice President', 'Secretary', 'Governor'));
 
 -- Aggregate function for getSummaryStats (replaces JS-side summing)
 CREATE OR REPLACE FUNCTION public.get_summary_stats(p_semester text)
