@@ -4,6 +4,7 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { changePassword } from './auth';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
 vi.mock('@/lib/auth/session', () => ({
   getOfficerAndClient: vi.fn(),
@@ -19,7 +20,7 @@ describe('changePassword Server Action', () => {
   it('should return unauthorized error if user is unauthenticated', async () => {
     vi.mocked(getOfficerAndClient).mockResolvedValue({
       officer: null,
-      supabase: {} as any,
+      supabase: {} as unknown as SupabaseClient,
     });
 
     const result = await changePassword({
@@ -36,7 +37,7 @@ describe('changePassword Server Action', () => {
   it('should fail validation if new password is too short (< 8 chars)', async () => {
     vi.mocked(getOfficerAndClient).mockResolvedValue({
       officer: { id: 'u1', email: 'test@example.com', role: 'Governor', full_name: 'Test' },
-      supabase: {} as any,
+      supabase: {} as unknown as SupabaseClient,
     });
 
     const result = await changePassword({
@@ -54,7 +55,7 @@ describe('changePassword Server Action', () => {
   it('should fail validation if passwords do not match', async () => {
     vi.mocked(getOfficerAndClient).mockResolvedValue({
       officer: { id: 'u1', email: 'test@example.com', role: 'Governor', full_name: 'Test' },
-      supabase: {} as any,
+      supabase: {} as unknown as SupabaseClient,
     });
 
     const result = await changePassword({
@@ -78,7 +79,7 @@ describe('changePassword Server Action', () => {
       auth: {
         updateUser: mockUpdateUser,
       },
-    } as any;
+    } as unknown as SupabaseClient;
 
     vi.mocked(getOfficerAndClient).mockResolvedValue({
       officer: { id: 'u1', email: 'test@example.com', role: 'Governor', full_name: 'Test' },
@@ -106,7 +107,7 @@ describe('changePassword Server Action', () => {
       auth: {
         updateUser: mockUpdateUser,
       },
-    } as any;
+    } as unknown as SupabaseClient;
 
     vi.mocked(getOfficerAndClient).mockResolvedValue({
       officer: { id: 'u1', email: 'test@example.com', role: 'Governor', full_name: 'Test' },
@@ -125,3 +126,4 @@ describe('changePassword Server Action', () => {
     expect(mockUpdateUser).toHaveBeenCalledWith({ password: 'ValidNewPassword123!' });
   });
 });
+
